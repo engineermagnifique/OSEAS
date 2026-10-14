@@ -1,0 +1,128 @@
+.search-panel {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-width: 36em;
+  max-width: 40em;
+  user-select: none;
+  flex-direction: column;
+  border-top: solid 1px transparent;
+}
+
+.search-input {
+  font-family: without-serif;
+  font-weight: lighter;
+  font-size: 1.7em;
+  box-sizing: border-box;
+  color: var(--the-white);
+  background-color: var(--the-green);
+  padding: 1em 1em;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.search-input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+.search-results {
+  flex-grow: 1;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  background-color: white;
+  padding: 1em;
+  overflow-y: scroll;
+}
+
+#geographies .search-results > details,
+.search-results > ul {
+  margin-top: 2em;
+}
+
+.search-results ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.search-results ul li {
+  display: flex;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  justify-content: space-between;
+  line-height: 2.4em;
+}
+
+.search-results ul li buttons > * {
+  line-height: 2.4em;
+  width: 2.4em;
+}
+
+.search-results ul li:hover {
+  background-color: rgba(0,0,0,0.08);
+}
+
+.search-results-info {
+  display: block;
+  position: sticky;
+  top: -1em;
+  background-color: white;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+  padding: 1em;
+  margin: -1em;
+  margin-top: -1em;
+}
+
+details details {
+  margin: auto 1.3em;
+}
+
+details summary {
+  padding: 0.5em;
+}
+
+details div {
+  padding: 0.5em 1.5em;
+}
+
+.search-results .matches {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.search-results details > summary::marker {
+  font-size: 0.8em;
+}
+
+div.nonmatch {
+  display: none;
+}
+
+.matches ~ .nonmatch {
+  display: block;
+}
+
+.search-results .context {
+  margin-right: 0.4em;
+  color: #a9a9a9;
+  font-size: 0.8em;
+}
+
+.search-panel .panel-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: solid 1px #d9d9d9;
+}
+
+.search-panel .panel-buttons a {
+  display: block;
+  line-height: 2.8em;
+  font-size: 1.5em;
+  text-align: center;
+  color: var(--the-green);
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.search-panel .panel-buttons a label {
+  display: block;
+}

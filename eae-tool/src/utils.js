@@ -1,0 +1,810 @@
+import Toast from './toast.js';
+
+import {
+	sentry_set_user,
+} from './sentry.js';
+
+import {
+	and,
+	ce,
+	maybe,
+	noop,
+	or,
+	qs,
+} from '../lib/helpers.js';
+
+import { t, translateDivisionName } from './translate.js';
+
+export async function self() {
+	SELF = {};
+
+	const token = localStorage['token'];
+
+	if (!token) return;
+
+	try {
+		const id = jwt_decode(token).id;
+		SELF = (await API.get('users', { "id": `eq.${id}` }, { "one": true }));
+	} catch (err) {
+		console.warn("token:", token, err);
+	}
+
+	sentry_set_user(SELF);
+};
+
+export function uniform_split(n) {
+	return d3.range(0, 1.000000001, 1 / (n - 1));
+};
+
+// EAE-497: which of n axis points get a label (index-only, so callers can
+// map to dates/numbers/categories); tries maxLabels down to minLabels and
+// keeps whichever spaces most evenly, ties favoring more labels.
+export function even_label_indices(n, maxLabels = 6, minLabels = 5) {
+	if (n <= 0) return [];
+	if (n <= maxLabels) return d3.range(n);
+
+	const lo = Math.max(2, Math.min(minLabels, maxLabels));
+	let best = [0, n - 1];
+	let bestSpread = Infinity;
+
+	for (let k = maxLabels; k >= lo; k--) {
+		const indices = d3.range(k).map(i => Math.round(i * (n - 1) / (k - 1)));
+		const gaps = indices.slice(1).map((v, i) => v - indices[i]);
+		const spread = Math.max(...gaps) - Math.min(...gaps);
+
+		if (spread < bestSpread) {
+			bestSpread = spread;
+			best = indices;
+		}
+	}
+
+	return best;
+};
+
+export function colorscale({intervals, stops, domain}) {
+	let s;
+
+	if (maybe(intervals, 'length')) {
+		s = d3.scaleQuantile()
+			.domain(domain = intervals)
+			.range(stops);
+	}
+	else {
+		s = d3.scaleLinear()
+			.domain(d3.range(domain.min, domain.max + 0.0000001, (domain.max - domain.min) / (stops.length - 1)))
+			.range(stops)
+			.clamp(true);
+	}
+
+	function rgba(str) {
+		let c;
+
+		if (!str) return [0, 0, 0, 255];
+
+		if (str.match(/^#([A-Fa-f0-9]{3}){1,2}$/)) {
+			c = str.substring(1).split('');
+
+			if (c.length === 3) c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+
+			c = '0x' + c.join('');
+
+			return [(c>>16)&255, (c>>8)&255, c&255, 255];
+		}
+		else if ((c = str.match(/^rgba?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3}),? ?([0-9]{1,3})?\)$/))) {
+			return [+c[1], +c[2], +c[3], +c[4] || 255];
+		}
+
+		else
+			throw new Error(`rgba: argument ${str} doesn't match`);
+	};
+
+	return {
+		"domain":    domain,
+		"fn":        x => rgba(s(x)),
+		"stops":     stops,
+		"intervals": intervals || s.domain(),
+	};
+};
+
+export function colorscale_svg(stops, height = 16, mouseenter = noop, mouseleave = noop) {
+	const svg = d3.create("svg")
+		.attr('class', 'svg-interval');
+
+	const g = svg.append('g');
+
+	stops.forEach((v,i) => {
+		g.append('rect')
+			.attr('fill', v)
+			.attr('stroke', 'none')
+			.attr('x', `${(100/stops.length) * i}%`)
+			.attr('width', `${100/stops.length}%`)
+			.attr('height', "100%")
+			.on("mouseenter", function() { mouseenter(this, i); })
+			.on("mouseleave", function() { mouseleave(this, i); });
+	});
+
+	svg
+		.attr('width', "100%")
+		.attr('height', height);
+
+	return svg.node();
+};
+
+export function svg_pie(data, outer, inner, colors, parse, bubble) {
+	if (typeof parse !== 'function')
+		parse = x => (x * 100).toFixed(2);
+
+	const width =  outer * 2;
+	const height = outer * 2;
+
+	const pie = d3.pie()
+		.value(d => d[0])
+		.sort(null);
+
+	const arc = d3.arc()
+		.innerRadius(typeof inner !== 'number' ? outer - (outer/4) : inner)
+		.outerRadius(outer - (outer/15));
+
+	const svg = d3.create("svg")
+		.attr('xmlns', "http://www.w3.org/2000/svg")
+		.attr('class', 'svg-pie')
+		.attr("width", width)
+		.attr("height", height);
+
+	const g = svg.append("g")
+		.attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+	let n;
+
+	const outline = svg.append('circle')
+		.attr('cx', width / 2)
+		.attr('cy', height / 2)
+		.attr('r', outer - (outer/15) - 1)
+		.attr('stroke', 'gray')
+		.attr('stroke-width', 0)
+		.attr('fill', 'none');
+
+	let path = g
+		.datum(data)
+		.selectAll("path")
+		.data(pie).enter()
+		.append("path")
+		.attr("fill", (d,i) => colors[i])
+		.attr("d", arc)
+		.on("mouseenter", function(d) { if (bubble) n = bubble(parse(d.value), this, d); })
+		.on("mouseleave", function(_) { if (n) n.remove(); })
+		.each(function(d) { this._current = d; });
+
+	function change(v) {
+		pie.value(d => d[v]);
+		path = path.data(pie);
+
+		path
+			.transition()
+			.duration(750)
+			.attrTween("d", tween);
+
+		outline.attr('stroke-width', data.every(x => !x[v]) ? 0.5 : 0);
+	};
+
+	function tween(a) {
+		const i = d3.interpolate(this._current, a);
+		this._current = i(0);
+		return t => arc(i(t));
+	};
+
+	return {
+		"data":   data,
+		"change": change,
+		"tween":  tween,
+		"path":   path,
+		"svg":    svg.node(),
+	};
+};
+
+export function svg_pie_labels(svg, distribution, outer) {
+	const slices = d3.pie()
+		.value(d => d)
+		.sort(null)(distribution);
+
+	const arc = d3.arc()
+		.innerRadius(0)
+		.outerRadius(outer - (outer / 15));
+
+	const g = d3.select(svg).select('g');
+
+	// Build the list of labelled slices up front so skipped slivers produce
+	// NO element at all (rather than an empty <text> from a data-join).
+	const labelled = [];
+	for (let i = 0; i < slices.length; i++) {
+		const pct = Math.round(distribution[i] * 100);
+		if (pct < 1) continue;
+		labelled.push({ "slice": slices[i], "pct": pct + "%" });
+	}
+
+	for (const { slice, pct } of labelled) {
+		const [x, y] = arc.centroid(slice);
+
+		// Portable halo idiom: a white stroked text underneath + the dark fill
+		// on top. `paint-order` is unsupported by PowerPoint/LibreOffice SVG,
+		// so the two-element stack is required to keep the stroke off the glyphs.
+		g.append("text")
+			.attr("x", x)
+			.attr("y", y)
+			.attr("dy", "0.35em")
+			.attr("text-anchor", "middle")
+			.attr("font-family", "sans-serif")
+			.attr("font-size", 13)
+			.attr("font-weight", "bold")
+			.attr("fill", "white")
+			.attr("stroke", "white")
+			.attr("stroke-width", 2.5)
+			.text(pct);
+
+		g.append("text")
+			.attr("x", x)
+			.attr("y", y)
+			.attr("dy", "0.35em")
+			.attr("text-anchor", "middle")
+			.attr("font-family", "sans-serif")
+			.attr("font-size", 13)
+			.attr("font-weight", "bold")
+			.attr("fill", "#393F44")
+			.text(pct);
+	}
+};
+
+export function svg_interval({radius = 12, width = 256, height = 10, sliders, colors, init, steps, callback1, callback2, end_callback}) {
+	const svgwidth = width;
+	const svgheight = Math.max((radius * 2) + 2, height + 2);
+
+	const xmin = radius + 1;
+	const xmax = svgwidth - radius;
+
+	let norm = d3.scaleLinear().domain([xmin, xmax]).range([0,1]);
+	let denorm = norm.invert;
+
+	if (steps) {
+		norm = d3.scaleQuantize().domain([xmin, xmax]).range(uniform_split(steps.length));
+		denorm = d3.scaleLinear().domain([0,1]).range([xmin, xmax]);
+	}
+
+	const svg = d3.create("svg")
+		.attr('class', 'svg-interval');
+
+	const g = svg.append('g');
+
+	if (colors?.length) {
+		const c = g.append('g')
+			.attr('id', 'colors');
+
+		const x = d3.scaleLinear().domain([0,100]).range([xmin,xmax]);
+
+		colors.forEach((v,i) => {
+			c.append('rect')
+				.attr('fill', v)
+				.attr('stroke', 'none')
+				.attr('x', x((100/colors.length) * i))
+				.attr('y', (svgheight - height) / 2)
+				.attr('width', (xmax - xmin) / colors.length)
+				.attr('height', height);
+		});
+	} else {
+		g.append('rect')
+			.attr('id', 'gutter')
+			.attr('stroke', 'none')
+			.attr('stroke-width', 0.1)
+			.attr('fill', 'lightgray')
+			.attr('x', xmin)
+			.attr('y', (svgheight - height) / 2)
+			.attr('width', xmax - xmin)
+			.attr('height', height);
+	}
+
+	const marked = g.append('rect')
+		.attr('id', 'marked');
+
+	const marked_fill = getComputedStyle(document.body).getPropertyValue('--the-green');
+
+	const c1 = g.append('circle');
+	const c2 = g.append('circle');
+
+	svg
+		.attr('width', svgwidth)
+		.attr('height', svgheight);
+
+	marked
+		.attr('id', 'marked')
+		.attr('fill', colors ? "transparent" : marked_fill)
+		.attr('stroke', 'none')
+		.attr('x', 1)
+		.attr('y', (svgheight - height) / 2)
+		.attr('height', height);
+
+	c1
+		.attr('r', radius)
+		.attr('cy', svgheight/2)
+		.attr('fill', 'white')
+		.attr('stroke', 'gray')
+		.attr('stroke-width', 0.2)
+		.style('cursor', 'grab');
+
+	c2
+		.attr('r', radius)
+		.attr('cy', svgheight/2)
+		.attr('fill', 'white')
+		.attr('stroke', 'gray')
+		.attr('stroke-width', 0.2)
+		.style('cursor', 'grab');
+
+	function dragged(c, cx, callback) {
+		if (steps) cx = denorm(norm(cx));
+
+		c.attr('cx', cx);
+
+		const w = +c2.attr('cx') - +c1.attr('cx');
+
+		marked
+			.attr('x', +c1.attr('cx'))
+			.attr('width', (w < 0) ? 0 : w);
+
+		if (typeof callback === 'function')
+			callback(norm(cx), cx);
+	};
+
+	let x_position;
+
+	c1.call(
+		d3.drag()
+			.on('drag', _ => {
+				const c2x = c2.attr('cx');
+				const cx = x_position = Math.min(c2x, Math.max(d3.event.x, xmin));
+
+				dragged(c1, cx, callback1);
+			})
+			.on('start', c1.raise.bind(c2))
+			.on('end', _ => {
+				if (typeof end_callback === 'function') end_callback(norm(x_position));
+			})
+			.touchable(MOBILE),
+	);
+
+	c2.call(
+		d3.drag()
+			.on('drag', _ => {
+				const c1x = c1.attr('cx');
+				const cx = x_position = Math.max(c1x, Math.min(d3.event.x, xmax));
+
+				dragged(c2, cx, callback2);
+			})
+			.on('start', c2.raise.bind(c2))
+			.on('end', _ => {
+				if (typeof end_callback === 'function') end_callback(norm(x_position));
+			})
+			.touchable(MOBILE),
+	);
+
+	function change({min,max}) {
+		dragged(c1, denorm(min), callback1);
+		dragged(c2, denorm(max), callback2);
+	};
+
+	if (init) change(init);
+
+	if (sliders === "single")
+		c1.attr('r', 0);
+	else if (sliders === "none") {
+		c1.attr('r', 0);
+		c2.attr('r', 0);
+	}
+
+	return {
+		"svg": svg.node(),
+		change,
+		c1,
+		c2,
+	};
+};
+
+export function elem_collapse(el, t, open) {
+	function triangle(d) {
+		let t;
+
+		switch (d) {
+		case 'e':
+			t = 'rotate(-45deg)translate(0,0)';
+			break;
+
+		case 's':
+			t = 'rotate(45deg)translate(0,-6px)';
+			break;
+
+		case 'n':
+			t = 'rotate(-135deg)translate(0,-6px)';
+			break;
+
+		case 'w':
+			t = 'rotate(135deg)translate(-2px,0)';
+			break;
+
+		case 'ne':
+			t = 'rotate(-90deg)';
+			break;
+
+		case 'se':
+			t = '';
+			break;
+
+		default:
+			throw new Error(`triangle: e, ne, s, se, w. Got ${d}`);
+		}
+
+		const svg = d3.create('svg');
+		svg.attr('width', "12");
+		svg.attr('height', "12");
+		svg.attr('viewBox', "0 0 12 12");
+
+		const polyline = svg.append('polyline');
+		polyline.attr('points', "12,0 12,12 0,12 ");
+
+		svg.attr('style', `transform: ${t};`);
+
+		return svg.node();
+	};
+
+	const d = el.style['display'];
+	const c = qs('.collapse', t);
+
+	if (open || d === 'none') {
+		el.style['display'] = 'block';
+		c.replaceChildren(triangle('s'));
+	} else {
+		el.style['display'] = 'none';
+		c.replaceChildren(triangle('e'));
+	}
+};
+
+export function loading(msg, opts) {
+	const el = qs('#app-loading');
+	el.style['display'] = msg ? 'block' : 'none';
+	qs('#loading-message', el).innerText = (typeof msg === 'string') ? msg : t(window.LOCALE, 'utils.loading');
+
+	const progress_el = qs('#loading-progress', el);
+	const cancel_el = qs('#loading-cancel', el);
+
+	if (!msg || !opts) {
+		progress_el.style.display = 'none';
+		cancel_el.style.display = 'none';
+		cancel_el.onclick = null;
+		return;
+	}
+
+	if (typeof opts.progress === 'number') {
+		progress_el.style.display = '';
+		progress_el.innerText = `${Math.round(opts.progress)}%`;
+	} else {
+		progress_el.style.display = 'none';
+	}
+
+	if (typeof opts.cancel === 'function') {
+		cancel_el.style.display = '';
+		cancel_el.onclick = opts.cancel;
+	} else {
+		cancel_el.style.display = 'none';
+		cancel_el.onclick = null;
+	}
+};
+
+export function super_error(t, m) {
+	new Toast({ "label": t, "caption": m ?? '', "variant": 'error' }).show();
+
+	const l = qs('#app-loading');
+	qs('.spinner', l).style.animation = 'none';
+	qs('.spinner', l).style.borderTop = 'none';
+	qs('p', l).replaceChildren(ce('code', ":("));
+
+	qs('#playground').remove();
+};
+
+export function table_data(dict, props, lnglat) {
+	const table = ce('table');
+	const s = ce('tr', [ce('td', "&nbsp;"), ce('td', "&nbsp;")]);
+
+	let prev;
+	for (const e of dict) {
+		if (prev === null && e === null) continue;
+		prev = e;
+
+		if (!e) {
+			table.append(s.cloneNode(true));
+			continue;
+		}
+
+		const tr = ce('tr', null);
+
+		if (props[e[0]]) {
+			tr.append(
+				ce('td', ce('strong', e.hasOwnProperty(1) ? e[1] + ": &nbsp;" : "&nbsp;")),
+				ce('td', (e.hasOwnProperty(0) && props[e[0]]) ? props[e[0]].toString() : ""),
+			);
+		}
+		else {
+			tr.append(
+				ce('td', ce('strong', e.hasOwnProperty(1) ? e[1] : "&nbsp;"), { "colspan": "2", "style": "text-align: center;" }),
+			);
+		}
+
+		table.append(tr);
+	};
+
+	if (maybe(lnglat, 'length') === 2) {
+		table.append(
+			qs('tr', table) ? s.cloneNode(true) : "",
+			ce('tr', [
+				ce('td', t(window.LOCALE, 'map_popup.longitude')),
+				ce('td', ce('code', lnglat[0].toFixed(5))),
+			]),
+			ce('tr', [
+				ce('td', t(window.LOCALE, 'map_popup.latitude')),
+				ce('td', ce('code', lnglat[1].toFixed(5))),
+			]),
+		);
+	}
+
+	return table;
+};
+
+/*
+ * coordinates_to_raster_pixel
+ *
+ * Transform a set of coordinates to the "relative position" inside a raster
+ * that is bound to an area
+ *
+ * NOTE: mercator only.
+ *
+ * @param "coords" int[2]. Coordinates in Longitude/Latitude to be transformed.
+ * @param "raster" { width int, height int, novalue numeric, array numeric[] }
+ *        full description.
+ */
+
+export function coordinates_to_raster_pixel(coords, raster) {
+	const b = OUTLINE.raster;
+
+	if (coords.length !== 2)
+		throw new Error(`coordinates_to_raster_pixel: expected and array of length 2. Got ${coords}`);
+
+	const merc = new SphericalMercator({ "size": 1 });
+
+	const [mx,my] = merc.forward([coords[0], coords[1]]);
+	const [bx,by] = merc.forward([GEOGRAPHY.envelope[0], GEOGRAPHY.envelope[3]]);
+
+	const s = GEOGRAPHY.resolution;
+
+	const plng = Math.round((mx - bx) / s);
+	const plat = Math.round((by - my) / s);
+
+	let a = null;
+
+	if (and(plng > 0,
+	        plng < b.width,
+	        plat > 0,
+	        plat < b.height)) {
+		a = { "x": coords[0], "y": coords[1] };
+
+		const i = (plat * b.width) + plng;
+		a.index = i;
+
+		if (raster) {
+			const v = raster.data[i];
+			a.value = (v === raster.nodata) ? null : v;
+		}
+	}
+
+	return a;
+};
+
+export function raster_pixel_to_coordinates(i) {
+	const r = OUTLINE.raster;
+	const [ left, _bottom, _right, top ] = GEOGRAPHY.envelope;
+
+	const merc = new SphericalMercator({ "size": 1 });
+
+	const x = i%r.width;
+	const y = Math.floor(i/r.width);
+
+	const o = merc.forward([left, top]);
+
+	const s = GEOGRAPHY.resolution;
+
+	return merc.inverse([o[0] + (x * s), o[1] - (y * s)]);
+};
+
+const outlier_ids_cache = new Map();
+
+// An area covering most of its tier's raster footprint is bad source
+// geometry, not a real area (seen in production: a stray extra ring the
+// size of the whole country). Excluded from cross-tier translation only —
+// not from a tier's own direct listing.
+export function raster_outlier_ids(tier) {
+	if (outlier_ids_cache.has(tier)) return outlier_ids_cache.get(tier);
+
+	const raster = maybe(GEOGRAPHY, 'divisions', tier, 'raster', 'data');
+	if (!raster) {
+		outlier_ids_cache.set(tier, new Set());
+		return outlier_ids_cache.get(tier);
+	}
+
+	const counts = new Map();
+	let valid = 0;
+	for (let i = 0; i < raster.length; i++) {
+		const id = raster[i];
+		if (id === -1) continue;
+		valid++;
+		counts.set(id, (counts.get(id) || 0) + 1);
+	}
+
+	const out = new Set();
+	counts.forEach((count, id) => { if (count > valid * 0.5) out.add(id); });
+
+	outlier_ids_cache.set(tier, out);
+	return out;
+};
+
+const reverse_crosswalk_cache = new Map();
+
+// For every id of `target_tier`, which ids of `source_tier` share a raster
+// pixel with it. Cached per (source_tier, target_tier) pair.
+export function raster_reverse_crosswalk(source_tier, target_tier) {
+	const key = `${source_tier}:${target_tier}`;
+	if (reverse_crosswalk_cache.has(key)) return reverse_crosswalk_cache.get(key);
+
+	const source_raster = maybe(GEOGRAPHY, 'divisions', source_tier, 'raster', 'data');
+	const target_raster = maybe(GEOGRAPHY, 'divisions', target_tier, 'raster', 'data');
+	const map = new Map();
+
+	if (source_raster && target_raster) {
+		const excluded = raster_outlier_ids(source_tier);
+		for (let i = 0; i < target_raster.length; i++) {
+			const tid = target_raster[i];
+			if (tid === -1) continue;
+
+			const sid = source_raster[i];
+			if (sid === -1 || excluded.has(sid)) continue;
+
+			if (!map.has(tid)) map.set(tid, new Set());
+			map.get(tid).add(sid);
+		}
+	}
+
+	reverse_crosswalk_cache.set(key, map);
+	return map;
+};
+
+const GEOMETRY_VERTEX_DEPTH = {
+	"Point":           0,
+	"MultiPoint":      1,
+	"LineString":      1,
+	"MultiLineString": 2,
+	"Polygon":         2,
+	"MultiPolygon":    3,
+};
+
+function flatten_coordinates(coords, depth) {
+	if (depth <= 0) return [coords];
+	return coords.flatMap(c => flatten_coordinates(c, depth - 1));
+};
+
+function nearest_vertex_distance(geometry, ll) {
+	const depth = GEOMETRY_VERTEX_DEPTH[maybe(geometry, 'type')];
+	if (depth === undefined || !ll) return Infinity;
+
+	let min = Infinity;
+	for (const v of flatten_coordinates(geometry.coordinates, depth)) {
+		const dx = v[0] - ll[0];
+		const dy = v[1] - ll[1];
+		const d = Math.sqrt((dx * dx) + (dy * dy));
+		if (d < min) min = d;
+	}
+
+	return min;
+};
+
+/*
+ * closest_feature
+ *
+ * Among "features" matching "predicate", return the one whose nearest
+ * vertex is geometrically closest to "ll" (a [lng, lat] pair), along with
+ * that distance. Returns null if nothing matches.
+ *
+ * If "ll" is omitted, every candidate is treated as equidistant, so the
+ * first match wins (same as a plain Array#find).
+ */
+
+export function closest_feature(features, ll, predicate = _ => true) {
+	let best = null;
+
+	for (const feature of features) {
+		if (!feature || !predicate(feature)) continue;
+
+		const distance = ll ? nearest_vertex_distance(feature.geometry, ll) : 0;
+		if (!best || distance < best.distance) best = { feature, distance };
+	}
+
+	return best;
+};
+
+export function extent_contained(extent, raster) {
+	const [left,bottom,right,top] = extent;
+
+	const f = (x,y) => {
+		const v = maybe(coordinates_to_raster_pixel([x,y], raster), 'value');
+		return and(v, v !== raster.nodata);
+	};
+
+	return or(f(left, top),
+	          f(left, bottom),
+	          f(right, top),
+	          f(right, bottom),
+	          f((right - left) / 2, (top - bottom) / 2));
+};
+
+export function bi_icon(v) {
+	return ce('i', null, { "class": "bi-" + v });
+};
+
+export function copy_to_clipboard(url, button) {
+	if (!navigator.clipboard) {
+		new Toast({ "label": t(window.LOCALE, 'toast.clipboard_error'), "variant": 'warn' }).show();
+
+		button.remove();
+		return;
+	}
+
+	navigator.clipboard.writeText(url)
+		.then(_ => {
+			const icon = button.querySelector('i');
+			const text = button.querySelector('span');
+
+			icon.className = 'bi bi-check-lg';
+			text.textContent = t(window.LOCALE, 'utils.copied');
+			button.classList.add('copied');
+
+			setTimeout(() => {
+				icon.className = 'bi bi-copy';
+				text.textContent = t(window.LOCALE, 'my_eae.modal.share.copy_link');
+				button.classList.remove('copied');
+			}, 5000);
+		});
+};
+
+export function area_type(variant) {
+	if (variant === 'raster') {
+		const r = GEOGRAPHY.resolution;
+		return (r % 1000) === 0 ? (r / 1000) + 'km²' : r + 'm²';
+	} else {
+		return translateDivisionName(window.LOCALE, GEOGRAPHY.divisions[variant]?.name) || t(window.LOCALE, 'right_panel.high_priority.areas');
+	}
+}
+
+// Raster values are rounded to two decimals for display — popups and the
+// areas table. The CSV export opts out of that rounding (round=false): it sums
+// the same cells the Data-tab cards sum, and rounding every cell first makes
+// the column totals drift from the cards once the export spans the whole
+// geography (hundreds of thousands of cells).
+//
+// Categorical (csv-keyed) datasets always look their value up in the rounded
+// table, which is keyed by the displayed value.
+function display_round(raw) {
+	return String(raw).match(/[0-9]\.[0-9]{3}/) ? parseFloat(raw.toFixed(2)) : raw;
+}
+
+export function resolve_raster_value(dataset, raw, round = true) {
+	if (maybe(dataset, 'csv', 'key')) return dataset.csv.table[display_round(raw)];
+	return round ? display_round(raw) : raw;
+}
+
+export function format_value_unit(value, unit) {
+	if (!unit) return String(value);
+	return unit === '%' ? `${value}${unit}` : `${value} ${unit}`;
+}
+

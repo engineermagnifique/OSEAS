@@ -1,0 +1,1532 @@
+{
+ "geography": "Kenya",
+ "catalog": [
+  {
+   "id": "outline",
+   "name": "Outline",
+   "category": "outline",
+   "path": "other/administrative-boundaries",
+   "unit": "",
+   "type": "polygons-boundaries",
+   "domain": {
+    "max": 0,
+    "min": 0
+   },
+   "on": true
+  },
+  {
+   "id": "subcounties",
+   "name": "Subcounties",
+   "category": "boundaries",
+   "path": "other/administrative-boundaries",
+   "unit": "",
+   "type": "polygons-boundaries",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "counties",
+   "name": "Counties",
+   "category": "boundaries",
+   "path": "other/administrative-boundaries",
+   "unit": "",
+   "type": "polygons-boundaries",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "admin-tiers",
+   "name": "Admin Tiers",
+   "category": "admin-tiers",
+   "path": "other/administrative-boundaries",
+   "unit": "",
+   "type": "table",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "landforms",
+   "name": "Landforms",
+   "category": "landforms",
+   "path": "other/environment",
+   "unit": "category",
+   "type": "raster",
+   "domain": {
+    "max": 7,
+    "min": 1
+   },
+   "on": false
+  },
+  {
+   "id": "county-cooking-charcoal",
+   "name": "County cooking charcoal",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-pv-lantern",
+   "name": "County lighting PV lantern",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-p-tin-lamp",
+   "name": "Lighting paraffin tin lamp",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-assets-refrigerator",
+   "name": "County refrigerator",
+   "category": "indicator",
+   "path": "census/assets-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-cooking-lpg",
+   "name": "Subcounty cooking LPG",
+   "category": "indicator",
+   "path": "census/cooking-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-candle",
+   "name": "Lighting candle",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-very-low-fertilization-rate-wheat",
+   "name": "Median kwh very low fertilization rate (wheat)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 5175,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-near-optimal-fertilization-rate-tomato",
+   "name": "Median kWh with near-optimal fertilization rate (tomato)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 6242,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-assets-iron-roof",
+   "name": "County iron sheet roof",
+   "category": "indicator",
+   "path": "census/assets-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "livestock-goats-ke",
+   "name": "Livestock Goats",
+   "category": "livestock-goats",
+   "path": "",
+   "unit": "",
+   "type": "raster",
+   "domain": {
+    "max": 680,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "livestock-sheep-ke",
+   "name": "Livestock Sheep",
+   "category": "livestock-sheep",
+   "path": "",
+   "unit": "",
+   "type": "raster",
+   "domain": {
+    "max": 431,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-electric-pressure-cooker",
+   "name": "KHS Cooking Appliance Electric Pressure Cooker",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-firewood-woodproducts",
+   "name": "KHS Cooking Fuel Firewood and wood products",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-paraffin",
+   "name": "KHS Cooking Fuel Paraffin/Kerosene",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-electricity-lpg-biogas",
+   "name": "KHS Cooking Appliance Electricity LPG Biogas",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-animaldung-waste",
+   "name": "KHS Cooking Fuel Animal Dung Waste",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-improved-charcoal-jiko",
+   "name": "KHS Cooking Appliance Improved Charcoal Jiko",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-ordinary-charcoal-jiko",
+   "name": "KHS Cooking Appliance Ordinary Charcoal Jiko",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-kerosene-stove",
+   "name": "KHS Cooking Appliance Kerosene Stove",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-moveable-firepan",
+   "name": "KHS Cooking Appliance Moveable Firepan",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-charcoal",
+   "name": "KHS Cooking Fuel Charcoal",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-electricity-solarsystem",
+   "name": "KHS Cooking Fuel Electricity Solar System",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-electricity-minigrid",
+   "name": "KHS Cooking Fuel Electricity Minigrid",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-ethanol",
+   "name": "KHS Cooking Fuel Ethanol",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-processed-biomass",
+   "name": "KHS Cooking Fuel Processed Biomass Pellets & Woodchips",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-very-low-fertilization-rate-cassava",
+   "name": "Median kwh very low fertilization rate (cassava)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 5817,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-near-optimal-fertilization-rate-potato",
+   "name": "Median kWh with near-optimal fertilization rate (potato)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 5428,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-very-low-fertilization-rate-potato",
+   "name": "Median kwh very low fertilization rate (potato)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 5428,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-electricity",
+   "name": "Lighting Electricity",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-cooking-electricity",
+   "name": "Subcounty cooking electricity",
+   "category": "indicator",
+   "path": "census/cooking-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "health-facilities-ke",
+   "name": "Health Facilities",
+   "category": "health",
+   "path": "demand/productive-uses",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 250,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-dry-cell-lantern",
+   "name": "County lighting dry-cell lantern",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-assets-computer",
+   "name": "County computer",
+   "category": "indicator",
+   "path": "census/assets-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-assets-radio",
+   "name": "County radio",
+   "category": "indicator",
+   "path": "census/assets-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "distribution-substations",
+   "name": "Distribution substations",
+   "category": "distribution-substations",
+   "path": "supply/infrastructure",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-cooking-electricity",
+   "name": "County cooking electricity",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-near-optimal-fertilization-rate-sorghum",
+   "name": "Median kWh with near-optimal fertilization rate (sorghum)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 6203,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-assets-internet",
+   "name": "County internet",
+   "category": "indicator",
+   "path": "census/assets-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-wood",
+   "name": "Lighting wood",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-assets-computer",
+   "name": "Computer ownership",
+   "category": "indicator",
+   "path": "census/assets-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-pv",
+   "name": "County Lighting Solar PV System",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-cooking-charcoal",
+   "name": "Subcounty cooking charcoal",
+   "category": "indicator",
+   "path": "census/cooking-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-cooking-firewood",
+   "name": "Subcounty cooking firewood",
+   "category": "indicator",
+   "path": "census/cooking-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-internet-service",
+   "name": "Internet",
+   "category": "indicator",
+   "path": "census/assets-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-d-cell-lantern",
+   "name": "Lighting dry cell lantern",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-paraffin-lantern",
+   "name": "County lighting paraffin lantern",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-cooking-lpg",
+   "name": "County cooking LPG",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "windspeed",
+   "name": "Wind speed",
+   "category": "windspeed",
+   "path": "supply/resources",
+   "unit": "m/s",
+   "type": "raster",
+   "domain": {
+    "max": 20,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-cooking-firewood",
+   "name": "County cooking firewood",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-mobile-ownership",
+   "name": "Mobile Ownership",
+   "category": "indicator",
+   "path": "census/assets-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-yield-mt-very-low-fertilization-rate-onion",
+   "name": "Median yield (metric tonnes) - very low fertilization rate onions",
+   "category": "median-yield-estimates-for-irrigated-crops",
+   "path": "",
+   "unit": "Metric Tonnes",
+   "type": "raster",
+   "domain": {
+    "max": 55,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-yield-mt-near-optimal-fertilization-rate-onion",
+   "name": "Median yield (metric tonnes) - near-optimal-fertilization-rate-onions",
+   "category": "median-yield-estimates-for-irrigated-crops",
+   "path": "",
+   "unit": "Metric Tonnes",
+   "type": "raster",
+   "domain": {
+    "max": 83,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-very-low-fertilization-rate-sorghum",
+   "name": "Median kwh very low fertilization rate (sorghum)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 6203,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-very-low-fertilization-rate-tomato",
+   "name": "Median kwh very low fertilization rate (tomato)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 6242,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-assets-mobile",
+   "name": "County mobile",
+   "category": "indicator",
+   "path": "census/assets-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "nighttime-lights",
+   "name": "Nighttime Lights",
+   "category": "nighttime-lights",
+   "path": "demand/productive-uses",
+   "unit": "calibrated radiance",
+   "type": "raster",
+   "domain": {
+    "max": 255,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-iron-sheets",
+   "name": "Iron sheet roof",
+   "category": "indicator",
+   "path": "census/assets-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-radio-ownership",
+   "name": "Radio Ownership",
+   "category": "indicator",
+   "path": "census/assets-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-solar-pv",
+   "name": "Lighting Solar PV system",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-refrigerator-ownership",
+   "name": "Refrigerator ownership",
+   "category": "indicator",
+   "path": "census/assets-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-p-lantern",
+   "name": "Lighting paraffin lantern",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "subcounty-lighting-pv-lantern",
+   "name": "Lighting PV lantern",
+   "category": "indicator",
+   "path": "census/lighting-subcounty",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-candle",
+   "name": "County lighting candle",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-electricity",
+   "name": "County Lighting Electricity",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-p-tin-lamp",
+   "name": "County lighting paraffin tin lamp",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "county-lighting-wood",
+   "name": "County lighting wood",
+   "category": "indicator",
+   "path": "census/lighting-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-electricity-kplc",
+   "name": "KHS Cooking Fuel Electricity (KPLC)",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-electricity-biogas",
+   "name": "KHS Cooking Fuel Biogas",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-lpg",
+   "name": "KHS Cooking Fuel LPG",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "energy-demand-for-irrigated-onion-crops",
+   "name": "Energy demand for irrigated onion crops",
+   "category": "break-even-prices-of-solar-irrigated-crops",
+   "path": "other/environment",
+   "unit": "kWh/ha/year",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "energy-demand-for-irrigated-potato-crops",
+   "name": "Energy demand for irrigated potato crops",
+   "category": "break-even-prices-of-solar-irrigated-crops",
+   "path": "other/environment",
+   "unit": "kWh/ha/year",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "population-density",
+   "name": "Population Count",
+   "category": "population-density",
+   "path": "demand/demographics",
+   "unit": "people",
+   "type": "raster",
+   "domain": {
+    "max": 100000,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "aridity-index",
+   "name": "Aridity Index",
+   "category": "aridity-index",
+   "path": "other/environment",
+   "unit": "Aridity Index",
+   "type": "raster",
+   "domain": {
+    "max": 5,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "lc-class-wetlands",
+   "name": "Wetlands Cover (%)",
+   "category": "lc-class-wetlands",
+   "path": "other/land-cover",
+   "unit": "Coverage (%) per km²",
+   "type": "raster",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "lc-class-crops",
+   "name": "Crop Cover (%)",
+   "category": "lc-class-crops",
+   "path": "other/land-cover",
+   "unit": "Coverage (%) per km²",
+   "type": "raster",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "ghi-ke",
+   "name": "Global Horizontal Irradiation",
+   "category": "ghi",
+   "path": "supply/resources",
+   "unit": "kWh/m²",
+   "type": "raster",
+   "domain": {
+    "max": 2800,
+    "min": 500
+   },
+   "on": false
+  },
+  {
+   "id": "finance",
+   "name": "Financial institutions",
+   "category": "finance",
+   "path": "other/finance",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 150,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "energy-demand-for-irrigated-sorghum-crops",
+   "name": "Energy demand for irrigated sorghum crops",
+   "category": "break-even-prices-of-solar-irrigated-crops",
+   "path": "other/environment",
+   "unit": "kWh/ha/year",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "energy-demand-for-irrigated-tomato-crops",
+   "name": "Energy demand for irrigated tomato crops",
+   "category": "break-even-prices-of-solar-irrigated-crops",
+   "path": "other/environment",
+   "unit": "kWh/ha/year",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "energy-demand-for-irrigated-wheat-crops",
+   "name": "Energy demand for irrigated wheat crops",
+   "category": "break-even-prices-of-solar-irrigated-crops",
+   "path": "other/environment",
+   "unit": "kWh/ha/year",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "mineral-deposits-ke",
+   "name": "Mineral Deposits Sites",
+   "category": "mines",
+   "path": "demand/productive-uses",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "lc-class-forest",
+   "name": "Forest Cover (%)",
+   "category": "lc-class-forest",
+   "path": "other/land-cover",
+   "unit": "Coverage (%) per km²",
+   "type": "raster",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "energy-demand-for-irrigated-maize-crops",
+   "name": "Energy demand for irrigated maize crops",
+   "category": "break-even-prices-of-solar-irrigated-crops",
+   "path": "other/environment",
+   "unit": "kWh/ha/year",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "distribution-lines-ke",
+   "name": "Distribution Lines",
+   "category": "distribution",
+   "path": "supply/infrastructure",
+   "unit": "",
+   "type": "lines",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "mineral-exploration-ke",
+   "name": "Mineral Exploration Sites",
+   "category": "mines",
+   "path": "demand/productive-uses",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "transmission-stations",
+   "name": "Transmission stations",
+   "category": "transmission-stations",
+   "path": "supply/infrastructure",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "powerplants-ke",
+   "name": "Power Plants",
+   "category": "powerplants",
+   "path": "supply/infrastructure",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 500,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "transmission-lines-ke",
+   "name": "Transmission Lines",
+   "category": "transmission-lines",
+   "path": "supply/infrastructure",
+   "unit": "",
+   "type": "lines",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "livestock-chicken-ke",
+   "name": "Livestock Chicken",
+   "category": "livestock-chicken",
+   "path": "",
+   "unit": "",
+   "type": "raster",
+   "domain": {
+    "max": 7253,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "livestock-pigs-ke",
+   "name": "Livestock Pigs",
+   "category": "livestock-pigs",
+   "path": "",
+   "unit": "",
+   "type": "raster",
+   "domain": {
+    "max": 204,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "mineral-facilities-ke",
+   "name": "Mineral Facilities",
+   "category": "mines",
+   "path": "demand/productive-uses",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "energy-demand-for-irrigated-cassava-crops",
+   "name": "Energy demand for irrigated cassava crops",
+   "category": "break-even-prices-of-solar-irrigated-crops",
+   "path": "other/environment",
+   "unit": "kWh/ha/year",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "livestock-allspecies-ke",
+   "name": "Livestock All Species Totals",
+   "category": "livestock-tropical-livestock-units",
+   "path": "",
+   "unit": "",
+   "type": "raster",
+   "domain": {
+    "max": 255,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "livestock-cattle-ke",
+   "name": "Livestock Cattle",
+   "category": "livestock-cattle",
+   "path": "",
+   "unit": "",
+   "type": "raster",
+   "domain": {
+    "max": 479,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-near-optimal-fertilization-rate-onion",
+   "name": "Median kWh with near-optimal fertilization rate (onion)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 6097,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-near-optimal-fertilization-rate-wheat",
+   "name": "Median kWh with near-optimal fertilization rate (wheat)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 5175,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-very-low-fertilization-rate-onion",
+   "name": "Median kwh very low fertilization rate (onion)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 4455,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "protected-areas",
+   "name": "Protected Areas",
+   "category": "protected-areas",
+   "path": "other/environment",
+   "unit": "",
+   "type": "polygons",
+   "domain": {
+    "max": 250,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "lc-cover-shrub",
+   "name": "Rangelands Cover (%)",
+   "category": "lc-cover-shrub",
+   "path": "other/land-cover",
+   "unit": "Coverage (%) per km²",
+   "type": "raster",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "lc-class-water",
+   "name": "Inland Water Cover (%)",
+   "category": "lc-class-water",
+   "path": "other/land-cover",
+   "unit": "Coverage (%) per km²",
+   "type": "raster",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "transmission-substations",
+   "name": "Transmission substations",
+   "category": "transmission-substations",
+   "path": "supply/infrastructure",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 700,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-agric-crop-residue",
+   "name": "KHS Cooking Fuel Agriculture Crop Residue",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-air-fryer",
+   "name": "KHS Cooking Appliance Air fryer",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-improved-firewood-jiko",
+   "name": "KHS Cooking Appliance Improved Firewood Jiko",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-threestonestove",
+   "name": "KHS Cooking Appliance Three Stone Stove/Open Fire",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-appliance-jiko-koko-ethanol",
+   "name": "KHS Cooking Appliance Jiko Koko Ethanol",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "khs-cooking-electricity-generator",
+   "name": "KHS Cooking Fuel Electricity Generator",
+   "category": "indicator",
+   "path": "census/cooking-county",
+   "unit": "%",
+   "type": "polygons-valued",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-near-optimal-fertilization-rate-cassava",
+   "name": "Median kWh with near-optimal fertilization rate (cassava)",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 5817,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-near-optimal-fertilization-rate",
+   "name": "Median kWh with near-optimal fertilization rate",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 4452,
+    "min": 419
+   },
+   "on": false
+  },
+  {
+   "id": "median-kwh-very-low-fertilization-rate",
+   "name": "Median kwh very low fertilization rate",
+   "category": "minimum-break-even-prices-of-solar-irrigated-maize-crops",
+   "path": "",
+   "unit": "kWh/ha/year",
+   "type": "raster",
+   "domain": {
+    "max": 3424,
+    "min": 576
+   },
+   "on": false
+  },
+  {
+   "id": "cropland-extent-ke",
+   "name": "Cropland Extent",
+   "category": "croplandcover-extent",
+   "path": "other/environment",
+   "unit": "Cropland",
+   "type": "raster",
+   "domain": {
+    "max": 1,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "livestock-categories-ke",
+   "name": "Livestock Categories",
+   "category": "livestock",
+   "path": "other/livestock",
+   "unit": "animals",
+   "type": "raster-mutant",
+   "domain": null,
+   "on": false
+  },
+  {
+   "id": "schools-ken",
+   "name": "Schools (Primary and Secondary)",
+   "category": "schools",
+   "path": "demand/productive-uses",
+   "unit": "",
+   "type": "points",
+   "domain": {
+    "max": 250,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "lc-class-urban",
+   "name": "Urban Cover (%)",
+   "category": "lc-class-urban",
+   "path": "other/land-cover",
+   "unit": "Coverage (%) per km²",
+   "type": "raster",
+   "domain": {
+    "max": 100,
+    "min": 0
+   },
+   "on": false
+  },
+  {
+   "id": "relative-wealth-index",
+   "name": "Relative Wealth Index",
+   "category": "relative-wealth-index",
+   "path": "demand/demographics",
+   "unit": "RWI",
+   "type": "raster",
+   "domain": {
+    "max": 2,
+    "min": -2
+   },
+   "on": false
+  }
+ ]
+}

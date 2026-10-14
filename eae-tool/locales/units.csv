@@ -1,0 +1,53 @@
+unit,fr,zh
+count,nombre,计数
+distance in km,distance en km,距离（km）
+proximity in km,proximité en km,邻近度（km）
+Kwp,Kwp,Kwp
+kVA,kVA,kVA
+km,km,km
+people,personnes,人
+households,ménages,家庭
+MW,MW,MW
+GW,GW,GW
+GWh,GWh,GWh
+MWh,MWh,MWh
+kWp,kWp,kWp
+Metric Tonnes,Metric Tonnes,Metric Tonnes
+Metric ton,Metric ton,Metric ton
+tCO2eq,tCO2eq,tCO2eq
+USD,USD,USD
+m³/yr,m³/an,m³/年
+km (proximity to),km (proximité de),km（邻近度）
+kWh/m²,kWh/m²,kWh/m²
+ppl/km²,pers/km²,人/km²
+%,%,%
+Coverage (%) per km²,couverture (%) par km²,覆盖率(%)/km²
+kWh/ha/year,kWh/ha/an,kWh/ha/年
+minutes,minutes,分钟
+hours,heures,小时
+hours/hh.day,heures/mén.jour,小时/户·天
+m/s,m/s,m/s
+degree,degré,度
+degree celcius,degré Celsius,摄氏度
+mm,mm,mm
+metre,mètre,米
+kg/ha,kg/ha,kg/ha
+Gigajoule per sq km,Gigajoule per sq km,Gigajoule per sq km
+USD/household,USD/ménage,USD/家庭
+bldgs/km²,bât./km²,建筑物/km²
+tier,niveau,级别
+year,année,年
+< 2USD/day,< 2 USD/jour,< 2 USD/天
+RWI,RWI,RWI
+Aridity Index,indice d'aridité,干旱指数
+calibrated radiance,radiance calibrée,校准辐射
+People per 100k population,personnes pour 100k habitants,每10万人口中的人数
+Cropland,Terres cultivées,耕地
+Technology,Technologie,技术
+technology,technologie,技术
+Type,Type,类型
+animals,animaux,动物
+land type,type de terrain,土地类型
+points,points,点
+polygons,polygones,多边形
+category,catégorie,类别

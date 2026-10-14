@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="640">
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <link rel="icon" href="{{template "base" .}}/images/EAE Logo_Emblem.svg">
+
+    <script src="./libs.js?v=--TIMESTAMP--"></script>
+    <script src="./main.js?v=--TIMESTAMP--"></script>
+
+    <link rel="stylesheet" href="../lib/bootstrap-icons.css">
+
+    <link href="../stylesheets/style.css" rel="stylesheet" />
+    <link href="../stylesheets/nav.css" rel="stylesheet" />
+    <link href="../stylesheets/thumbnails.css" rel="stylesheet" />
+
+    <link href="./main.css" rel="stylesheet" />
+
+    <script>window.BASE = "{{template "base" .}}";</script>
+  </head>
+
+  <body></body>
+
+  {{template "toast" .}}
+
+  <script type="module">
+    import pgrest from '../lib/pgrest.js';
+    import { show_error } from '../a/toast.js';
+
+    window.API = new pgrest(EAE['settings'].database, {
+      push(e) { show_error(e.title, e.message); return this; },
+      clear() { return this; },
+    });
+  </script>
+
+  {{template "env" .}}
+
+  <script type="module">
+    import {init} from './p.js';
+    init();
+  </script>
+</html>

@@ -1,5 +1,21 @@
 # OSEAS
 
+## GridMind: the AI assistant in the EAE map
+
+GridMind is an open-source AI chat assistant inside the Energy Access Explorer map, built for the AskEAE hackathon challenge. You ask in plain language ("Where should we build solar mini-grids?"), and it sets up the priority map, names the best areas with real numbers, and explains what the map's colours mean. It runs on an open-source model (Qwen2.5-1.5B with llama.cpp) on a normal laptop, with no paid API key.
+
+To run it, open three PowerShell windows, in this order:
+
+| Window | Command | Port |
+| --- | --- | --- |
+| 1. AI model | `cd D:\OSEAS\GridMind\agent; .\start-llm.ps1` | 8081 |
+| 2. GridMind agent | `cd D:\OSEAS\GridMind\agent; node server.js` | 8787 |
+| 3. Website and map | `cd D:\eae-preview\dist; python -m http.server 8080` | 8080 |
+
+Then open http://localhost:8080/tool/a/?id=562ffd81-d326-41e4-9ba0-2dedb21130b2 (Kenya) and click **GridMind** at the bottom right. Window 3 needs the site built first (the steps below), plus the map tool: `cd D:\eae-preview; node build-tool.js D:\OSEAS\eae-tool D:\eae-preview\dist\tool`. Building the website deletes `dist`, so build the map tool after it.
+
+[GridMind/agent/README.md](GridMind/agent/README.md) has the full guide: how the AI works, accuracy results, troubleshooting, demo questions and how to present it to judges.
+
 ## Running the website locally
 
 These steps build the Energy Access Explorer website (`eae-website`) and show it at http://localhost:8080/ on Windows. They use Node.js and Python instead of Go and make.

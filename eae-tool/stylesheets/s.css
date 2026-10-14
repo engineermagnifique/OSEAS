@@ -1,0 +1,97 @@
+#playground {
+  width: 1200px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.country-item {
+  font-size: 1.5em;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  width: 300px;
+}
+
+.country-item svg {
+  filter: drop-shadow(0px 0px 1.5px #000);
+}
+
+.flag {
+  width: 200px;
+  height: 130px;
+}
+
+.selectlist-input {
+  font-size: 1.7em;
+  padding: 0.5em 1em;
+
+  font-family: without-serif;
+  font-weight: lighter;
+
+  text-align: center;
+  margin: auto;
+
+  /*
+   * color: white;
+   * background-color: var(--the-green);
+   */
+  border: none;
+}
+
+#presets li a {
+  display: block;
+  padding: 0.1em 1.5em;
+}
+
+#presets li:hover {
+  background-color: #efefef;
+}
+
+#presets li p {
+  color: dimgray;
+}
+
+bubble-message {
+  pointer-events: none;
+}
+
+bubble-message pre {
+  font-family: sans-serif;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 72em) {
+  body {
+    overflow: unset;
+  }
+
+  #playground {
+    flex-flow: column nowrap;
+    width: unset;
+  }
+
+  .flag {
+    width: 100px;
+    height: 100px;
+  }
+
+  .country-item {
+    display: flex;
+    padding: 1em;
+    width: unset;
+    font-size: 1.2em;
+  }
+
+  .country-item svg {
+    order: 1;
+    vertical-align: middle;
+  }
+
+  .country-item h2 {
+    order: 2;
+    vertical-align: middle;
+    padding-left: 1em;
+    line-height: 1.6em;
+  }
+}
