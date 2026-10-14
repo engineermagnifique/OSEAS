@@ -1,0 +1,88 @@
+name: COMMIT DEPLOY
+
+on:
+  push:
+    branches: [ '**', '!trunk', '!production' ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Parse ticket tag from commit message
+        id: ticket
+        env:
+          MSG: ${{ github.event.head_commit.message }}
+        run: |
+          if [[ "$MSG" =~ \[Tests\ ([A-Z]+-[0-9]+)\] ]]; then
+            echo "id=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+            echo "matched=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "matched=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v5
+        if: steps.ticket.outputs.matched == 'true'
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        if: steps.ticket.outputs.matched == 'true'
+        run: |
+          sudo apt-get install -y bmake curl jq
+          sudo npm install -g typescript@5.9.3
+
+      - name: Merge ${{ github.event.repository.default_branch }} before building
+        if: steps.ticket.outputs.matched == 'true'
+        env:
+          BASE: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          git config user.name  "eae-ci"
+          git config user.email "ci@energyaccessexplorer.org"
+          git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
+          git merge --no-edit "origin/$BASE"
+          test "$(git rev-list --count HEAD..origin/$BASE)" = "0"
+
+      - name: Build .env
+        if: steps.ticket.outputs.matched == 'true'
+        run: |
+          printf "{{define \"base\"}}/${{ steps.ticket.outputs.id }}{{end}}" > views/base.tmpl
+
+          cat <<- EOF >.env
+          	DOMAIN = "${{ vars.DOMAIN }}"
+          	WORLD = "${{ vars.WORLD_URL }}"
+          	TITLE = "${{ vars.TITLE }}"
+          	API_URL = "${{ vars.API_URL }}"
+          	STORAGE_URL = "${{ vars.STORAGE_URL }}"
+          	MAPBOX_TOKEN = "${{ vars.MAPBOX_TOKEN }}"
+          	MAPBOX_THEME = "${{ vars.MAPBOX_THEME }}"
+          EOF
+
+      - name: Run make
+        if: steps.ticket.outputs.matched == 'true'
+        run: |
+          bmake deps reconfig build env=test
+
+      - name: Make destination directory
+        if: steps.ticket.outputs.matched == 'true'
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host:     ${{ secrets.PR_DEPLOY_HOST }}
+          username: ${{ secrets.PR_DEPLOY_USER }}
+          port:     ${{ secrets.PR_DEPLOY_PORT }}
+          key:      ${{ secrets.PR_DEPLOY_KEY }}
+          script:   |
+            mkdir -p ${{ secrets.PR_DEPLOY_PATH }}/${{ steps.ticket.outputs.id }}
+
+      - name: Deploy the thing
+        if: steps.ticket.outputs.matched == 'true'
+        uses: burnett01/rsync-deployments@7.1.0
+        with:
+          switches: --recursive --verbose
+          path: dist/
+          remote_path: ${{ secrets.PR_DEPLOY_PATH }}/${{ steps.ticket.outputs.id }}/tool/
+          remote_host: ${{ secrets.PR_DEPLOY_HOST }}
+          remote_port: ${{ secrets.PR_DEPLOY_PORT }}
+          remote_user: ${{ secrets.PR_DEPLOY_USER }}
+          remote_key:  ${{ secrets.PR_DEPLOY_KEY }}

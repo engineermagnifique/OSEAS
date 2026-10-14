@@ -1,0 +1,390 @@
+import {
+	download_high_priority_areas,
+} from './export.js';
+
+import {
+	prepare_tabular_data,
+	generate_rows,
+	sort_results,
+	translate_header,
+} from './area-analysis.js';
+
+import modal from '../lib/modal.js';
+
+import {
+	qs,
+	tmpl,
+} from '../lib/helpers.js';
+
+import bind from '../lib/bind.js';
+
+import { t, translateNode, registerUIUpdater } from './translate.js';
+
+import bubblemessage from '../lib/bubblemessage.js';
+
+export function show(results, opts = {}) {
+	const data = prepare_tabular_data(results);
+	if (!data) return;
+
+	const { headers, is_raster, analysis_name, column_meta, selector_groups } = data;
+
+	if (opts.enabled_columns?.size) {
+		for (const h of headers) {
+			const meta = column_meta.get(h);
+			if (!meta.locked) meta.visible = opts.enabled_columns.has(h);
+		}
+	}
+
+	const selected_indices = new Set();
+	const fixed_column_count = headers.filter(h => column_meta.get(h)?.locked).length;
+	const selectable_max = opts.max_columns && opts.max_columns - fixed_column_count;
+
+	function get_visible_headers() {
+		return headers.filter(h => column_meta.get(h).visible);
+	}
+
+	function get_selected() {
+		return selected_indices.size
+			&& Array.from(selected_indices).map(i => state.results[i]);
+	}
+
+	const state = {
+		"sort_column": headers[0],
+		"sort_desc":   true,
+		"results":     results,
+		"page":        1,
+		"per_page":    10,
+		"sorting":     false,
+	};
+
+	function get_icon_class(header) {
+		if (state.sort_column !== header) return "bi bi-chevron-expand";
+		return state.sort_desc ? "bi bi-caret-down-fill" : "bi bi-caret-up-fill";
+	}
+
+	async function handle_sort(header) {
+		if (state.sorting) return;
+		state.sorting = true;
+
+		const is_priority = header === headers[0] || header === analysis_name;
+
+		if (state.sort_column === header) {
+			state.sort_desc = !state.sort_desc;
+		} else {
+			state.sort_column = header;
+			state.sort_desc = is_priority;
+		}
+
+		update_sort_icons();
+		tbody.style.opacity = '0.5';
+		tbody.style.pointerEvents = 'none';
+
+		state.results = await sort_results(results, state.sort_column, state.sort_desc, is_raster, analysis_name);
+		state.page = 1;
+
+		tbody.style.opacity = '';
+		tbody.style.pointerEvents = '';
+		state.sorting = false;
+		render_page();
+	}
+
+	const content = tmpl('#high-priority-areas-list-all-template');
+	translateNode(window.LOCALE, content);
+
+	const tbody = qs('tbody', content);
+	const selection_overlay = qs('.selection-overlay', content);
+	const selection_count = qs('.selection-count', content);
+	const select_all_checkbox = qs('.select-all-checkbox', content);
+	const page_numbers_container = qs('.page-numbers', content);
+
+	function render_headers() {
+		const tr = tbody.closest('table').querySelector('thead tr');
+		tr.querySelectorAll('th:not(.checkbox-column)').forEach(th => th.remove());
+
+		for (const name of get_visible_headers()) {
+			const th = tmpl('#column-header-template');
+			bind(th, {
+				"name":       translate_header(window.LOCALE, name),
+				"icon_class": get_icon_class(name),
+				"on_sort":    () => handle_sort(name),
+			});
+			tr.append(th);
+		}
+	}
+
+	function column_selector_grid() {
+		const grid = document.createElement('div');
+		grid.className = 'column-selector-columns';
+
+		function make_item(header, indent) {
+			const meta = column_meta.get(header);
+			const item = tmpl('#column-selector-item-template');
+			bind(item, {
+				"label":     meta.subordinate ? (meta.display || header) : translate_header(window.LOCALE, header),
+				"checked":   meta.visible ? '' : false,
+				"css_class": (meta.subordinate || indent) ? 'column-selector-item subordinate' : 'column-selector-item',
+				"on_toggle": function() {
+					meta.visible = this.checked;
+					render_headers();
+					render_page();
+					enforce_column_limit();
+				},
+			});
+			return item;
+		}
+
+		for (const group of selector_groups) {
+			const wrapper = document.createElement('div');
+			wrapper.className = group.children.length ? 'column-group has-children' : 'column-group';
+			if (group.synthetic) {
+				const label = document.createElement('span');
+				label.className = 'column-group-label';
+				label.textContent = translate_header(window.LOCALE, group.header);
+				wrapper.append(label);
+				for (const child of group.children) wrapper.append(make_item(child, true));
+			} else {
+				wrapper.append(make_item(group.header));
+				for (const child of group.children) wrapper.append(make_item(child));
+			}
+			grid.append(wrapper);
+		}
+
+		return grid;
+	}
+
+	const toggle_btn = qs('.column-selector-toggle', content);
+	let bubble;
+
+	toggle_btn.onmouseenter = function() {
+		if (bubble) bubble.remove();
+		bubble = new bubblemessage({
+			"position": "W",
+			"message":  opts.column_toggle_hint,
+			"close":    false,
+		}, this);
+	};
+
+	toggle_btn.onmouseleave = function() {
+		if (bubble) bubble.remove();
+	};
+
+	bind(content, {
+		"analysis-name":          analysis_name,
+		"column-limit-notice":    selectable_max ? t(window.LOCALE, 'modal.high_priority_table.column_limit_notice', { "max": selectable_max }) : '',
+		"toggle_column_selector": function() {
+			this.closest('.high-priority-areas-list-all-content').querySelector('.column-selector-panel').classList.toggle('hidden');
+		},
+		"on_prev":                () => go_to_page(state.page - 1),
+		"on_next":                () => go_to_page(state.page + 1),
+		"download_selected":      () => {
+			const selected = Array.from(selected_indices).sort((a, b) => a - b).map(i => state.results[i]);
+			download_high_priority_areas(selected, { "visible_headers": get_visible_headers() });
+		},
+		"on_uncheck_all":     () => uncheck_all(),
+		"on_per_page_change": function() {
+			state.per_page = parseInt(this.value, 10);
+			state.page = 1;
+			selected_indices.clear();
+			update_selection_overlay();
+			render_page();
+		},
+	});
+
+	const column_selector_panel = qs('.column-selector-panel', content);
+	const limit_notice = qs('.column-limit-notice', content);
+
+	function enforce_column_limit() {
+		if (!opts.max_columns) return;
+		const at_max = get_visible_headers().length >= opts.max_columns;
+		for (const cb of column_selector_panel.querySelectorAll('input[type="checkbox"]'))
+			cb.disabled = at_max && !cb.checked;
+		limit_notice.classList.toggle('hidden', !at_max);
+	}
+
+	column_selector_panel.append(column_selector_grid());
+	render_headers();
+	enforce_column_limit();
+
+	registerUIUpdater(() => {
+		if (!tbody.isConnected) return;
+		render_headers();
+		column_selector_panel.replaceChildren(column_selector_grid());
+		enforce_column_limit();
+	});
+
+	const footer = tmpl('#high-priority-areas-list-all-footer-template');
+	translateNode(window.LOCALE, footer);
+	bind(footer, {
+		"label":    opts.action_label,
+		// A selection still narrows the download; with none, the CSV modal
+		// downloads the all-areas row set (opts.download_results) rather than the
+		// priority subset the table shows.
+		"download": () => opts.on_download(get_selected() || opts.download_results || state.results, get_visible_headers()),
+	});
+
+	const download_label = qs('.modal-footer-bar button span', footer);
+
+	function update_selection_overlay() {
+		const count = selected_indices.size;
+		// The footer button keeps exporting the selection when there is one, so
+		// its label has to say so rather than promise "Download all".
+		download_label.textContent = count
+			? t(window.LOCALE, 'modal.high_priority_table.download_selected')
+			: opts.action_label;
+		if (count > 0) {
+			selection_overlay.classList.remove('hidden');
+			select_all_checkbox.classList.remove('hidden');
+			selection_count.textContent = t(window.LOCALE, 'modal.high_priority_table.selection_count', { count });
+		} else {
+			selection_overlay.classList.add('hidden');
+			select_all_checkbox.classList.add('hidden');
+		}
+	}
+
+	function uncheck_all() {
+		selected_indices.clear();
+		tbody.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+		select_all_checkbox.checked = false;
+		update_selection_overlay();
+	}
+
+	function update_sort_icons() {
+		const visible = get_visible_headers();
+		document.querySelectorAll('.high-priority-areas-list-all-table th:not(.checkbox-column)').forEach((th, i) => {
+			const icon = th.querySelector('.sort-icon i');
+			if (icon) icon.className = get_icon_class(visible[i]);
+		});
+	}
+
+	function get_page_numbers() {
+		const total = Math.ceil(state.results.length / state.per_page);
+		const current = state.page;
+		const delta = 1;
+		const pages = [];
+		const middle = Math.ceil(total / 2);
+
+		if (total <= 7) {
+			return Array.from({ "length": total }, (_, i) => i + 1);
+		}
+
+		pages.push(1);
+
+		const range_start = Math.max(2, current - delta);
+		const range_end = Math.min(total - 1, current + delta);
+		const near_start = current <= delta + 2;
+		const near_end = current >= total - delta - 1;
+
+		if (near_start) {
+			for (let i = 2; i <= delta + 2; i++) pages.push(i);
+			pages.push('...');
+			pages.push(middle);
+			pages.push('...');
+		} else if (near_end) {
+			pages.push('...');
+			pages.push(middle);
+			pages.push('...');
+			for (let i = total - delta - 1; i <= total - 1; i++) pages.push(i);
+		} else {
+			if (range_start > 2) {
+				pages.push('...');
+			} else if (range_start === 2) {
+				pages.push(2);
+			}
+
+			for (let i = range_start; i <= range_end; i++) {
+				if (i > 1 && i < total && !pages.includes(i)) {
+					pages.push(i);
+				}
+			}
+
+			if (range_end < total - 1) {
+				pages.push('...');
+			} else if (range_end === total - 1 && !pages.includes(total - 1)) {
+				pages.push(total - 1);
+			}
+		}
+
+		pages.push(total);
+
+		return pages;
+	}
+
+	function render_pagination() {
+		const pages = get_page_numbers();
+
+		page_numbers_container.innerHTML = '';
+		for (const p of pages) {
+			if (p === '...') {
+				page_numbers_container.append(tmpl('#page-ellipsis-template'));
+			} else {
+				const item = tmpl('#page-number-template');
+				bind(item, {
+					"value":    p,
+					"on_click": () => go_to_page(p),
+				});
+				if (p === state.page) item.firstElementChild.classList.add('active');
+				page_numbers_container.append(item);
+			}
+		}
+	}
+
+	function render_page() {
+		tbody.innerHTML = '';
+		const start = (state.page - 1) * state.per_page;
+
+		for (const row_data of generate_rows(state.results, is_raster, analysis_name, start, state.per_page)) {
+			const row_index = start + tbody.children.length;
+			const row = tmpl('#high-priority-areas-row-template');
+			const is_selected = selected_indices.has(row_index);
+
+			bind(row, {
+				"cells":     get_visible_headers().map(header => {
+					const raw = row_data[header];
+					const value = typeof raw === 'number' ? raw.toLocaleString(window.LOCALE) : (raw || '');
+					return { value };
+				}),
+				"on_select": function() {
+					if (this.checked) {
+						selected_indices.add(row_index);
+					} else {
+						selected_indices.delete(row_index);
+					}
+					update_selection_overlay();
+				},
+			});
+
+			if (is_selected) {
+				row.querySelector('input[type="checkbox"]').checked = true;
+			}
+
+			tbody.append(row);
+		}
+
+		render_pagination();
+	}
+
+	function go_to_page(page) {
+		const total = Math.ceil(state.results.length / state.per_page);
+		if (page < 1 || page > total) return;
+		state.page = page;
+		render_page();
+	}
+
+	render_page();
+
+	const header = tmpl('#modal-header-template');
+	bind(header, {
+		"title":    opts.title,
+		"subtitle": opts.subtitle,
+	});
+
+	const m = new modal({
+		"id":      'high-priority-areas-list-all',
+		"header":  header,
+		"content": content,
+		"footer":  footer,
+		"destroy": true,
+	});
+
+	m.show();
+}

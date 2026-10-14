@@ -1,0 +1,450 @@
+import {
+	coords_search_pois as mapbox_coords_search_pois,
+	fit as mapbox_fit,
+	get_admin_area_item,
+	get_map_position,
+	show_admin_area_info,
+	show_location_info,
+} from './mapbox.js';
+
+import {
+	aggregation_band,
+	has_priority_score,
+	plot_active,
+} from './analysis.js';
+
+import {
+	zoom,
+} from './search.js';
+
+import {
+	download_high_priority_areas,
+} from './export.js';
+
+import {
+	show as show_modal_table,
+} from './modal-table-high-priority-areas.js';
+
+import {
+	precompute_rows,
+	clear_row_cache,
+	vector_feature_name,
+	dataset_unit,
+} from './area-analysis.js';
+
+import {
+	setup_about_button,
+} from './right-panel-graphs.js';
+
+import {
+	area_type,
+	raster_pixel_to_coordinates,
+} from './utils.js';
+
+import {
+	ce,
+	maybe,
+	qs,
+	tmpl,
+} from '../lib/helpers.js';
+
+import bind from '../lib/bind.js';
+import { translateNode, t, translateIndexName, replayable } from './translate.js';
+import { actions as timeline_actions, cell as timeline_cell } from './timeline-state.js';
+
+function view_all_locations() {
+	const area_type_str = area_type(STATE.variant);
+	const analysis_name = translateIndexName(window.LOCALE, STATE.index);
+	const results = locations_list.getResults();
+
+	show_modal_table(results, {
+		"title":              `${t(window.LOCALE, 'modal.export.high_priority.title')} (${area_type_str})`,
+		"subtitle":           analysis_name,
+		"action_label":       t(window.LOCALE, 'modal.export.download_csv'),
+		"column_toggle_hint": t(window.LOCALE, 'modal.export.csv_hint'),
+		"download_results":   get_export_results(),
+		on_download(results, visible_headers) {
+			download_high_priority_areas(results, { visible_headers });
+		},
+	});
+}
+
+
+function format_area_type(variant) {
+	const type = area_type(variant);
+	if (variant === 'raster') {
+		return t(window.LOCALE, 'right_panel.high_priority.raster_areas', { "area": type });
+	} else {
+		return type.toLowerCase();
+	}
+}
+
+let _precompute_controller = null;
+
+function set_trend_location(location) {
+	timeline_actions.setTrendLocation(timeline_cell(), location);
+	qs('.timeline-trend-lines')?.scrollIntoView({ "behavior": "smooth", "block": "start" });
+};
+
+// The rows the CSV export covers: every area, not just the priority subset the
+// list paginates (EAE-501). Rebuilt with the list from the same analysis raster.
+let exportResults = [];
+
+function raster_item(p) {
+	const pi3 = (p.c).map(c => +c.toFixed(3));
+	const score = (p.priority ? Math.round((p.priority).toFixed(2) * 100) : "");
+
+	const template = tmpl('#location-item-template');
+	const el = template.firstElementChild;
+
+	bind(template, {
+		"location-name": "",
+		"coordinates":   `[${pi3.join(", ")}]`,
+	});
+
+	el.setAttribute('data-score', score);
+	el.onclick = () => {
+		if (p._variant !== undefined) set_trend_location({ "pixel": p.i, "label": `[${pi3.join(", ")}]` });
+		zoom(p, () => show_location_info(p.c, get_map_position(p.c), true));
+	};
+
+	const locationName = qs('.location-name', el);
+	const vectorName = vector_feature_name(p.i);
+
+	if (vectorName) {
+		locationName.textContent = vectorName;
+	} else {
+		mapbox_coords_search_pois({ "coords": p.c, "limit": 1 })
+			.then(r => locationName.textContent = maybe(r, 0, 'name') || t(window.LOCALE, 'right_panel.high_priority.unknown_location'));
+	}
+
+	return template;
+};
+
+function get_admin_area_position(item) {
+	const bounds = geojsonExtent(item.feature);
+	const center = [(bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2];
+	return get_map_position(center);
+}
+
+function show_admin_info_on_click(item) {
+	if (item._variant !== undefined) set_trend_location({ "tier": item._variant, "id": item.id, "label": item.name });
+
+	if (!item.feature) return;
+
+	mapbox_fit(geojsonExtent(item.feature), true);
+
+	MAPBOX.once('moveend', () => {
+		show_admin_area_info(item, get_admin_area_position(item), true);
+	});
+}
+
+function admin_area_item(item, rank) {
+	const template = tmpl('#admin-area-item-template');
+	const el = template.firstElementChild;
+
+	bind(template, {
+		"rank":          rank,
+		"location-name": item.name,
+	});
+
+	if (item.feature) {
+		el.onclick = () => show_admin_info_on_click(item);
+	}
+
+	return template;
+};
+
+// Reused by Filtered geographies (filtered.js) for its own container —
+// each call owns its own paging state, nothing here is shared globally.
+export function create_paginated_list(container) {
+	const state = {
+		"allResults":   [],
+		"currentPage":  1,
+		"itemsPerPage": 10,
+	};
+
+	function render_pagination() {
+		let paginationContainer = qs('.pagination-container', container);
+
+		if (!paginationContainer) {
+			const template = tmpl('#pagination-template');
+			container.append(template);
+			paginationContainer = qs('.pagination-container', container);
+		}
+
+		const paginationInfo = qs('.pagination-info', paginationContainer);
+		const paginationDiv = qs('.pagination', paginationContainer);
+
+		if (paginationInfo) paginationInfo.textContent = '';
+		if (paginationDiv) paginationDiv.replaceChildren();
+
+		const totalPages = Math.ceil(state.allResults.length / state.itemsPerPage);
+		const totalCount = state.allResults.length;
+		const startIdx = (state.currentPage - 1) * state.itemsPerPage;
+		const endIdx = Math.min(startIdx + state.itemsPerPage, totalCount);
+
+		if (!paginationInfo || !paginationDiv) return;
+
+		if (totalPages <= 1 && totalCount > 0) {
+			paginationInfo.textContent = t(window.LOCALE, totalCount === 1 ? 'right_panel.high_priority.showing_count_one' : 'right_panel.high_priority.showing_count_other', { "count": totalCount.toLocaleString(window.LOCALE) });
+			return;
+		}
+
+		if (totalCount === 0) return;
+
+		paginationInfo.textContent = t(window.LOCALE, 'right_panel.high_priority.showing_range', { "start": (startIdx + 1).toLocaleString(window.LOCALE), "end": endIdx.toLocaleString(window.LOCALE), "total": totalCount.toLocaleString(window.LOCALE) });
+
+		const prevBtn = ce('button', null, { "class": 'pagination-btn chevron' });
+		prevBtn.innerHTML = '<i class="bi bi-chevron-left"></i>';
+		prevBtn.disabled = state.currentPage === 1;
+		prevBtn.onclick = () => {
+			if (state.currentPage > 1) {
+				state.currentPage--;
+				render_page(state.currentPage);
+			}
+		};
+		paginationDiv.append(prevBtn);
+
+		let startPage = Math.max(1, state.currentPage - 1);
+		const endPage = Math.min(totalPages, startPage + 2);
+
+		if (endPage - startPage < 2) {
+			startPage = Math.max(1, endPage - 2);
+		}
+
+		for (let i = startPage; i <= endPage; i++) {
+			const pageBtn = ce('button', String(i), { "class": 'pagination-btn page-number' });
+			if (i === state.currentPage) {
+				pageBtn.classList.add('active');
+			}
+			pageBtn.onclick = () => {
+				state.currentPage = i;
+				render_page(state.currentPage);
+			};
+			paginationDiv.append(pageBtn);
+		}
+
+		const nextBtn = ce('button', null, { "class": 'pagination-btn chevron' });
+		nextBtn.innerHTML = '<i class="bi bi-chevron-right"></i>';
+		nextBtn.disabled = state.currentPage === totalPages;
+		nextBtn.onclick = () => {
+			if (state.currentPage < totalPages) {
+				state.currentPage++;
+				render_page(state.currentPage);
+			}
+		};
+		paginationDiv.append(nextBtn);
+	}
+
+	const render_page = replayable(function render_page(page) {
+		let ul = qs('.locations-list', container);
+
+		if (!ul) {
+			ul = ce('ul', null, { "class": 'locations-list' });
+			container.append(ul);
+		} else {
+			ul.replaceChildren();
+		}
+
+		const isRaster = state.allResults.length > 0 && state.allResults[0].i !== undefined;
+		const isTimeline = state.allResults.length > 0 && state.allResults[0]._variant !== undefined;
+		const totalCount = state.allResults.length;
+		const startIdx = (page - 1) * state.itemsPerPage;
+		const endIdx = Math.min(startIdx + state.itemsPerPage, totalCount);
+
+		const pageResults = state.allResults.slice(startIdx, endIdx);
+
+		if (isRaster && isTimeline) {
+			// No priority score exists for timeline coverage -- flat list,
+			// same raster_item() rows, no score-grouping header.
+			pageResults.forEach(item => ul.append(raster_item(item)));
+		} else if (isRaster) {
+			const score_of = item => item.priority ? Math.round((item.priority).toFixed(2) * 100) : "";
+
+			const scoreCounts = {};
+			state.allResults.forEach(item => {
+				const score = score_of(item);
+				scoreCounts[score] = (scoreCounts[score] || 0) + 1;
+			});
+
+			const groups = pageResults.reduce((acc, item) => {
+				const score = score_of(item);
+				(acc[score] ??= []).push(item);
+				return acc;
+			}, {});
+
+			Object.entries(groups).sort(([a], [b]) => Number(b) - Number(a)).forEach(([score, items]) => {
+				const template = tmpl('#location-group-template');
+				const group = template.firstElementChild;
+				group.setAttribute('data-score', score);
+
+				const areaCount = t(window.LOCALE, scoreCounts[score] === 1 ? 'right_panel.high_priority.area_count_one' : 'right_panel.high_priority.area_count_other', { "count": scoreCounts[score] });
+				bind(template, {
+					"score-text": t(window.LOCALE, 'right_panel.high_priority.priority_score', { score }),
+					"area-count": areaCount,
+				});
+
+				const groupList = qs('.location-group-list', group);
+				items.forEach(item => groupList.append(raster_item(item)));
+
+				ul.append(template);
+			});
+		} else {
+			pageResults.forEach((item, i) => ul.append(admin_area_item(item, startIdx + i + 1)));
+		}
+
+		render_pagination();
+	});
+
+	return {
+		"setResults"(results) {
+			state.allResults = results;
+			state.currentPage = 1;
+		},
+		"render"() {
+			const ul = qs('.locations-list', container);
+			if (ul) ul.replaceChildren();
+
+			const paginationContainer = qs('.pagination-container', container);
+			if (paginationContainer) paginationContainer.remove();
+
+			render_page(state.currentPage);
+		},
+		"getResults"() {
+			return state.allResults;
+		},
+	};
+};
+
+let locations_list = null;
+
+function get_division_results(variant, { all = false } = {}) {
+	const division = GEOGRAPHY.divisions[variant];
+	if (!division || !division.priorityData) return [];
+
+	return Object.keys(division.priorityData)
+		.filter(id => all || has_priority_score(division.priorityData[id].average))
+		.map(id => get_admin_area_item(variant, id))
+		.filter(item => item !== null)
+		.sort((a, b) => a.priority > b.priority ? -1 : 1);
+};
+
+export async function update() {
+	if (_precompute_controller) _precompute_controller.abort();
+	clear_row_cache();
+
+	const section = qs('#right-panel #analysis-locations-section');
+	if (!section) return;
+
+	const isRaster = STATE.variant === 'raster';
+	const results = isRaster ? await all_points() : get_division_results(STATE.variant);
+	const sorted = results.sort((a, b) => a.priority > b.priority ? -1 : 1);
+
+	locations_list.setResults(sorted);
+
+	exportResults = isRaster
+		? all_areas_points(sorted)
+		: get_division_results(STATE.variant, { "all": true });
+
+	if (!sorted.length) {
+		section.setAttribute('collapsed', '');
+		locations_list.render();
+		return;
+	}
+
+	locations_list.render();
+
+	_precompute_controller = new AbortController();
+	const analysis_name = translateIndexName(window.LOCALE, STATE.index);
+	precompute_rows(sorted, isRaster, analysis_name, _precompute_controller.signal);
+};
+
+export function get_locations_results() {
+	return locations_list ? locations_list.getResults() : [];
+}
+
+// The all-areas row set the CSV export downloads. The on-screen list and the
+// PowerPoint report keep using get_locations_results().
+export function get_export_results() {
+	return exportResults;
+}
+
+export function init() {
+	const analysis_locations = tmpl('#analysis-locations-template');
+	bind(analysis_locations, { view_all_locations });
+	qs('#analysis-locations').replaceWith(analysis_locations);
+
+	const section = qs('#right-panel #analysis-locations-section');
+	translateNode(window.LOCALE, section);
+	setup_about_button(section, () => t(window.LOCALE, 'right_panel.high_priority.about', { "area": format_area_type(STATE.variant) }));
+
+	locations_list = create_paginated_list(qs('.locations-paginated-list', section));
+};
+
+async function all_points() {
+	const a = await plot_active(STATE.index);
+
+	const points = a.raster.reduce((t,v,i) => {
+		if (has_priority_score(v)) {
+			t.push({i,v});
+		}
+
+		return t;
+	}, []);
+
+	return points
+		.sort((a,b) => a.v > b.v ? -1 : 1)
+		.map(t => ({ "priority": t.v, "i": t.i, "c": raster_pixel_to_coordinates(t.i) }));
+};
+
+// One bit per outline cell: does any exported dataset carry a value there?
+// Mirrors what value_tree() emits, so a cell that has no data in any column
+// (and no priority score) can be skipped without changing a single sum.
+function dataset_coverage() {
+	const cells = new Uint8Array(OUTLINE.raster.data.length);
+
+	for (const dataset of STATE.datasets) {
+		if (dataset.category.name === 'boundaries' || dataset.category.name === 'outline') continue;
+		if (!dataset.raster?.data) continue;
+		if (!dataset_unit(dataset, 1)) continue;
+
+		const band = aggregation_band(dataset);
+		const nodata = dataset.raster.nodata;
+
+		for (let i = 0; i < band.length; i++) {
+			if (band[i] !== nodata) cells[i] = 1;
+		}
+	}
+
+	return cells;
+}
+
+// The export's row universe is the geography outline mask — the same mask the
+// Data-tab cards aggregate over — so summing an exported column matches the
+// card by construction. The priority cells lead (so the file opens on a
+// full-schema row), then every other valid outline cell that carries a value in
+// at least one exported column. Outline-external cells are never exported: the
+// analysis window is not clipped to the geography, so the priority cells alone
+// include data the cards do not count.
+function all_areas_points(priority_points) {
+	const outline = OUTLINE.raster.data;
+	const nodata = OUTLINE.raster.nodata;
+	const covered = dataset_coverage();
+
+	const rows = [];
+	const seen = new Set();
+
+	for (const point of priority_points) {
+		if (outline[point.i] === nodata) continue;
+		rows.push(point);
+		seen.add(point.i);
+	}
+
+	for (let i = 0; i < outline.length; i++) {
+		if (outline[i] === nodata || seen.has(i) || !covered[i]) continue;
+		rows.push({ "i": i, "c": raster_pixel_to_coordinates(i) });
+	}
+
+	return rows;
+}
