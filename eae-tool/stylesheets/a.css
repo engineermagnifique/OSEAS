@@ -1,0 +1,108 @@
+h1, h2, h3, h4 {
+  padding: unset;
+}
+
+input[type=checkbox]:checked {
+  accent-color: var(--the-green);
+}
+
+#left-panel #drawer {
+  border-right: 1px solid lightgray;
+  background-color: white;
+}
+
+#left-panel #drawer > div {
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+}
+
+.number-labels {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  width: 400px;
+  padding: 1em;
+  border: 1px solid darkgrey;
+  margin: auto;
+  margin-top: 2em;
+}
+
+.number-labels-row > th,
+.number-labels > div {
+  color: white;
+  padding: 5px 7px;
+}
+
+.country-overview section {
+  margin: 1em 0;
+}
+
+.svg-interval,
+.svg-point,
+.svg-polygon,
+.svg-pie {
+  filter: drop-shadow( 0px 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+.opacity-group {
+  display: flex;
+  align-items: center;
+}
+
+.visibility-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 1.5em;
+  border: 1px solid lightgray;
+  background-color: white;
+  padding: 0.75em 1em;
+  border-radius: 3px;
+}
+
+.ramp {
+  display: flex;
+  font-size: 0.8em;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: auto 0.5em;
+}
+
+.unit-ramp {
+  font-weight: bold;
+  color: darkgray;
+}
+
+bubble-message {
+  max-width: 42em;
+}
+
+.feature-table td,
+.feature-table th {
+  padding: 4px 7px;
+}
+
+#ds-features-table main {
+  overflow-y: scroll;
+  max-height: calc(100% - 8em);
+}
+
+#eae-info-modal,
+#ds-info {
+  margin: auto !important;
+  overflow-y: hidden !important;
+}
+
+#eae-info-modal main,
+#ds-info main {
+  max-height: calc(100% - 8em);
+  overflow-y: hidden;
+  width: 70vw !important;
+}
+
+#eae-info-modal content,
+#ds-info content {
+  overflow-y: auto;
+  max-height: calc(100vh - 16em);
+  width: 100%;
+  box-sizing: border-box;
+}

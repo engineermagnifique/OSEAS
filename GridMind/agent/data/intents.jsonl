@@ -1,0 +1,58 @@
+{"text": "Where should we build solar mini-grids?", "intent": "minigrid", "expect": {"activate": ["population", "ghi", "grid"], "filter": {"role": "grid", "bound": "min"}, "index": "eai"}}
+{"text": "Set up a mini-grid analysis for me", "intent": "minigrid", "expect": {"activate": ["population", "ghi", "grid"], "filter": {"role": "grid", "bound": "min"}}}
+{"text": "Find good sites for minigrids far from the existing grid", "intent": "minigrid", "expect": {"activate": ["population", "grid"], "filter": {"role": "grid", "bound": "min"}}}
+{"text": "Which villages are best for an isolated solar microgrid with productive use like health centres?", "intent": "minigrid", "expect": {"activate": ["population", "ghi", "health"]}}
+{"text": "Where does stand-alone PV make sense?", "intent": "standalone", "expect": {"activate": ["population", "ghi", "grid"], "filter": {"role": "grid", "bound": "min"}, "index": "ani"}}
+{"text": "Show me areas for solar home systems", "intent": "standalone", "expect": {"activate": ["population", "ghi"], "index": "ani"}}
+{"text": "Which remote off-grid households need solar kits?", "intent": "standalone", "expect": {"activate": ["population", "grid"], "filter": {"role": "grid", "bound": "min"}}}
+{"text": "Prioritise areas for grid extension", "intent": "grid", "expect": {"activate": ["population", "grid"], "filter": {"role": "grid", "bound": "max"}, "index": "eai"}}
+{"text": "Where can we densify the existing grid?", "intent": "grid", "expect": {"activate": ["population", "grid"], "filter": {"role": "grid", "bound": "max"}}}
+{"text": "Which communities close to the power lines are not yet connected?", "intent": "grid", "expect": {"activate": ["population", "grid"], "filter": {"role": "grid", "bound": "max"}}}
+{"text": "How do I create a priority map?", "intent": "priority_map", "expect": {"no_layer_changes": true}}
+{"text": "Explain how the multi-criteria analysis works", "intent": "priority_map", "expect": {"no_layer_changes": true}}
+{"text": "I'm new here, how do I start an analysis?", "intent": "priority_map", "expect": {"no_layer_changes": true}}
+{"text": "Turn on population", "intent": "layer_control", "expect": {"activate": ["population"]}}
+{"text": "Add nighttime lights and health facilities", "intent": "layer_control", "expect": {"activate": ["nightlights", "health"]}}
+{"text": "Show the solar irradiation layer", "intent": "layer_control", "expect": {"activate": ["ghi"]}}
+{"text": "Remove the distribution lines", "intent": "layer_control", "expect": {"deactivate": ["grid"]}}
+{"text": "Add schools to the map", "intent": "layer_control", "expect": {"activate": ["schools"]}}
+{"text": "Switch to the demand index", "intent": "switch_index", "expect": {"index": "demand"}}
+{"text": "Use the assistance need index", "intent": "switch_index", "expect": {"index": "ani"}}
+{"text": "Change the index to supply", "intent": "switch_index", "expect": {"index": "supply"}}
+{"text": "Show me the results of the analysis", "intent": "results", "expect": {"action": "results"}}
+{"text": "Which are the top high priority areas?", "intent": "results", "expect": {"action": "results"}}
+{"text": "How do I make a report?", "intent": "report", "expect": {"action": "export"}}
+{"text": "Export this analysis as PowerPoint", "intent": "report", "expect": {"action": "export"}}
+{"text": "Can I download the priority areas as CSV?", "intent": "report", "expect": {"action": "export"}}
+{"text": "What is the difference between the indexes?", "intent": "explain_index", "expect": {"no_layer_changes": true}}
+{"text": "What does the assistance need index show?", "intent": "explain_index", "expect": {"no_layer_changes": true}}
+{"text": "Why is population important for energy planning?", "intent": "explain_population", "expect": {}}
+{"text": "What do nighttime lights tell me?", "intent": "explain_productive", "expect": {}}
+{"text": "How are crops used as productive use of energy?", "intent": "explain_productive", "expect": {}}
+{"text": "What is GHI?", "intent": "explain_resources", "expect": {"no_layer_changes": true}}
+{"text": "Is the solar resource good enough here?", "intent": "explain_resources", "expect": {}}
+{"text": "What infrastructure data is available?", "intent": "explain_infrastructure", "expect": {}}
+{"text": "How is the distance to the grid calculated?", "intent": "explain_infrastructure", "expect": {"no_layer_changes": true}}
+{"text": "How do I focus on one county?", "intent": "geography", "expect": {"panel": "geographies", "no_layer_changes": true}}
+{"text": "Change the region", "intent": "geography", "expect": {"panel": "geographies", "no_layer_changes": true}}
+{"text": "Which layers are active?", "intent": "layers_status", "expect": {"no_layer_changes": true}}
+{"text": "Hello", "intent": "greeting", "expect": {"no_layer_changes": true}}
+{"text": "What can you do?", "intent": "greeting", "expect": {"no_layer_changes": true}}
+{"text": "Où installer des mini-réseaux solaires ?", "intent": "minigrid", "expect": {"activate": ["population", "ghi", "grid"], "filter": {"role": "grid", "bound": "min"}}, "lang": "fr"}
+{"text": "Montre-moi la population", "intent": "layer_control", "expect": {"activate": ["population"]}, "lang": "fr"}
+{"text": "Comment créer un rapport ?", "intent": "report", "expect": {"action": "export"}, "lang": "fr"}
+{"text": "Nionyeshe maeneo ya sola ya nyumbani", "intent": "standalone", "expect": {"activate": ["population", "ghi"]}, "lang": "sw"}
+{"text": "Make solar potential twice as important as population", "intent": "layer_control", "expect": {"weight": "ghi"}}
+{"text": "Only keep areas more than 20 km from distribution lines", "intent": "layer_control", "expect": {"filter": {"role": "grid", "bound": "min", "value": 20}}}
+{"text": "What's the weather tomorrow?", "intent": "unknown", "expect": {"no_layer_changes": true}}
+{"text": "Show me the most populated parts of Kenya which have low access to energy", "intent": "find_areas", "expect": {"activate": ["population", "access"], "filter": {"role": "access", "bound": "max"}, "action": "areas"}}
+{"text": "Which counties have the lowest electricity access?", "intent": "find_areas", "expect": {"activate": ["access"], "action": "areas"}}
+{"text": "Where do many people live without electricity?", "intent": "find_areas", "expect": {"activate": ["population", "access"], "action": "areas"}}
+{"text": "List the top 5 most populated counties", "intent": "find_areas", "expect": {"activate": ["population"], "action": "areas"}}
+{"text": "Quels comtés très peuplés ont un faible accès à l'électricité ?", "intent": "find_areas", "expect": {"activate": ["population", "access"], "action": "areas"}, "lang": "fr"}
+{"text": "What does the priority legend mean?", "intent": "explain_legend", "expect": {"action": "legend", "no_layer_changes": true}}
+{"text": "What do the colours on the map mean?", "intent": "explain_legend", "expect": {"action": "legend", "no_layer_changes": true}}
+{"text": "Is dark purple high or low priority?", "intent": "explain_legend", "expect": {"action": "legend", "no_layer_changes": true}}
+{"text": "Explain the population colour bar", "intent": "explain_legend", "expect": {"action": "legend", "no_layer_changes": true}}
+{"text": "Que signifient les couleurs de la carte ?", "intent": "explain_legend", "expect": {"action": "legend", "no_layer_changes": true}}
+{"text": "Rangi kwenye ramani zinamaanisha nini?", "intent": "explain_legend", "expect": {"action": "legend", "no_layer_changes": true}}

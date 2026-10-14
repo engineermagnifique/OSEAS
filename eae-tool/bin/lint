@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+	>&2 echo "I need an argument: A directory."
+	exit 1
+fi
+
+if [ ! -d $1 ]; then
+	>&2 echo "'$1' is not a directory"
+	exit 1
+fi
+
+eslint --format unix --fix $1

@@ -1,0 +1,20 @@
+{
+  "name": "tool",
+  "version": "1.0.0",
+  "description": "This is the source code for the primary visualisation of the platform. A live version found [here](https://www.energyaccessexplorer.org/).",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "rollup": "latest"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "latest",
+    "@eslint/js": "latest",
+    "eslint-formatter-unix": "latest",
+    "globals": "latest"
+  },
+  "scripts": {},
+  "license": "ISC"
+}

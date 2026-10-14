@@ -1,0 +1,848 @@
+import Toast from './toast.js';
+
+import {
+	sentry_update_datasets,
+} from './sentry.js';
+
+import {
+	colorscale,
+	colorscale_svg,
+	uniform_split,
+} from './utils.js';
+
+import modal from '../lib/modal.js';
+
+import bind from '../lib/bind.js';
+
+import dscard from './cards.js';
+
+import dscontrols from './controls.js';
+
+import {
+	cell as timeline_cell,
+	actions as timeline_actions,
+} from './timeline-state.js';
+
+import { t, translateNode, translateDatasetName, translateDatasetAttribute } from './translate.js';
+
+import {
+	csv as parse_csv,
+	raster as parse_raster,
+	points as parse_points,
+	polygons as parse_polygons,
+	vectors_csv as parse_vectors_csv,
+	lines as parse_lines,
+	fail as parse_fail,
+} from './parse.js';
+
+import {
+	average,
+	crop_to,
+} from './rasters.js';
+
+import {
+	loading_analysis,
+} from './right-panel.js';
+
+import {
+	and,
+	ce,
+	coalesce,
+	json_clone,
+	maybe,
+	nil,
+	or,
+	qs,
+	tmpl,
+	until,
+	Whatever,
+} from '../lib/helpers.js';
+
+export const default_colorscale = colorscale({
+	"stops":  d3.schemeRdBu[5].reverse(),
+	"domain": { "min": 0, "max": 1 },
+});
+
+export const default_colorscale_svg = colorscale_svg(default_colorscale.stops);
+
+export default class DS {
+	visible = true;
+
+	constructor(row) {
+		const { category_overrides, ...rest } = row;
+		Object.assign(this, rest);
+
+		const fallback_id = row.name || row.category.name;
+		this.id = DST.has(fallback_id) ? `${fallback_id}-${row.id}` : fallback_id;
+
+		this.dataset_id = row.id;
+
+		this.category_overrides(category_overrides);
+
+		this.on = false;
+
+		this.selection = [];
+
+		this._layers = [];
+
+		this.config = {};
+
+		this.analysis = this.category.analysis;
+
+		this.index = maybe(this, 'analysis', 'index');
+
+		this.weight = maybe(this, 'analysis', 'weight') || 3;
+
+		this.timeline = this.category.timeline;
+
+		this.name = coalesce(row.name_long,
+		                     row.name,
+		                     this.category.name_long,
+		                     this.category.name);
+
+		this.hosts = null;
+
+		this.config = {};
+
+		if (row.mutant_configuration)
+			this.config = row.mutant_configuration;
+		else if (row.vectors_configuration)
+			this.config = row.vectors_configuration;
+
+		DST.set(this.id, this);
+
+		this.init(row);
+	};
+
+	init(o) {
+		let indicator = false;
+		let go = true;
+
+		if (this.category.name.match(/^(timeline-)?indicator/)) {
+			const b = GEOGRAPHY.divisions[this.config.divisions_tier];
+
+			if (!b) {
+				new Toast({ "label": t(window.LOCALE, 'toast.dataset_error.label'), "caption": t(window.LOCALE, 'toast.dataset_error.divisions', { "name": this.name, "tier": this.config.divisions_tier }), "variant": 'error' }).show();
+
+				this.disable(`Missing geography->divisions->${this.config.divisions_tier}.`);
+
+				return false;
+			}
+
+			this.raster = b.raster;
+			this.vectors = json_clone(b.vectors);
+			Object.assign(this.vectors, this.category.vectors);
+
+			this.vectors.id = b.config.vectors_id;
+			this.vectors.parse = x => {
+				parse_polygons.call(x || this);
+				parse_vectors_csv.call(x || this);
+			};
+
+			indicator = true;
+		}
+
+		function ok(type) {
+			if (indicator && ['vectors', 'raster'].includes(type)) return true;
+
+			if (this.category.name === 'outline') return true;
+
+			new Toast({ "label": t(window.LOCALE, 'toast.dataset_error.label'), "caption": t(window.LOCALE, 'toast.dataset_error.category', { "name": this.name, "category": this.category.name, type }), "variant": 'error' }).show();
+
+			this.disable(`Missing ${type}`);
+
+			return false;
+		};
+
+		if (o.category.vectors) {
+			const f = this.processed_files.find(x => x.func === 'vectors');
+
+			if (!f) go = ok.call(this, 'vectors');
+			else {
+				this.vectors = {};
+				Object.assign(this.vectors, o.category.vectors, f);
+
+				this.vectors.id = maybe(this, 'config', 'vectors_id');
+
+				let p; switch (this.vectors.shape_type) {
+				case 'points': {
+					p = x => parse_points.call(x || this);
+					break;
+				}
+
+				case 'lines': {
+					p = x => parse_lines.call(x || this);
+					break;
+				}
+
+				case 'polygons': {
+					p = x => parse_polygons.call(x || this);
+					break;
+				}
+				}
+
+				this.vectors.parse = async _ => {
+					await p();
+					if (this.csv) parse_vectors_csv.call(this);
+				};
+			}
+		}
+
+		if (!go) return false;
+
+		if (o.category.raster) {
+			const f = this.processed_files.find(x => x.func === 'raster');
+
+			if (this.category.controls.range === "multiselect")
+				this._domain_select = [];
+
+			if (!f) go = ok.call(this, 'raster');
+			else {
+				this.raster = {};
+				Object.assign(this.raster, o.category.raster, f);
+				this.raster.parse = parse_raster.bind(this);
+			}
+		}
+
+		if (!go) return false;
+
+		if (o.category.csv) {
+			const f = this.source_files.find(x => x.func === 'csv');
+
+			if (!f) go = ok.call(this, 'csv');
+			else {
+				this.csv = {};
+				Object.assign(this.csv, o.category.csv, f);
+				this.csv.parse = parse_csv.bind(this);
+			}
+		}
+
+		if (!go) return false;
+
+		this.domain = o.category.domain;
+
+		this._domain = json_clone(this.category.domain_init) || json_clone(this.domain);
+
+		this.set_scales();
+
+		this.controls = new dscontrols(this);
+
+		if (this.category.name === 'admin-tiers') {
+			this.controls.remove();
+			delete this.controls;
+		}
+
+		switch (this.type) {
+		case 'points-timeline':
+		case 'lines-timeline':
+		case 'polygons-timeline':
+		case 'polygons-valued':
+		case 'points':
+		case 'lines':
+		case 'polygons': {
+			this.download = this.vectors.endpoint;
+			break;
+		}
+
+		case 'raster-timeline':
+		case 'raster-valued':
+		case 'raster': {
+			this.download = this.raster.endpoint;
+			break;
+		}
+
+		case 'table': {
+			this.download = this.csv.endpoint;
+			break;
+		}
+
+		case 'raster-mutant':
+		case 'raster-valued-mutant':
+		case 'polygons-boundaries': {
+			break;
+		}
+
+		case undefined:
+		default: {
+			parse_fail.call(this, "Cannot decide dataset's type. This is likely a configuration error");
+			break;
+		}
+		}
+
+		return true;
+	};
+
+	category_overrides(ovrr) {
+		if (!ovrr) return;
+
+		const configs = [
+			'analysis',
+			'colorstops',
+			'controls',
+			'csv',
+			'description',
+			'domain',
+			'domain_init',
+			'name',
+			'name_long',
+			'raster',
+			'timeline',
+			'unit',
+			'vectors',
+		];
+
+		for (const c of configs) {
+			if (!ovrr.hasOwnProperty(c)) continue;
+
+			if (typeof ovrr[c] !== 'object') {
+				this.category[c] = ovrr[c];
+				continue;
+			}
+
+			if (nil(this.category[c])) {
+				this.category[c] = json_clone(ovrr[c]);
+				continue;
+			}
+
+			if (Array.isArray(ovrr[c])) {
+				this.category[c] = json_clone(ovrr[c]);
+				continue;
+			}
+
+			for (const a in ovrr[c]) {
+				this.category[c][a] = ovrr[c][a];
+			}
+		}
+	};
+
+	disable(msg = "") {
+		console.warn("Disabling:", this, msg);
+
+		this.on = false;
+		this.disabled = true;
+
+		if (this.controls) this.controls.disable();
+
+		if (this.card) this.card.disable();
+
+		this._layers.map(i => MAPBOX.removeLayer(i));
+
+		DST.delete(this.id);
+	};
+
+	cannot_deactivate(visible) {
+		return !visible && this.category.name === 'outline';
+	};
+
+	get source() {
+		return MAPBOX.getSource(this.id);
+	};
+
+	add_source(opts, as) {
+		if (as) {
+			MAPBOX.addSource(as, opts);
+			return;
+		}
+
+		if (this.source) return;
+
+		MAPBOX.addSource(this.id, opts);
+
+		this.source_config = opts;
+	};
+
+	get layers() {
+		return this._layers.map(i => MAPBOX.getLayer(i)).filter(l => l);
+	}
+
+	add_layers(...arr) {
+		if (this.layers.length) return;
+
+		for (const a of arr) {
+			a['id'] = a['id'] || this.id;
+			a['source'] = this.id;
+
+			MAPBOX.addLayer(a, MAPBOX.first_symbol);
+
+			if (this._layers.indexOf(a.id) < 0) this._layers.push(a.id);
+		}
+	};
+
+	update_source(data) {
+		if (this.source) this.source.setData(data);
+	};
+
+	mutant_init() {
+		this.hosts = [];
+
+		for (const h of this.config.hosts) {
+			const ds = DST.get(h);
+
+			if (!ds) {
+				const msg = `'${this.id}' claims to have host '${h}'. No such DS.`;
+				new Toast({ "label": t(window.LOCALE, 'toast.dataset_error.label'), "caption": t(window.LOCALE, 'toast.dataset_error.no_host', { "id": this.id, "host": h }), "variant": 'error' }).show();
+
+				this.disable(msg);
+
+				return;
+			}
+
+			this.hosts.push(ds);
+		}
+
+		this.host = this.hosts.filter(Boolean)[0];
+	};
+
+	async mutate(host) {
+		await host.loadall();
+
+		await host.raster.parse();
+
+		this.host = host;
+
+		this.csv = host.csv;
+		this.raster = host.raster;
+		this.vectors = host.vectors;
+		this.colorscale = host.colorscale;
+		this.domain = host.domain;
+		this._domain = json_clone(host.domain);
+
+		this.domain_select = this.host.domain_select;
+		this._domain_select = this.host._domain_select;
+
+		this.fn = this.host.fn;
+
+		this.opacity(1);
+
+		return this;
+	};
+
+	/*
+	 * analysis_fn
+	 *
+	 * Scaling function that sets the behaviour of a dataset when contributing to
+	 * an analysis. Whether it's a filter, a linearised part, etc...
+	 *
+	 * @param "type" string
+	 *   name of the current index being drawn and decide if the dataset
+	 *   contributes to the analysis at all and if the range of the function
+	 *   should be inverted.
+	 *
+	 * returns function (ds domain) -> [0,1]
+	 */
+
+	analysis_fn(type) {
+		if (!maybe(this, 'analysis', 'indexes')) return null;
+
+		if (!(this._domain || this.domain)) return null;
+
+		const c = this.analysis.indexes.find(i => i.index === type);
+		if (!c) return null;
+
+		const {min,max} = this._domain || this.domain;
+		const r = (c && c.invert) ? [1,0] : [0,1];
+
+		let s = null;
+		switch (c.scale) {
+		case 'key-delta': {
+			if (!maybe(this.csv, 'table'))
+				s = _ => 1;
+			else {
+				s = x => {
+					const t = this.csv.table[x];
+					// EAE-498: no data for this key is not a value of 0; null would
+					// coerce to 0 in the range check and could score as "in range".
+					if (t === null || t === undefined || t === '') return -1;
+					return and(t >= min, t <= max) ? 1 : -1;
+				};
+			}
+			break;
+		}
+
+		case 'exclusion-buffer': {
+			s = x => or(x < min, x > max) ? 1 : -1;
+			break;
+		}
+
+		case 'inclusion-buffer': {
+			s = x => and(x >= min, x <= max) ? 1 : -1;
+			break;
+		}
+
+		case 'intervals': {
+			if (this.analysis.intervals != default_colorscale.stops.length)
+				console.warn(this.id, "analysis intervals has wrong length!");
+
+			const q = d3.scaleQuantile()
+				.domain(this.analysis.intervals)
+				.range(default_colorscale.intervals);
+
+			s = x => and(x >= min, x <= max) ? q(x) : -1;
+
+			break;
+		}
+
+		case 'linear':
+		default: {
+			if (min === max) return s = x => (x === +min) ? 1 : -1;
+			s = d3.scaleLinear().domain([min,max]).range(r).clamp(this.analysis.clamp);
+			break;
+		}
+		}
+
+		return s;
+	};
+
+	analysis_scale(type) {
+		if (!maybe(this, 'analysis', 'indexes')) return null;
+		return maybe(this.analysis.indexes.find(i => i.index === type), 'scale');
+	};
+
+	async visibility(t) {
+		this.visible = t;
+
+		this.layers.map(l => MAPBOX.setLayoutProperty(l.id, 'visibility', t ? 'visible' : 'none'));
+
+		const c = qs('[bind-func=visibility]', this.card);
+		if (c) c.checked = t;
+
+		if (this.host) {
+			this.hosts.forEach(d => d.layers && MAPBOX.setLayoutProperty(d.id, 'visibility', 'none'));
+			MAPBOX.setLayoutProperty(this.host.id, 'visibility', t ? 'visible' : 'none');
+		}
+	};
+
+	set_scales() {
+		let color_opts;
+
+		function colorstops_check() {
+			if (!maybe(this.category, 'colorstops', 'length')) {
+				console.warn(`${this.id}, (${this.type}), has no colorstops configured. Using default`);
+				this.category.colorstops = default_colorscale.stops;
+			}
+		};
+
+		switch (this.type) {
+		case 'polygons-valued': {
+			if (this.csv.key) {
+				colorstops_check.call(this);
+
+				color_opts = {
+					"domain": default_colorscale.intervals,
+					"stops":  this.category.colorstops,
+				};
+			}
+			break;
+		}
+
+		case 'polygons-timeline': {
+			colorstops_check.call(this);
+
+			color_opts = {
+				"domain": default_colorscale.intervals,
+				"stops":  this.category.colorstops,
+			};
+
+			break;
+		}
+
+		case 'raster-timeline':
+		case 'raster-valued':
+		case 'raster': {
+			colorstops_check.call(this);
+
+			color_opts = {
+				"stops":     this.category.colorstops,
+				"domain":    this.domain,
+				"intervals": this.raster.intervals,
+			};
+
+			break;
+		}
+
+		default:
+			break;
+		}
+
+		if (this.raster && this.domain) {
+			this.fn = d3.scaleLinear()
+				.domain([this.domain.min, this.domain.max])
+				.range([0,1]);
+		}
+
+		if (maybe(this.raster, 'intervals')) {
+			this.fn = d3.scaleLinear()
+				.domain(this.raster.intervals)
+				.range(uniform_split(this.raster.intervals.length));
+		}
+
+		if (this.colorscale) ;
+		else if (color_opts)
+			this.colorscale = colorscale(color_opts);
+	};
+
+	info_modal() {
+		let content;
+
+		if (this.summary) {
+			const a_count = this.summary.analysis.raster.filter(t => t !== -1).length;
+
+			const datasets = this.summary.analysis.datasets.slice(0);
+			const averages = datasets
+				.filter(d => d.type === 'raster')
+				.map(d => ({
+					"ds":     d,
+					"raster": average(crop_to(d.raster, { "data": this.summary.analysis.raster, "nodata": -1 })),
+				}));
+
+			content = ce('div', ce('p', `<code>${a_count} km<sup>2</sup></code> covered by the analysis.`));
+
+			Object
+				.keys(this.summary.analysis.totals)
+				.forEach(k => {
+					content.append(ce('h4', k));
+
+					const table = ce('table', null, { "style": "width: 100%;" });
+					content.append(table);
+
+					this.summary.analysis.datasets
+						.filter(d => d.analysis.index === k)
+						.forEach(d => {
+							switch (d.type) {
+							case 'raster-timeline':
+							case 'raster': {
+								const f = averages.find(a => a.ds === d);
+								table.append(ce('tr', [
+									ce('td', d.name, { "style": "padding-right: 3em;" }),
+									ce('td', f.raster.avg.toFixed(2) + " " + d.category.unit, { "style": "font-family: monospace; text-align: right;" }),
+								]));
+								break;
+							}
+
+							case 'points': {
+								table.append(ce('tr', [
+									ce('td', d.name, { "style": "padding-right: 3em;" }),
+									ce('td', this.summary.intersections[d.id] + " (intersect)", { "style": "font-family: monospace; text-align: right;" }),
+								]));
+								break;
+							}
+
+							default:
+								break;
+							}
+						});
+				});
+		} else {
+			const m = Object.assign({}, this.metadata, { "category-description": this.category.description });
+
+			// Translate metadata fields if translations are available
+			for (const field of ['description', 'cautions', 'suggested_citation', 'sources', 'license', 'spatial_resolution', 'content_date', 'download_original_url', 'learn_more_url']) {
+				if (m[field]) {
+					m[field] = translateDatasetAttribute(window.LOCALE, this, m[field], field);
+				}
+			}
+
+			// Translate category description
+			if (m['category-description']) {
+				m['category-description'] = translateDatasetAttribute(window.LOCALE, this.category, m['category-description'], 'description');
+			}
+
+			content = tmpl('#ds-info-modal');
+			translateNode(window.LOCALE, content);
+			bind(content, m);
+		}
+
+		new modal({
+			"id":      'ds-info',
+			"header":  translateDatasetName(window.LOCALE, this),
+			content,
+			"destroy": true,
+		}).show();
+	};
+
+	features_table_modal() {
+		const content = ce('table');
+		content.className = 'feature-table';
+
+		const features = this.vectors.data.features;
+
+		const points = this.type.match(/points/);
+
+		const rows = features.map(f => {
+			const columns = [];
+
+			for (const p in f.properties) {
+				if (p.match(/^__/)) continue;
+				columns.push(f.properties[p]);
+			}
+
+			if (points)
+				columns.push(
+					ce('code', "["+f.geometry.coordinates.map(x => x.toFixed(3)).join(',')+"]"),
+				);
+
+			const tr = ce('tr');
+			tr.append(...columns.map(c => ce('td', c)));
+
+			return tr;
+		});
+
+		const head = ce('tr');
+
+		for (const p in features[0].properties) {
+			if (p.match(/^__/)) continue;
+			head.append(ce('th', p));
+		}
+
+		if (points) head.append(ce('th', t(window.LOCALE, 'dataset_info.long_lat')));
+
+		rows.unshift(head);
+
+		content.append(head, ...rows);
+
+		new modal({
+			"id":      'ds-features-table',
+			"header":  `${translateDatasetName(window.LOCALE, this)} - ${features.length} ${t(window.LOCALE, 'dataset_info.features')}`,
+			content,
+			"destroy": true,
+		}).show();
+	};
+
+	async active(visible, draw) {
+		if (this.cannot_deactivate(visible)) return;
+
+		this.on = visible;
+
+		if (visible) {
+			if (this.controls) this.controls.loading(true);
+			loading_analysis(true);
+
+			await this.loadall();
+
+			// EAE-297: the CSV data just became available asynchronously, after
+			// the COMMIT that `turn()` fired. Bump the timeline cell so its trend
+			// service re-derives and recomputes now that the fetch has resolved.
+			// Deliberately NOT COMMIT: COMMIT('datasets') re-activates every
+			// dataset (a.js's datasets_visibility) and would loop back here.
+			if (this.timeline) timeline_actions.notifyDataReady(timeline_cell());
+
+			// make sure polygons-valued have decided their _domain
+			//
+			if (maybe(this, '_domain', 'min') === undefined) {
+				try {
+					Object.assign(this._domain, this.domain);
+				} catch {
+					this.disable("Could not set _domain while setting as 'active'. Too soon?");
+					return;
+				}
+			}
+
+			this.set_scales();
+
+			if (this.controls) this.controls.loading(false);
+
+			if (this.disabled) return;
+		}
+
+		if (this.hosts) await this.mutate(this.host);
+
+		if (!this.card) this.card = new dscard(this);
+
+		if (this.controls) this.controls.turn(visible);
+
+		this.visibility(visible && draw);
+
+		if (!visible && this.card) this.card.remove();
+	};
+
+	loadall() {
+		return Whatever
+			.then(_ => this.load('csv'))
+			.then(_ => this.load('vectors'))
+			.then(_ => this.load('raster'));
+	};
+
+	async load(arg) {
+		if (!this[arg]) return;
+
+		this.loading = true;
+
+		if (this.hosts) {
+			await until(_ => this.hosts.every(d => d instanceof DS));
+			return Promise.all(this.hosts.map(d => d.load(arg)));
+		}
+
+		if (maybe(this, arg))
+			await this[arg].parse();
+		else
+			throw new Error(`Loading Error: '${this.id}' tried to load '${arg}', but failed`);
+
+		this.loading = false;
+	};
+
+	opacity(v) {
+		let t = [];
+
+		switch (this.type) {
+		case 'points': {
+			t = ['circle-opacity', 'circle-stroke-opacity'];
+			break;
+		}
+
+		case 'lines': {
+			t = ['line-opacity'];
+			break;
+		}
+
+		case 'polygons-valued':
+		case 'polygons-timeline':
+		case 'polygons-boundaries':
+		case 'polygons': {
+			t = ['fill-opacity'];
+			break;
+		}
+
+		case 'raster-timeline':
+		case 'raster': {
+			t = ['raster-opacity'];
+			break;
+		}
+
+		case 'raster-valued-mutant':
+		case 'raster-mutant': {
+			MAPBOX.setPaintProperty(this.host.id, 'raster-opacity', v);
+			return;
+		}
+
+		default: {
+			console.warn("ds.opacity: undecided type", this.id, this.type);
+			break;
+		}
+		}
+
+		for (const a of t)
+			MAPBOX.setPaintProperty(this.id, a, v);
+	};
+
+	turn(visible) {
+		visible = visible ?? !this.on;
+
+		if (this.cannot_deactivate(visible)) return;
+
+		this.active(visible, true);
+
+		let copy = [...STATE.datasets];
+
+		if (this.on) copy = [this, ...STATE.datasets];
+		else copy.splice(copy.indexOf(this), 1);
+
+		STATE.datasets = copy.filter(Boolean);
+
+		COMMIT("datasets");
+		sentry_update_datasets(DST);
+	};
+
+	static get array() {
+		return Array.from(DST.values());
+	};
+};
