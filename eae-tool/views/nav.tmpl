@@ -1,0 +1,60 @@
+{{define "nav"}}
+<nav>
+  <input id="toggle"
+         class="no-desktop"
+         type="checkbox">
+
+  <label for="toggle" class="no-desktop">
+    <svg style="width:24px;height:24px" viewBox="0 0 24 14">
+      <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+    </svg>
+  </label>
+
+  <a id="energy-access-link"
+     href="{{template "base" .}}/">
+    <img src="{{template "base" .}}/images/EAE Logo_Horizontal White.svg">
+  </a>
+
+  <div id="navigation-links">
+    <a href="{{template "base" .}}/tool/s"
+       class="toggleable"
+       data-t="nav.tool">
+      Tool
+    </a>
+
+    <a href="{{template "base" .}}/about"
+       class="toggleable"
+       data-t="nav.about">
+      About
+    </a>
+
+    <a href="{{template "base" .}}/get-involved"
+       class="toggleable"
+       data-t="nav.get_involved">
+      Get Involved
+    </a>
+
+    <a href="{{template "base" .}}/user-stories"
+       class="toggleable"
+       data-t="nav.user_stories">
+      User Stories
+    </a>
+
+    <a href="{{template "base" .}}/partners"
+       class="toggleable"
+       data-t="nav.partners">
+      Partners
+    </a>
+  </div>
+</nav>
+
+<script src="{{template "base" .}}/javascripts/nav.js"></script>
+
+<div id="mobile-warning">
+  <div id="mobile-warning-content">
+    <img src="{{template "base" .}}/images/EAE Logo_Emblem.svg" alt="Energy Access Explorer">
+    <h2 data-t="nav.desktop_required.title">Desktop Required</h2>
+    <p data-t="nav.desktop_required.message">Energy Access Explorer is designed for larger screens. Please open this page on a desktop or laptop computer for the best experience.</p>
+  </div>
+</div>
+{{end}}

@@ -1,0 +1,487 @@
+/* GridMind assistant. Uses the platform tokens from the website stylesheet
+   (--the-green, --the-gray, ...) and its "without-serif" font. */
+
+#gridmind-button,
+#gridmind-panel {
+  --gm-green: var(--the-green, #00794C);
+  --gm-light-green: var(--the-light-green, #98BC40);
+  --gm-gray: var(--the-gray, #333333);
+  --gm-bg: var(--the-blueish-white, #F4F6F7);
+  --gm-border: var(--the-light-gray, #e5e5e5);
+
+  font-family: without-serif, sans-serif;
+}
+
+#gridmind-button[hidden],
+#gridmind-panel[hidden],
+#gridmind-panel .gridmind-chips[hidden],
+#gridmind-panel .gridmind-done[hidden] {
+  display: none;
+}
+
+#gridmind-button {
+  position: fixed;
+  right: 25px;
+  bottom: 40px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--gm-green);
+  color: white;
+  font-family: without-serif, sans-serif !important;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  transition: filter 0.15s;
+}
+
+#gridmind-button i {
+  font-size: 20px;
+}
+
+#gridmind-button:hover {
+  filter: brightness(1.12);
+}
+
+#gridmind-panel {
+  position: fixed;
+  right: 25px;
+  bottom: 40px;
+  z-index: 20;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 560px;
+  max-height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  font-size: 15px;
+  color: var(--gm-gray);
+}
+
+#gridmind-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: var(--gm-green);
+  color: white;
+}
+
+#gridmind-panel .gridmind-title {
+  font-size: 20px;
+  letter-spacing: 0.02em;
+}
+
+#gridmind-panel .gridmind-title i {
+  color: var(--gm-light-green);
+}
+
+#gridmind-panel .gridmind-status {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+#gridmind-panel .gridmind-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+#gridmind-panel .gridmind-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: white;
+}
+
+#gridmind-panel .gridmind-msg {
+  max-width: 88%;
+  padding: 9px 12px;
+  border-radius: 3px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+#gridmind-panel .gridmind-bot {
+  align-self: flex-start;
+  background-color: var(--gm-bg);
+  border-left: 3px solid var(--gm-green);
+}
+
+#gridmind-panel .gridmind-user {
+  align-self: flex-end;
+  background-color: var(--gm-green);
+  color: white;
+}
+
+#gridmind-panel .gridmind-error {
+  border-left-color: #c0392b;
+}
+
+#gridmind-panel code {
+  font-size: 13px;
+}
+
+#gridmind-panel .gridmind-done {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--gm-border);
+  font-size: 13px;
+  color: var(--gm-green);
+}
+
+#gridmind-panel .gridmind-done li {
+  padding: 1px 0;
+}
+
+#gridmind-panel .gridmind-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+#gridmind-panel .gridmind-typing i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--gm-green);
+  animation: gridmind-bounce 1.2s infinite ease-in-out;
+}
+
+#gridmind-panel .gridmind-typing i:nth-child(2) { animation-delay: 0.15s; }
+#gridmind-panel .gridmind-typing i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes gridmind-bounce {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+#gridmind-panel .gridmind-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 14px 10px;
+}
+
+#gridmind-panel .gridmind-chips button {
+  border: 1px solid var(--gm-green);
+  background-color: white;
+  color: var(--gm-green);
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#gridmind-panel .gridmind-chips button:hover {
+  background-color: var(--gm-green);
+  color: white;
+}
+
+#gridmind-panel form {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--gm-border);
+}
+
+#gridmind-panel form input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--gm-border);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+#gridmind-panel form input:focus {
+  border-color: var(--gm-green);
+}
+
+#gridmind-panel form button {
+  border: none;
+  background-color: var(--gm-green);
+  color: white;
+  border-radius: 3px;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+#gridmind-panel form button:disabled,
+#gridmind-panel form input:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+#gridmind-panel .gridmind-areas-box {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--gm-border);
+}
+
+#gridmind-panel .gridmind-areas-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--gm-green);
+  margin-bottom: 4px;
+}
+
+#gridmind-panel .gridmind-areas {
+  margin: 0;
+  padding-left: 20px;
+}
+
+#gridmind-panel .gridmind-areas li {
+  padding: 3px 0;
+  cursor: pointer;
+}
+
+#gridmind-panel .gridmind-areas li a {
+  display: block;
+  color: var(--gm-gray);
+  font-weight: bold;
+}
+
+#gridmind-panel .gridmind-areas li:hover a {
+  color: var(--gm-green);
+  text-decoration: underline;
+}
+
+#gridmind-panel .gridmind-areas li span {
+  display: block;
+  font-size: 12px;
+  color: #666;
+}
+
+.gridmind-marker {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: var(--the-green, #00794C);
+  border: 2px solid white;
+  color: white;
+  font-family: without-serif, sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  cursor: default;
+}
+
+#gridmind-panel .gridmind-hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* --- working state: GridMind is still thinking or updating the map --- */
+
+#gridmind-panel .gridmind-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 7px 10px;
+  border-radius: 3px;
+  background-color: white;
+  border: 1px dashed var(--gm-green);
+  font-size: 13px;
+  color: var(--gm-green);
+}
+
+#gridmind-panel .gridmind-progress:first-child {
+  margin-top: 0;
+}
+
+#gridmind-panel .gridmind-step {
+  flex: 1;
+}
+
+#gridmind-panel .gridmind-elapsed {
+  font-variant-numeric: tabular-nums;
+  color: #666;
+}
+
+.gridmind-spinner {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--gm-border, #e5e5e5);
+  border-top-color: var(--gm-green, #00794C);
+  border-radius: 50%;
+  animation: gridmind-spin 0.8s linear infinite;
+}
+
+@keyframes gridmind-spin {
+  to { transform: rotate(360deg); }
+}
+
+#gridmind-panel .gridmind-finished {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+#gridmind-panel .gridmind-finished .bi-check2-circle {
+  color: var(--gm-green);
+}
+
+#gridmind-panel.gridmind-working header {
+  background-image: linear-gradient(90deg, var(--gm-green) 0%, #0a8f5c 50%, var(--gm-green) 100%);
+  background-size: 200% 100%;
+  animation: gridmind-shimmer 1.6s linear infinite;
+}
+
+@keyframes gridmind-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+#gridmind-button.gridmind-working i {
+  animation: gridmind-pulse 1s ease-in-out infinite;
+}
+
+@keyframes gridmind-pulse {
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gridmind-spinner,
+  #gridmind-panel.gridmind-working header,
+  #gridmind-button.gridmind-working i {
+    animation-duration: 3s;
+  }
+}
+
+/* --- legend explanations --- */
+
+#gridmind-legend-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 4px 20px 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--the-green, #00794C);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#gridmind-legend-help:hover {
+  text-decoration: underline;
+}
+
+#gridmind-panel .gridmind-legend {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--gm-border);
+  font-size: 13px;
+}
+
+#gridmind-panel .gridmind-legend-block + .gridmind-legend-block {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dotted var(--gm-border);
+}
+
+#gridmind-panel .gridmind-legend-title {
+  font-weight: bold;
+  color: var(--gm-green);
+  margin-bottom: 3px;
+}
+
+#gridmind-panel .gridmind-legend-title small {
+  display: block;
+  font-weight: normal;
+  color: #666;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+#gridmind-panel .gridmind-legend p {
+  margin: 3px 0;
+}
+
+#gridmind-panel .gridmind-legend-note {
+  color: #555;
+  font-size: 12px;
+}
+
+#gridmind-panel .gridmind-scale {
+  list-style: none;
+  margin: 6px 0;
+  padding: 0;
+}
+
+#gridmind-panel .gridmind-scale li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+#gridmind-panel .gridmind-scale b {
+  min-width: 0;
+}
+
+#gridmind-panel .gridmind-scale span {
+  margin-left: auto;
+  color: #666;
+  font-size: 12px;
+  text-align: right;
+}
+
+.gridmind-swatch {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+  background-color: var(--c);
+}
+
+.gridmind-swatch-box {
+  width: 22px;
+  height: 14px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  align-self: center;
+}
+
+.gridmind-swatch-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.gridmind-swatch-line {
+  width: 24px;
+  height: 3px;
+}
+
+.gridmind-swatch-outline {
+  width: 18px;
+  height: 14px;
+  background-color: transparent;
+  border: 2px solid var(--c);
+}

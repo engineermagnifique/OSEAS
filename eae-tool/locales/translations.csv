@@ -1,0 +1,529 @@
+key,en,fr,zh
+left_panel.drawer.active_layers,Active Layers,Couches actives,活跃图层
+left_panel.drawer.add_layers,Add Layers,Ajouter les couches,添加图层
+left_panel.drawer.geographies,Change Geographies,Changer de région,更改地理区域
+left_panel.drawer.search_features,Search Features,Caractéristiques de la recherche,搜索要素
+left_panel.drawer.search_pois,Search POI's,Rechercher points d'intérêts,搜索兴趣点
+left_panel.drawer.points_loading,Points Loading,Chargement des points,点加载中
+left_panel.drawer.disclaimer,Disclaimer,Clause de non-responsabilité,免责声明
+left_panel.output.generate_analysis,Generate Analysis,Générer une analyse,生成分析
+left_panel.output.about_button,About,À propos,关于
+left_panel.output.analysis_area_label,Analysis Area,Zone d'analyse,分析区域
+left_panel.output.prioritization_index_label,Prioritization Index,Indice de priorisation,优先级指数
+left_panel.output.priority_legend,Priority Legend,Légende des priorités,优先级图例
+left_panel.output.show_on_map,Show analysis on map,Afficher l'analyse sur la carte,在地图上显示分析
+left_panel.output.opacity_label,Opacity,Opacité,不透明度
+left_panel.cards.title,Active Data Layers,Couches de données actives,活跃数据图层
+left_panel.cards.hide_all,Hide all layers,Masquer toutes les couches,隐藏所有图层
+left_panel.cards.reset_all,Reset all settings,Réinitialiser tous les paramètres,重置所有设置
+left_panel.cards.expand_all,Expand all settings,Afficher tous les paramètres,展开所有设置
+left_panel.cards.remove_all,Remove all layers,Supprimer toutes les couches,删除所有图层
+left_panel.cards.card.not_available,Not Available,Non disponible,不可用
+left_panel.cards.card.importance_label,Importance,Importance,重要性
+left_panel.cards.card.importance_hint,Change importance to provide different weightings for data in the analysis calculation.,Modifier le niveau d'importance afin d'attribuer des pondérations différentes aux données dans le calcul de l'analyse.,更改重要性以为分析计算中的数据提供不同的权重。
+left_panel.cards.card.range_hint,Analysis will restrict the dataset to the selected range.,L'analyse limitera le jeu de données à la plage sélectionnée.,分析将把数据集限制在所选范围内。
+left_panel.cards.card.range,Range,Plage,范围
+left_panel.cards.card.filter,Filter,Filtre,筛选
+left_panel.cards.card.show_layer,Show layer,Afficher la couche,显示图层
+left_panel.cards.card.opacity_label,Opacity,Opacité,不透明度
+left_panel.cards.card.about_button,About,À propos,关于
+left_panel.cards.card.table_button,Table,Tableau,表格
+left_panel.points_loading.header,<b>Picked points</b>,<b>Points choisis</b>,<b>选定的点</b>
+left_panel.points_loading.selected,{{count}} points selected:,{{count}} points sélectionnés :,已选择 {{count}} 个点：
+left_panel.points_loading.download_button,Download CSV file of the currents points selection,Télécharger le fichier CSV de la sélection des points courants,下载当前点选择的 CSV 文件
+left_panel.points_loading.upload_button,Load a CSV file with points to find within the analysis,Charger un fichier CSV avec des points à trouver dans l'analyse,加载包含要在分析中查找的点的 CSV 文件
+left_panel.points_loading.download_tooltip,Download a CSV file with the points/values below,Télécharger un fichier CSV avec les points/valeurs ci-dessous,下载包含以下点/值的 CSV 文件
+left_panel.points_loading.pick_button,Pick points on the map to add to the list,Choisir des points sur la carte à ajouter à la liste,从地图中选择要添加到列表的点
+left_panel.points_loading.pick_tooltip,Pick a sequence of points from the map,Sélectionner une séquence de points sur la carte,从地图中选择一系列点
+left_panel.points_loading.input_button,Input coordinates manually,Entrer les coordonnées manuellement,手动输入坐标
+left_panel.points_loading.input_modal_header,Input Longitude/Latitude,Entrée Longitude/Latitude,输入经度/纬度
+left_panel.points_loading.upload_message_title,Upload a CSV file,Télécharger un fichier CSV,上传 CSV 文件
+left_panel.points_loading.upload_message_intro,This file should be <strong>strictly</strong> formatted.,Ce fichier doit être formaté <strong>strictement</strong>.,此文件应<strong>严格</strong>格式化。
+left_panel.points_loading.upload_message_list_item_1,Two numbers per line: longitude and latitude,Deux nombres par ligne : longitude et latitude,每行两个数字：经度和纬度
+left_panel.points_loading.upload_message_list_item_2,Separated by a comma,Séparé par une virgule,用逗号分隔
+left_panel.points_loading.upload_message_list_item_3,Decimal points,Points décimaux,小数点
+left_panel.points_loading.upload_message_list_item_4,No quotation marks,Pas de guillemets,无引号
+left_panel.points_loading.upload_message_list_item_5,Nothing more,Rien de plus,没有其他
+left_panel.points_loading.upload_message_example,Example with two coordinates:,Exemple avec deux coordonnées :,包含两个坐标的示例：
+map.controls.projection,Projection,Projection,投影
+map.controls.basemap,Basemap,Carte de base,底图
+map.controls.zoom_in,Zoom in,Zoomer,放大
+map.controls.zoom_out,Zoom out,Dézoom,缩小
+left_panel.output.variant.prioritized_areas,Prioritized Areas,Zones prioritaires,优先区域
+left_panel.output.ramp.low,Low,Faible,低
+left_panel.output.ramp.low_medium,Low-Medium,Faible-Moyen,低-中
+left_panel.output.ramp.medium,Medium,Moyen,中
+left_panel.output.ramp.medium_high,Medium-High,Moyen-Élevé,中-高
+left_panel.output.ramp.high,High,Élevé,高
+left_panel.output.index.eai,Energy Access Potential,Potentiel d'accès à l'énergie,能源获取潜力
+left_panel.output.index.demand,Demand Index,Indice de demande,需求指数
+left_panel.output.index.supply,Supply Index,Indice d'offre,供应指数
+left_panel.output.index.ani,Assistance Need Index,Indice de besoin d'assistance,援助需求指数
+modals.save_analysis.header,Save analysis to My EAE,Enregistrer l'analyse sur Mon EAE,将分析保存到我的 EAE
+modals.save_analysis.auth_message,"Create a My EAE account, or sign in to your existing account in order to save your current analysis view and receive important updates about the Energy Access Explorer platform.",Créez un compte Mon EAE ou connectez-vous à votre compte existant pour enregistrer votre vue d'analyse actuelle et recevoir des mises à jour importantes sur la plateforme Energy Access Explorer.,创建 My EAE 帐户或登录您的现有帐户，以保存当前分析视图并接收关于 Energy Access Explorer 平台的重要更新。
+modals.save_analysis.auth_create,Create account,Créer un compte,创建帐户
+modals.save_analysis.auth_signin,Sign in,Se connecter,登录
+modals.save_analysis.saved_message,You are currently viewing an analysis already saved to your My EAE account. You can either update your existing saved analysis or save your changes as a new analysis.,"Vous consultez actuellement une analyse déjà enregistrée sur votre compte Mon EAE. Vous pouvez soit mettre à jour votre analyse enregistrée existante, soit enregistrer vos modifications en tant que nouvelle analyse.",您当前正在查看已保存到您的 My EAE 帐户的分析。您可以更新现有的保存分析，也可以将更改保存为新分析。
+modals.save_analysis.view_in_my_eae,View in My EAE,Voir dans Mon EAE,在“我的 EAE”中查看
+left_panel.geographies_search.placeholder,Geographies search,Recherche de géographies,地理区域搜索
+left_panel.geographies_search.default_info,Showing all subgeographies,Affichage de toutes les sous-géographies,显示所有下级地理区域
+left_panel.vectors_search.placeholder,Search features,Rechercher des entités,搜索要素
+left_panel.locations_search.placeholder,Search for a location,Rechercher un lieu,搜索位置
+left_panel.vectors_search.no_vectors,"<b>{{name}}</b> is not searchable. Try a dataset with points, lines or polygons ;)","<b>{{name}}</b> n'est pas consultable. Essayez un jeu de données avec des points, lignes ou polygones.",<b>{{name}}</b> 不可搜索。请尝试包含点、线或多边形的数据集 ;)
+left_panel.vectors_search.not_searchable,<b>{{name}}</b> is not searchable (for now...),<b>{{name}}</b> n'est pas consultable (pour l'instant...),<b>{{name}}</b> 目前不可搜索...
+left_panel.vectors_search.too_many,Searching <b>{{name}}</b>. Too many results. Showing first 101 only:,Recherche <b>{{name}}</b>. Trop de résultats. Affichage des 101 premiers uniquement :,搜索 <b>{{name}}</b>。结果过多。仅显示前 101 个：
+left_panel.vectors_search.results_count,Searching <b>{{name}}</b>. {{count}} results:,Recherche <b>{{name}}</b>. {{count}} résultats :,搜索 <b>{{name}}</b>。{{count}} 个结果：
+left_panel.controls_search.placeholder,Filter datasets,Filtrer les jeux de données,筛选数据集
+left_panel.locations_search.hint,"City, region, park...","Ville, région, parc...",城市、地区、公园...
+left_panel.locations_search.results_for,"<b>Results</b> for ""{{query}}"":",<b>Résultats</b> pour « {{query}} » :,"<b>结果</b>""{{query}}""："
+nav.login,Login,Connexion,登录
+nav.my_eae,My EAE,Mon EAE,我的 EAE
+nav.dashboard,Dashboard,Tableau de bord,仪表板
+nav.logout,Log Out,Déconnecter,登出
+left_panel.locations_search.no_results,"No results for ""{{query}}"".",Aucun résultat pour « {{query}} ».,"没有""{{query}}""的结果。"
+left_panel.analysis_search.top_results,Searching <b>analysis coordinates</b>. Top {{count}} results:,Recherche <b>coordonnées d'analyse</b>. Les {{count}} résultats prioritaires:,搜索<b>分析坐标</b>。前 {{count}} 个结果：
+left_panel.analysis_search.overflow,Searching <b>analysis coordinates</b>. Showing first {{n}} of {{total}}:,Recherche <b>coordonnées d'analyse</b>. Affichage des {{n}} premiers résultats sur {{total}}:,搜索<b>分析坐标</b>。显示 {{n}} 个结果（共 {{total}} 个）：
+right_panel.header.title,Analysis Results,Résultats d'analyse,分析结果
+right_panel.header.hide,Hide,Masquer,隐藏
+right_panel.header.show,Show Analysis Results,Afficher les résultats d'analyse,显示分析结果
+right_panel.tabs.prioritization,Prioritization,Priorisation,优先级
+right_panel.tabs.data,Data,Données,数据
+right_panel.prioritization.loading.title,Loading data layers,Chargement des couches de données,正在加载数据图层
+right_panel.prioritization.loading.subtitle,Please wait while datasets are being processed.,Veuillez patienter pendant le traitement des jeux de données.,请稍等，数据集正在处理中。
+right_panel.prioritization.blank_state.title,Add data to prioritize analysis,Ajouter des données pour prioriser l'analyse,添加数据以优先进行分析
+right_panel.prioritization.blank_state.subtitle,Select a dataset from the left panel to add it to the map and start your prioritization analysis.,Sélectionnez un jeu de données dans le panneau gauche pour l'ajouter à la carte et commencer votre analyse.,从左面板选择数据集将其添加到地图并开始优先级分析。
+right_panel.prioritization.high_priority.section_title,Priority areas,Zones prioritaires,优先区域
+right_panel.prioritization.high_priority.about_text,Showing {{variant}} with the highest prioritization scores based on your analysis criteria.,Affichage de {{variant}} avec les scores de priorisation les plus élevés selon vos critères d'analyse.,显示根据您的分析条件得分最高的 {{variant}}。
+right_panel.prioritization.high_priority.unknown_location,Unknown location,Emplacement inconnu,未知位置
+right_panel.prioritization.high_priority.view_download,View or Download data,Voir ou télécharger les données,查看或下载数据
+right_panel.prioritization.high_priority.score_text,{{score}}% priority score,{{score}} % de score de priorité,{{score}}% 优先级评分
+right_panel.prioritization.high_priority.area_count_single,1 area,1 zone,1 个区域
+right_panel.prioritization.high_priority.area_count_plural,{{count}} areas,{{count}} zones,{{count}} 个区域
+right_panel.prioritization.high_priority.pagination.single,Showing {{count}} result(s),Affichage de {{count}} résultat(s),显示 {{count}} 个结果
+right_panel.prioritization.high_priority.pagination.multi,Showing {{start}}-{{end}} of {{total}},Affichage de {{start}}-{{end}} sur {{total}},显示 {{start}}-{{end}}（共 {{total}} 个）
+right_panel.prioritization.graphs.area_share_title,Area share,Part de la zone,面积份额
+right_panel.prioritization.graphs.pop_share_title,Population share,Répartition de la population,人口份额
+right_panel.prioritization.graphs.area_desc,"Showing {{indexName}} for areas spanning <strong>{{x}}</strong>, of which <strong>{{y}}</strong> has high {{indexName}}.","Affichage de {{indexName}} pour des zones couvrant <strong>{{x}}</strong>, dont <strong>{{y}}</strong> présentent un {{indexName}} élevé.",显示跨越 <strong>{{x}}</strong> 的区域的 {{indexName}}，其中 <strong>{{y}}</strong> 具有高 {{indexName}}。
+right_panel.prioritization.graphs.pop_desc,"Showing {{indexName}} for areas affecting <strong>{{x}}</strong>, of whom <strong>{{y}}</strong> are situated in areas of high {{indexName}}.","Affichage de {{indexName}} pour des zones affectant <strong>{{x}}</strong> personnes, dont <strong>{{y}}</strong> se trouvent dans des zones à {{indexName}} élevé.",显示影响 <strong>{{x}}</strong> 的区域的 {{indexName}}，其中 <strong>{{y}}</strong> 位于 {{indexName}} 高的区域。
+right_panel.prioritization.graphs.people_unit,people,personnes,人
+right_panel.prioritization.graphs.outside_label,Outside the analysis,Hors de l'analyse,分析范围之外
+right_panel.prioritization.graphs.area_about,"Shows the 'Prioritization Index' results as area shares, based on your analysis criteria.",Affiche les résultats de l'indice de priorisation sous forme de parts de superficie.,根据您的分析条件，显示'优先级指数'结果作为面积份额。
+right_panel.prioritization.graphs.pop_about,"Shows the 'Prioritization Index' results as population shares, based on your analysis criteria.",Affiche les résultats de l'indice de priorisation sous forme de parts de population.,根据您的分析条件，显示'优先级指数'结果作为人口份额。
+right_panel.data.title,"Selected datasets in <strong>{{area}}</strong>, inside the analysis.","Jeux de données sélectionnés dans <strong>{{area}}</strong>, limités à la zone analysée.",{{area}} 中分析范围内的选定数据集。
+right_panel.data.subtitle,Click anywhere on the map to see data for that location.,Cliquez n'importe où sur la carte pour voir les données de cet emplacement.,单击地图上的任何位置以查看该位置的数据。
+right_panel.data.resolution_km,{{name}} at {{res}}km²,{{name}} à {{res}} km²,{{name}}（{{res}} 平方公里）
+right_panel.data.resolution_m,{{name}} at {{res}}m²,{{name}} à {{res}} m²,{{name}}（{{res}} 平方米）
+right_panel.data.descriptions.points.count,There are <strong>{{value}}</strong> {{name}} in the selected area.,Il y a <strong>{{value}}</strong> {{name}} dans la zone sélectionnée.,在选定区域内有 <strong>{{value}}</strong> {{name}}。
+right_panel.data.descriptions.points.distance,The nearest {{name}} is <strong>{{value}}</strong> from the analysed area.,Le {{name}} le plus proche est à <strong>{{value}}</strong> de la zone analysée.,最近的 {{name}} 距离分析区域 <strong>{{value}}</strong>。
+right_panel.data.descriptions.points.kwp,The total installed capacity of {{name}} in the analysed area is <strong>{{value}}</strong>.,La capacité installée totale de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的总装机容量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.points.kva,The total capacity of {{name}} in the analysed area is <strong>{{value}}</strong>.,La capacité totale de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的总容量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.points.km,The total distance covered by {{name}} in the analysed area is <strong>{{value}}</strong>.,La distance totale couverte par {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 覆盖的总距离为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.lines,The total length of {{name}} in the analysed area is <strong>{{value}}</strong>.,La longueur totale de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的总长度为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.polygons_count,There are <strong>{{value}}</strong> {{name}} in the selected area.,Il y a <strong>{{value}}</strong> {{name}} dans la zone sélectionnée.,在选定区域内有 <strong>{{value}}</strong> {{name}}。
+right_panel.data.descriptions.polygons_sum,The total {{name}} in the analysed area is <strong>{{value}}</strong>.,Le total de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的总计为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.count,The total {{name}} count in the analysed area is <strong>{{value}}</strong>.,Le nombre total de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的总计数为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.people,The total population in the analysed area is <strong>{{value}}</strong>.,La population totale dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的总人口为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.households,There are <strong>{{value}}</strong> households in the analysed area.,Il y a <strong>{{value}}</strong> ménages dans la zone analysée.,分析区域内有 <strong>{{value}}</strong> 个家庭。
+right_panel.data.descriptions.raster_sum.mw,The total energy demand in the analysed area is <strong>{{value}}</strong>.,La demande totale en énergie dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的总能源需求为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.gwh,The total energy in the analysed area is <strong>{{value}}</strong>.,L'énergie totale dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的总能源为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.metric_tonnes,The total crop production in the analysed area is <strong>{{value}}</strong>.,La production totale de cultures dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的总农作物产量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.tco2eq,The total emissions in the analysed area are <strong>{{value}}</strong>.,Les émissions totales dans la zone analysée sont de <strong>{{value}}</strong>.,分析区域内的总排放量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.usd,The total cost for {{name}} in the analysed area is <strong>{{value}}</strong>.,Le coût total pour {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的总成本为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.m3yr,The total water availability in the analysed area is <strong>{{value}}</strong>.,La disponibilité totale en eau dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的总水资源可用性为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster_sum.default,The total {{name}} in the analysed area is <strong>{{value}}</strong>.,Le total de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的总计为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.count,The average {{name}} count in the analysed area is <strong>{{value}}</strong>.,Le nombre moyen de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的平均计数为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.km_proximity,The average distance to {{name}} in the analysed area is <strong>{{value}}</strong>.,La distance moyenne à {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内到 {{name}} 的平均距离为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.kwh_m2,The average {{name}} is <strong>{{value}}</strong> in the analysed area.,La moyenne de {{name}} est de <strong>{{value}}</strong> dans la zone analysée.,分析区域内 {{name}} 的平均值为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.ppl_km2,The average population density in the analysed area is <strong>{{value}}</strong>.,La densité de population moyenne dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均人口密度为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.people,The average population in the analysed area is <strong>{{value}}</strong>.,La population moyenne dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均人口为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.households,The average number of households in the analysed area is <strong>{{value}}</strong>.,Le nombre moyen de ménages dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均家庭数量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.pct,<strong>{{value}}</strong> of the analysed area has {{name}}.,<strong>{{value}}</strong> de la zone analysée a {{name}}.,分析区域的 <strong>{{value}}</strong> 具有 {{name}}。
+right_panel.data.descriptions.raster.coverage_pct,<strong>{{value}}</strong> of the analysed area is covered by {{name}}.,<strong>{{value}}</strong> de la zone analysée est couverte par {{name}}.,分析区域的 <strong>{{value}}</strong> 被 {{name}} 覆盖。
+right_panel.data.descriptions.raster.mw,The estimated average energy demand in the analysed area is <strong>{{value}}</strong>.,La demande énergétique moyenne estimée dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的估计平均能源需求为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.gwh,The estimated average energy in the analysed area is <strong>{{value}}</strong>.,L'énergie moyenne estimée dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的估计平均能源为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.kwh_ha_year,The estimated average yield for {{name}} in the analysed area is <strong>{{value}}</strong>.,Le rendement moyen estimé pour {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的估计平均产量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.minutes,The average travel time to {{name}} is <strong>{{value}}</strong> in the analysed area.,Le temps de trajet moyen vers {{name}} est de <strong>{{value}}</strong> dans la zone analysée.,分析区域内到 {{name}} 的平均旅行时间为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.hours,The average {{name}} in the analysed area is <strong>{{value}}</strong>.,La moyenne de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的平均值为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.hours_hh_day,Households in the analysed area spend on average <strong>{{value}}</strong> on {{name}}.,Les ménages dans la zone analysée consacrent en moyenne <strong>{{value}}</strong> à {{name}}.,分析区域的家庭平均在 {{name}} 上花费 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.m_s,The average wind speed in the analysed area is <strong>{{value}}</strong>.,La vitesse moyenne du vent dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均风速为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.degree,The average temperature in the analysed area is <strong>{{value}}</strong>.,La température moyenne dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均温度为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.degree_celcius,The average temperature in the analysed area is <strong>{{value}}</strong>.,La température moyenne dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均温度为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.mm,The average annual rainfall in the analysed area is <strong>{{value}}</strong>.,Les précipitations annuelles moyennes dans la zone analysée sont de <strong>{{value}}</strong>.,分析区域内的平均年降雨量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.m3yr,The estimated average water availability in the analysed area is <strong>{{value}}</strong>.,La disponibilité moyenne en eau estimée dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的估计平均水资源可用性为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.metre,The average elevation in the analysed area is <strong>{{value}}</strong>.,L'altitude moyenne dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均海拔高度为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.kg_ha,The estimated average agricultural yield in the analysed area is <strong>{{value}}</strong>.,Le rendement agricole moyen estimé dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的估计平均农业产量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.metric_tonnes,The estimated average crop production in the analysed area is <strong>{{value}}</strong>.,La production de cultures moyenne estimée dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的估计平均农作物产量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.gigajoule,The estimated average bioenergy potential in the analysed area is <strong>{{value}}</strong>.,Le potentiel bioénergétique moyen estimé dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的估计平均生物能源潜力为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.usd,The estimated average cost for {{name}} in the analysed area is <strong>{{value}}</strong>.,Le coût moyen estimé pour {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的估计平均成本为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.usd_household,The estimated average cost per household for {{name}} in the analysed area is <strong>{{value}}</strong>.,Le coût moyen estimé par ménage pour {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的每户估计平均成本为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.bldgs_km2,The average building density in the analysed area is <strong>{{value}}</strong>.,La densité moyenne de bâtiments dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均建筑密度为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.tco2eq,The estimated average emissions in the analysed area are <strong>{{value}}</strong>.,Les émissions moyennes estimées dans la zone analysée sont de <strong>{{value}}</strong>.,分析区域内的估计平均排放量为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.tier,The average electrification tier in the analysed area is <strong>{{value}}</strong>.,Le niveau moyen d'électrification dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均电气化等级为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.year,The average estimated electrification year in the analysed area is <strong>{{value}}</strong>.,L'année d'électrification estimée dans la zone analysée est en moyenne <strong>{{value}}</strong>.,分析区域内的平均估计电气化年份为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.lt2usd,<strong>{{value}}</strong> of the population in the analysed area lives on less than $2/day.,<strong>{{value}}</strong> de la population dans la zone analysée vit avec moins de 2 $/jour.,分析区域内 <strong>{{value}}</strong> 的人口每天生活费不足 2 美元。
+right_panel.data.descriptions.raster.rwi,The average Relative Wealth Index in the analysed area is <strong>{{value}}</strong>.,L'indice de richesse relative moyen dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均相对财富指数为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.aridity,The average aridity index in the analysed area is <strong>{{value}}</strong>.,L'indice d'aridité moyen dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均干旱指数为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.nighttime,The average nighttime light intensity in the analysed area is <strong>{{value}}</strong>.,L'intensité lumineuse nocturne moyenne dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内的平均夜间光强度为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.raster.per100k,There are <strong>{{value}}</strong> per 100k population affected by {{name}} in the analysed area.,Il y a <strong>{{value}}</strong> pour 100 000 habitants affectés par {{name}} dans la zone analysée.,分析区域内受 {{name}} 影响的每 10 万人中有 <strong>{{value}}</strong> 个。
+right_panel.data.descriptions.raster.default,The average {{name}} in the analysed area is <strong>{{value}}</strong>.,La moyenne de {{name}} dans la zone analysée est de <strong>{{value}}</strong>.,分析区域内 {{name}} 的平均值为 <strong>{{value}}</strong>。
+right_panel.data.descriptions.total_out_of,", out of a total of <strong>{{total}}</strong> for {{geography}} as a whole.",", sur un total de <strong>{{total}}</strong> pour l'ensemble de {{geography}}.",，而 {{geography}} 整体的总计为 <strong>{{total}}</strong>。
+right_panel.data.descriptions.average_vs,", compared with an average of <strong>{{total}}</strong> for {{geography}} as a whole.",", contre une moyenne de <strong>{{total}}</strong> pour l'ensemble de {{geography}}.",，而 {{geography}} 整体的平均值为 <strong>{{total}}</strong>。
+right_panel.data.descriptions.share_vs,", compared with <strong>{{total}}</strong> for {{geography}} as a whole.",", contre <strong>{{total}}</strong> pour l'ensemble de {{geography}}.",，而 {{geography}} 整体为 <strong>{{total}}</strong>。
+right_panel.footer.save,Save,Enregistrer,保存
+right_panel.footer.share,Share,Partager,分享
+right_panel.footer.export,Export,Exporter,导出
+right_panel.footer.export_title,"Export analysis (PowerPoint, TIFF, CSV)","Exporter l'analyse (PowerPoint, TIFF, CSV)",导出分析（PowerPoint、TIFF、CSV）
+map_popup.priority_score,Priority score,Score de priorité,优先级评分
+map_popup.location,Location,Emplacement,位置
+map_popup.km_proximity,{{n}} km (proximity to),{{n}} km (proximité),{{n}} 公里（接近度）
+map_popup.coordinates,Coordinates,Coordonnées,坐标
+map_popup.longitude,Longitude,Longitude,经度
+map_popup.latitude,Latitude,Latitude,纬度
+map_popup.not_aggregated,Not aggregated,Non agrégé,未聚合
+map_popup.count_unit,count,nombre,计数
+map_popup.analyse_button,Analyse selected area,Analyser la zone sélectionnée,分析选定区域
+modal.save_analysis.header,Save analysis to My EAE,Sauvegarder l'analyse dans Mon EAE,保存分析到我的 EAE
+modal.save_analysis.title_label,Analysis title,Titre de l'analyse,分析标题
+modal.save_analysis.title_hint,Enter a memorable name for the current configuration.,Entrez un nom mémorable pour la configuration actuelle.,输入当前配置的易记名称。
+modal.save_analysis.save_button,Save analysis,Enregistrer l'analyse,保存分析
+modal.save_analysis.update_button,Update saved analysis,Mettre à jour l'analyse sauvegardée,更新保存的分析
+modal.save_analysis.save_as_new_button,Save as new analysis,Sauvegarder comme nouvelle analyse,另存为新分析
+modal.save_analysis.untitled_analysis,Untitled Analysis,Analyse sans titre,无标题分析
+modal.save_analysis.last_viewed,Last viewed on {{date}}.,Dernière consultation le {{date}}.,上次查看于 {{date}}。
+modal.save_analysis.updated_toast,Analysis updated successfully,Analyse mise à jour avec succès,分析已成功更新
+modal.save_analysis.updated_toast_caption,Your analysis was updated in your My EAE account.,Votre analyse a été mise à jour dans votre compte Mon EAE.,"您的分析已在您的""我的 EAE""账户中更新。"
+modal.save_analysis.saved_toast,Analysis saved successfully,Analyse sauvegardée avec succès,分析已成功保存
+modal.save_analysis.saved_toast_caption,Your analysis was saved to your My EAE account.,Votre analyse a été sauvegardée dans votre compte Mon EAE.,"您的分析已保存到您的""我的 EAE""账户。"
+modal.save_analysis.save_failed,Save failed,Échec de l'enregistrement,保存失败
+modal.export.header,Export options,Options d'exportation,导出选项
+modal.export.generating,Generating...,Génération en cours...,生成中...
+modal.export.download_all,Download all,Tout télécharger,全部下载
+modal.export.summary_presentation.title,Summary presentation,Présentation résumée,汇总演示文稿
+modal.export.summary_presentation.desc,A summary presentation explaining the outputs of your current analysis view.,Une présentation résumant les résultats de votre analyse actuelle.,解释当前分析视图输出的汇总演示文稿。
+modal.export.summary_presentation.button,Download .ppt,Télécharger .ppt,下载 .ppt
+modal.export.map_tiff.title,Map TIFF,Carte TIFF,地图 TIFF
+modal.export.map_tiff.desc,A TIFF file of the prioritization raster image generated from your analysis.,Un fichier TIFF de l'image raster de priorisation générée par votre analyse.,从您的分析生成的优先级光栅图像的 TIFF 文件。
+modal.export.map_tiff.button,Download .TIFF,Télécharger .TIFF,下载 .TIFF
+modal.export.high_priority.title,Priority areas,Zones prioritaires,优先区域
+modal.export.high_priority.desc,"A table of the highest priority <span bind=""area_type""></span> areas from your analysis.","Un tableau des zones <span bind=""area_type""></span> les plus prioritaires de votre analyse.","您分析中优先级最高的<span bind=""area_type""></span>区域表。"
+modal.export.high_priority.button,Download .csv,Télécharger .csv,下载 .csv
+modal.export.pop_area_share.title,Population and area share,Part de population et de superficie,人口和面积份额
+modal.export.pop_area_share.desc,CSV data for the population and area share.,Données CSV pour la part de population et de superficie.,人口和面积份额的 CSV 数据。
+modal.export.pop_area_share.button,Download .csv,Télécharger .csv,下载 .csv
+modal.export.ppt.header,Export PowerPoint presentation,Exporter la présentation PowerPoint,导出 PowerPoint 演示文稿
+modal.export.ppt.subtitle,Select priority areas columns and rows,Sélectionner les colonnes et lignes des zones prioritaires,选择优先级区域的列和行
+modal.export.ppt.column_toggle_hint,Selected columns will be included in the PowerPoint tables,Les colonnes sélectionnées seront incluses dans les tableaux PowerPoint,所选列将包含在 PowerPoint 表中
+modal.export.csv.column_toggle_hint,Selected columns will be included in the CSV download,Les colonnes sélectionnées seront incluses dans le téléchargement CSV,所选列将包含在 CSV 下载中
+modal.export.csv.download_all,Download all (.csv),Tout télécharger (.csv),全部下载 (.csv)
+modal.export.csv_headers.area_share,Area share,Part de la zone,面积份额
+modal.export.csv_headers.pop_share,Population share,Répartition de la population,人口份额
+modal.export.csv_headers.level,Level,Niveau,级别
+modal.share_link.header,Share link,Partager le lien,分享链接
+modal.share_link.instructions,Sharing the following link will load the Energy Access Explorer platform in the current state: layers and analysis. Users might need the necessary permissions to view this snapshot fully.,Partager ce lien chargera la plateforme Energy Access Explorer dans l'état actuel : couches et analyse.,分享以下链接将在当前状态下加载能源获取浏览器平台：图层和分析。用户可能需要必要的权限才能完整查看此快照。
+modal.eae_info.title,About Energy Access Explorer prioritization,À propos de la priorisation Energy Access Explorer,关于能源获取浏览器优先级
+modal.eae_info.body,"Energy Access Explorer enables you to identify high-priority areas for energy access interventions. EAE uses multi-criteria analysis that uses location-specific resource availability and infrastructure data to represent energy supply, and incorporates demographic data and data on social and productive uses to visualize demand for energy services.",Energy Access Explorer vous permet d'identifier les zones prioritaires pour les interventions en matière d'accès à l'énergie.,能源获取浏览器使您能够确定能源获取干预的高优先级区域。EAE 使用多标准分析，该分析使用特定于位置的资源可用性和基础设施数据来表示能源供应，并合并人口数据和社会和生产使用数据来可视化能源服务的需求。
+modal.eae_info.analysis_areas.title,Analysis areas,Zones d'analyse,分析区域
+modal.eae_info.analysis_areas.body,Energy Access Explorer offers the option to generate an analysis across various different administrative priorities.,Energy Access Explorer offre la possibilité de générer une analyse sur différentes priorités administratives.,能源获取浏览器提供生成跨越各种不同行政优先事项分析的选项。
+modal.eae_info.priority_1km.title,Priority areas (1km²),Zones prioritaires (1 km²),优先级区域 (1 公里²)
+modal.eae_info.priority_1km.body,Selecting this analysis area provides a raster analysis in 1km2 tiles across the entirety of the selected geography.,Cette zone d'analyse fournit une analyse raster en tuiles de 1 km² sur l'ensemble de la géographie sélectionnée.,选择此分析区域将在整个选定地理区域中提供 1 公里² 瓷砖中的光栅分析。
+modal.eae_info.other_areas.title,Other analysis areas,Autres zones d'analyse,其他分析区域
+modal.eae_info.other_areas.body,"Depending on the currently selected geography, it is possible to change the prioritization output to wider geographical areas such as districts, regions or zones for more high level analysis.","Selon la géographie sélectionnée, il est possible de modifier la sortie de priorisation vers des zones géographiques plus larges.",根据当前选定的地理位置，可以将优先级输出更改为更广泛的地理区域（如地区、地区或区域）以进行更高级别的分析。
+modal.eae_info.view_technical_note,View technical note,Voir la note technique,查看技术说明
+modal.eae_info.index.eai.explain,Identifies areas with higher energy demand and supply which are characterized with higher index values. It is an aggregated measure of all selected data sets under both Demand and Supply categories.,"Identifie les zones à plus forte demande et offre d'énergie, caractérisées par des valeurs d'indice plus élevées. Il s'agit d'une mesure agrégée de tous les jeux de données sélectionnés dans les catégories Demande et Offre.",识别能源需求和供应较高的区域，这些区域的指数值较高。它是需求和供应类别下所有选定数据集的汇总度量。
+modal.eae_info.index.demand.explain,Identifies areas with higher energy demand which are characterized with higher index values. It is an aggregated and weighted measure of all selected data sets under Demographics and Socio-economic activities.,"Identifie les zones à plus forte demande d'énergie, caractérisées par des valeurs d'indice plus élevées. Il s'agit d'une mesure agrégée et pondérée de tous les jeux de données sélectionnés sous Démographie et Activités socio-économiques.",识别能源需求较高的区域，这些区域的指数值较高。它是人口统计和社会经济活动下所有选定数据集的汇总加权度量。
+modal.eae_info.index.supply.explain,Identifies areas with higher energy supply which are characterized with higher index values. It is an aggregated and weighted measure of all selected data sets under Resource Availability and Infrastructure.,"Identifie les zones à plus forte offre d'énergie, caractérisées par des valeurs d'indice plus élevées. Il s'agit d'une mesure agrégée et pondérée de tous les jeux de données sélectionnés sous Disponibilité des ressources et Infrastructure.",识别能源供应较高的区域，这些区域的指数值较高。它是资源可用性和基础设施下所有选定数据集的汇总加权度量。
+modal.eae_info.index.ani.explain,"Identifies areas where market assistance is needed the most which are characterized with higher index values. It is an aggregated and weighted measure of selected data sets under both Demand and Supply categories indicating high energy demand, low economic activity, and low access to infrastructure and resources.","Identifie les zones où l'assistance du marché est la plus nécessaire, caractérisées par des valeurs d'indice plus élevées. Il s'agit d'une mesure agrégée et pondérée des jeux de données sélectionnés dans les catégories Demande et Offre, indiquant une forte demande énergétique, une faible activité économique et un faible accès aux infrastructures et aux ressources.",识别最需要市场援助的区域，这些区域的指数值较高。它是需求和供应类别下选定数据集的汇总加权度量，表明能源需求高、经济活动低以及基础设施和资源获取低。
+modal.points_input.header,Input Longitude/Latitude,Saisir Longitude / Latitude,输入经度/纬度
+modal.points_input.longitude_placeholder,Longitude,Longitude,经度
+modal.points_input.latitude_placeholder,Latitude,Latitude,纬度
+modal.points_input.add_button,Add point,Ajouter un point,添加点
+modal.high_priority_table.column_toggle_hint,Selected columns will be included in the CSV download,Les colonnes sélectionnées seront incluses dans le téléchargement CSV,所选列将包含在 CSV 下载中
+modal.high_priority_table.selection_count,{{count}} row(s) currently selected.,{{count}} ligne(s) sélectionnée(s).,当前选择的 {{count}} 行。
+modal.high_priority_table.download_selected,Download selected rows,Télécharger les lignes sélectionnées,下载选定的行
+modal.high_priority_table.data_download_summary,Data download will include a summary of your analysis.,Le téléchargement de données inclura un résumé de votre analyse.,数据下载将包含您的分析摘要。
+modal.high_priority_table.per_page,Per page,Par page,每页
+modal.high_priority_table.toggle_columns,Toggle columns,Afficher/masquer les colonnes,切换列
+modal.high_priority_table.column_limit_notice,A maximum of {{max}} columns can be exported. Uncheck one to select another.,Un maximum de {{max}} colonnes peut être exporté. Décochez-en une pour en sélectionner une autre.,最多可导出 {{max}} 列。取消选中一列以选择另一列。
+my_eae.page.title,My EAE,Mon EAE,我的 EAE
+my_eae.tabs.saved_analysis,Saved Analysis,Analyse sauvegardée,保存的分析
+my_eae.tabs.account,Account,Compte,账户
+my_eae.snapshots.filter_placeholder,Filter by title or geography name,Filtrer par titre ou par nom de région,按标题或地理名称筛选
+my_eae.snapshots.sort_by_date,Sort by: Date,Trier par : Date,排序方式：日期
+my_eae.snapshots.sort_by_title,Sort by: Title,Trier par : Titre,排序方式：标题
+my_eae.snapshots.count,{{count}} Analyses,{{count}} analyses,{{count}} 个分析
+my_eae.snapshots.untitled,-- untitled --,-- sans titre --,-- 无标题 --
+my_eae.account.change_password,Change password,Changer le mot de passe,更改密码
+my_eae.snapshot_card.open,Open,Ouvrir,打开
+my_eae.snapshot_card.download,Download,Télécharger,下载
+my_eae.snapshot_card.share,Share,Partager,分享
+my_eae.modal.share.header,Share analysis view,Partager la vue d'analyse,分享分析视图
+my_eae.modal.share.instructions,Sharing the following link will load the Energy Access Explorer platform in the current state: layers and analysis. Users might need the necessary permissions to view this snapshot fully.,Partager ce lien chargera la plateforme Energy Access Explorer dans l'état actuel : couches et analyse.,分享以下链接将在当前状态下加载能源获取浏览器平台：图层和分析。用户可能需要必要的权限才能完整查看此快照。
+my_eae.modal.share.copy_link,Copy link,Copier le lien,复制链接
+my_eae.modal.share.link_copied_toast,Link copied!,Lien copié !,已复制链接！
+my_eae.modal.set_title.header,Set Analysis Title,Définir le titre de l'analyse,设置分析标题
+my_eae.modal.set_title.title_updated_toast,Title updated,Titre mis à jour,标题已更新
+my_eae.modal.delete.confirm,Are you sure you want to delete this analysis? '{{name}}',Êtes-vous sûr de vouloir supprimer cette analyse ? « {{name}} »,您确定要删除此分析吗？'{{name}}'
+my_eae.modal.delete.deleted_toast,Analysis '{{name}}' deleted.,Analyse « {{name}} » supprimée.,分析'{{name}}'已删除。
+overlay.fetching_snapshot,Fetching snapshot...,Récupération de l'instantané...,正在获取快照...
+overlay.fetching_geography,Fetching geography...,Recherche de géographie...,正在获取地理信息...
+overlay.fetching_datasets,Fetching datasets...,Recherche des jeux de données...,正在获取数据集...
+overlay.fetching_divisions,Fetching divisions...,Recherche des divisions...,正在获取分区...
+overlay.fetching_admin_tiers,Fetching administrative tiers...,Récupération des niveaux administratifs...,正在获取行政级别...
+overlay.geography_error,Geography error,Erreur de géographie,地理错误
+overlay.failed_outline,Failed to get the geography's OUTLINE...,Échec de la récupération du contour de la géographie...,无法获取地理轮廓...
+toast.clipboard_error,Clipboard functionality not available,Fonctionnalité du presse-papiers non disponible,剪贴板功能不可用
+toast.value_out_of_range,Value out of range,Valeur hors plage,值超出范围
+disclaimer.title,Disclaimer,Clause de non-responsabilité,免责声明
+disclaimer.maps_note,"The maps are for illustrative purposes and do not imply the expression of any opinion on the part of WRI, concerning the legal status of any country or territory or concerning the delimitation of frontiers or boundaries.","Les cartes sont à titre indicatif et n'impliquent pas l'expression d'une opinion de la part du WRI concernant le statut juridique d'un pays ou d'un territoire, ni concernant la délimitation des frontières ou des limites.",地图仅用于说明目的，不代表世界资源研究所关于任何国家或领土的法律地位或关于边界划分的任何意见。
+disclaimer.attribution,"If you use this platform, partially or entirely, you must follow the <a href=""https://www.energyaccessexplorer.org/attribution/"">attribution instructions</a>.","Si vous utilisez cette plateforme, partiellement ou entièrement, vous devez suivre les <a href=""https://www.energyaccessexplorer.org/attribution/"">instructions d'attribution</a>.","如果您使用此平台（部分或全部），您必须遵循<a href=""https://www.energyaccessexplorer.org/attribution/"">归属说明</a>。"
+dataset_info.covered_by_analysis,covered by the analysis.,couverts par l'analyse.,由分析覆盖。
+dataset_info.intersect,(intersect),(intersection),（相交）
+dataset_info.long_lat,long/lat,lon/lat,经度/纬度
+dataset_info.features,features,entités,要素
+dataset_info.file_error,Dataset/File error,Erreur de fichier / jeu de données,数据集/文件错误
+auth.prompt,"In order to save an analysis, you need to be registered with us.","Pour sauvegarder une analyse, vous devez être inscrit.",为了保存分析，您需要向我们注册。
+auth.register_login,Register/Login,S'inscrire / Se connecter,注册/登录
+auth.register,Register,S'inscrire,注册
+mapbox.style.light,Light,Clair,浅色
+nav.tool,Tool,Outil,工具
+nav.about,About,À propos,关于
+nav.get_involved,Get Involved,Soyez impliqué,参与其中
+nav.user_stories,User Stories,Témoignages des utilisateurs,用户故事
+nav.partners,Partners,Partenaires,合作伙伴
+nav.login,Login,Connexion,登录
+overlay.initialising_mapbox,Initialising mapbox...,Initialisation de la carte...,初始化 Mapbox...
+overlay.setting_up_datasets,Setting up datasets...,Configuration des jeux de données...,正在设置数据集...
+overlay.setting_up_ui,Setting up UI elements...,Configuration de l'interface...,正在设置 UI 元素...
+right_panel.prioritization.index_priority.title,Index Priority,Priorité d'index,指数优先级
+right_panel.prioritization.poi.title,Intersecting points of interest,Points d'intérêt intersectants,相交的兴趣点
+right_panel.data.no_data,No data available for <strong>{{name}}</strong> in this area.,Aucune donnée disponible pour <strong>{{name}}</strong> dans cette zone.,此区域内 <strong>{{name}}</strong> 没有可用数据。
+right_panel.data.categorical_desc,Showing the percentage distribution of <strong>{{name}}</strong> categories in the selected area.,Affichage de la répartition en pourcentage des catégories <strong>{{name}}</strong> dans la zone sélectionnée.,显示所选区域内<strong>{{name}}</strong>类别的百分比分布。
+controls.path.tab.all,All,Tout,全部
+session.saving,Saving analysis...,Sauvegarde de l'analyse...,正在保存分析...
+geography_picker.no_geographies,"No available geographies. Need: outline, admin-tiers and population-density datasets","Aucune géographie disponible. Requis : jeux de données outline, admin-tiers et population-density",没有可用的地理区域。需要：outline、admin-tiers 和 population-density 数据集
+geography_picker.multiple,We have several geographies for {{name}}. Please do select one.,Nous avons plusieurs géographies pour {{name}}. Veuillez en sélectionner une.,我们有多个 {{name}} 的地理区域。请选择一个。
+geography_picker.interest_prompt,What are you interested in?,Qu'est-ce qui vous intéresse ?,您对什么感兴趣？
+geography_picker.choose_area,Choose your area of interest,Choisissez votre domaine d'intérêt,选择您感兴趣的领域
+geography_picker.presets.strategic_planning.title,Strategic and Integrated Energy Planning,Planification énergétique stratégique et intégrée,战略性综合能源规划
+geography_picker.presets.strategic_planning.description,Electrification planning agencies are able to link electrification and development outcomes.,Les agences de planification de l'électrification peuvent relier l'électrification aux résultats de développement.,电气化规划机构能够将电气化与发展成果联系起来。
+geography_picker.presets.clean_energy_markets.title,The expansion of clean energy markets,L'expansion des marchés de l'énergie propre,清洁能源市场的扩张
+geography_picker.presets.clean_energy_markets.description,Technology suppliers (whether mini grid developers or solar home system providers) can get a better understanding of aspects of affordability and level of service needed.,Les fournisseurs de technologies (développeurs de mini-réseaux ou fournisseurs de systèmes solaires domestiques) peuvent mieux comprendre les aspects d'accessibilité financière et le niveau de service nécessaire.,技术供应商（无论是微电网开发商还是户用太阳能系统供应商）可以更好地了解支付能力和所需服务等方面的内容。
+geography_picker.presets.impact_investment.title,Impact investment,Investissement à impact,影响力投资
+geography_picker.presets.impact_investment.description,Donors and development finance institutions can identify areas where grants and support will have the most impact.,Les bailleurs de fonds et les institutions de financement du développement peuvent identifier les zones où les subventions et le soutien auront le plus d'impact.,捐助者和发展金融机构可以确定赠款和支持将产生最大影响的地区。
+geography_picker.presets.energy_needs.title,Bottom-up assessment of energy needs,Évaluation ascendante des besoins énergétiques,自下而上的能源需求评估
+geography_picker.presets.energy_needs.description,"Service delivery institutions in the health, education and agriculture sectors are able to estimate energy needs associated to development services.","Les institutions de prestation de services dans les secteurs de la santé, de l'éducation et de l'agriculture peuvent estimer les besoins énergétiques associés aux services de développement.",为卫生、教育和农业部门提供服务的机构能够估算与发展服务相关的能源需求情况。
+geography_picker.presets.custom_analysis.title,Generate custom geospatial analysis based on your own criteria,Générer une analyse géospatiale personnalisée selon vos propres critères,根据您自己的标准生成自定义地理空间分析
+left_panel.cards.show_all,Show all layers,Afficher toutes les couches,显示所有图层
+left_panel.cards.collapse_all,Collapse all settings,Réduire tous les paramètres,折叠所有设置
+utils.loading,Loading...,Chargement...,加载中...
+utils.copied,Copied,Copié,已复制
+right_panel.high_priority.showing_count_one,Showing {{count}} result,Affichage de {{count}} résultat,显示 {{count}} 个结果
+right_panel.high_priority.showing_count_other,Showing {{count}} results,Affichage de {{count}} résultats,显示 {{count}} 个结果
+right_panel.high_priority.showing_range,Showing {{start}}-{{end}} of {{total}},Affichage de {{start}}-{{end}} sur {{total}},显示 {{total}} 个中的 {{start}}-{{end}}
+right_panel.high_priority.unknown_location,Unknown location,Lieu inconnu,未知位置
+right_panel.high_priority.area_count_one,{{count}} area,{{count}} zone,{{count}} 个区域
+right_panel.high_priority.area_count_other,{{count}} areas,{{count}} zones,{{count}} 个区域
+right_panel.high_priority.priority_score,{{score}}% priority score,score de priorité de {{score}} %,{{score}}% 优先级评分
+right_panel.high_priority.areas,areas,zones,区域
+right_panel.high_priority.raster_areas,areas ({{area}}),zones ({{area}}),区域（{{area}}）
+right_panel.high_priority.about,Showing {{area}} with the highest prioritization scores based on your analysis criteria.,Affichage de {{area}} avec les scores de priorisation les plus élevés selon vos critères d'analyse.,根据您的分析标准显示优先级得分最高的{{area}}。
+right_panel.poi.count_html_one,There is <strong>{{n}}</strong> point of interest within <strong>{{radius_km}}km</strong> of this area of interest.,Il y a <strong>{{n}}</strong> point d'intérêt à moins de <strong>{{radius_km}} km</strong> de cette zone d'intérêt.,在此关注区域 <strong>{{radius_km}}km</strong> 范围内有 <strong>{{n}}</strong> 个关注点。
+right_panel.poi.count_html_other,There are <strong>{{n}}</strong> points of interest within <strong>{{radius_km}}km</strong> of this area of interest.,Il y a <strong>{{n}}</strong> points d'intérêt à moins de <strong>{{radius_km}} km</strong> de cette zone d'intérêt.,在此关注区域 <strong>{{radius_km}}km</strong> 范围内有 <strong>{{n}}</strong> 个关注点。
+right_panel.poi.about_tooltip,Shows points of interest near the selected pixel.,Affiche les points d'intérêt à proximité du pixel sélectionné.,显示所选像素附近的关注点。
+right_panel.prioritization.priority_score_badge,{{score}} priority score,score de priorité de {{score}},{{score}} 优先级评分
+right_panel.prioritization.priority_areas,Priority areas ({{area}}),Zones prioritaires ({{area}}),优先区域（{{area}}）
+toast.dataset_error.label,Dataset/File error,Erreur de jeu de données/fichier,数据集/文件错误
+toast.dataset_error.divisions,'{{name}}' requires a geography->divisions->{{tier}}. This is not fatal but the dataset is now disabled.,« {{name}} » nécessite une geography->divisions->{{tier}}. Ce n'est pas fatal mais le jeu de données est maintenant désactivé.,'{{name}}' 需要 geography->divisions->{{tier}}。这不是致命错误，但该数据集现已禁用。
+toast.dataset_error.category,'{{name}}' has category '{{category}}' which requires a {{type}} file. This is not fatal but the dataset is now disabled.,« {{name}} » a la catégorie « {{category}} » qui nécessite un fichier {{type}}. Ce n'est pas fatal mais le jeu de données est maintenant désactivé.,'{{name}}' 的类别 '{{category}}' 需要 {{type}} 文件。这不是致命错误，但该数据集现已禁用。
+toast.dataset_error.process_label,Dataset error,Erreur de jeu de données,数据集错误
+toast.dataset_error.process,Failed to process dataset '{{name}}'. This is not fatal but the dataset is now disabled.,Échec du traitement du jeu de données « {{name}} ». Ce n'est pas fatal mais le jeu de données est maintenant désactivé.,处理数据集 '{{name}}' 失败。这不是致命错误，但该数据集现已禁用。
+toast.config_error.label,Configuration File Error,Erreur de fichier de configuration,配置文件错误
+toast.config_error.caption,The provided configuration does not comply with the necessary format.,La configuration fournie n'est pas conforme au format requis.,提供的配置不符合所需的格式。
+left_panel.points_loading.input_tooltip,Input coordinates manually,Saisir les coordonnées manuellement,手动输入坐标
+modal.eae_info.indexes.title,Prioritization indexes,Indices de priorisation,优先级指数
+modal.eae_info.indexes.body,"There are 4 different methods to generate a prioritization, depending on the aim of your analysis; these are known as the different ""indexes"". Energy Access Potential is the standard recommended index as it is an aggregation across demand and supply categories.","Il existe 4 méthodes différentes pour générer une priorisation, selon l'objectif de votre analyse ; elles sont appelées les différents « indices ». Le Potentiel d'accès à l'énergie est l'indice standard recommandé car il s'agit d'une agrégation des catégories de demande et d'offre.","根据您的分析目标，有 4 种不同的方法来生成优先级；这些被称为不同的指数""。能源获取潜力是标准推荐的指数，因为它是需求和供应类别的聚合。"""
+dataset_info.description,Description,Description,描述
+dataset_info.why_used,Why is this dataset used?,Pourquoi ce jeu de données est-il utilisé ?,为什么使用此数据集？
+dataset_info.suggested_citation,Suggested Citation,Citation suggérée,建议引用
+dataset_info.cautions,Cautions,Précautions,注意事项
+dataset_info.sources,Sources,Sources,来源
+dataset_info.spatial_resolution,Spatial Resolution,Résolution spatiale,空间分辨率
+dataset_info.license,License,Licence,许可证
+dataset_info.content_date,Date of Content,Date du contenu,内容日期
+dataset_info.publication_date,Date of Publication,Date de publication,发布日期
+dataset_info.download_from_source,Download from Source,Télécharger depuis la source,从来源下载
+dataset_info.learn_more,Learn More,En savoir plus,了解更多
+left_panel.cards.card.settings_toggle_title,Hide/Show settings,Masquer/Afficher les paramètres,隐藏/显示设置
+left_panel.cards.card.remove_dataset_title,Remove dataset,Supprimer le jeu de données,删除数据集
+left_panel.output.tiff_download_title,Download TIFF image of the current analysis,Télécharger l'image TIFF de l'analyse actuelle,下载当前分析的 TIFF 图像
+nav.desktop_required.title,Desktop Required,Ordinateur de bureau requis,需要桌面设备
+nav.desktop_required.message,Energy Access Explorer is designed for larger screens. Please open this page on a desktop or laptop computer for the best experience.,Energy Access Explorer est conçu pour les grands écrans. Veuillez ouvrir cette page sur un ordinateur de bureau ou portable pour une expérience optimale.,Energy Access Explorer 专为大屏幕设计。为获得最佳体验，请在台式机或笔记本电脑上打开此页面。
+loading.message,Loading...,Chargement...,加载中...
+loading.cancel,Cancel,Annuler,取消
+toast.dataset_error.no_host,'{{id}}' claims to have host '{{host}}'. No such DS. This is not fatal but the dataset is now disabled.,« {{id}} » prétend avoir l'hôte « {{host}} ». Aucun jeu de données de ce type. Ce n'est pas fatal mais le jeu de données est maintenant désactivé.,'{{id}}' 声称拥有主机 '{{host}}'。无此数据集。这不是致命错误，但该数据集现已禁用。
+right_panel.share_link.header,Share link,Lien de partage,分享链接
+toast.fetch_error.label,Fetch error,Erreur de récupération,获取错误
+left_panel.analysis_search.input_label,Analysis top locations,Principaux emplacements d'analyse,分析热门位置
+left_panel.analysis_search.coordinates_label,Analysis coordinates,Coordonnées d'analyse,分析坐标
+timeline.value_label,Value,Valeur,值
+timeline.state_average_label,State Average,Moyenne de l'État,州平均值
+modal.export.ppt_title,Export PowerPoint presentation,Exporter la présentation PowerPoint,导出 PowerPoint 演示文稿
+modal.export.select_subtitle,Select priority areas columns and rows,Sélectionnez les colonnes et lignes des zones prioritaires,选择优先区域的列和行
+modal.export.download_ppt,Download .ppt,Télécharger .ppt,下载 .ppt
+modal.export.ppt_hint,Selected columns will be included in the PowerPoint tables,Les colonnes sélectionnées seront incluses dans les tableaux PowerPoint,所选列将包含在 PowerPoint 表格中
+modal.export.download_csv,Download all (.csv),Tout télécharger (.csv),全部下载 (.csv)
+modal.export.csv_hint,Selected columns will be included in the CSV download,Les colonnes sélectionnées seront incluses dans le téléchargement CSV,所选列将包含在 CSV 下载中
+modal.export.download_zip,Download all (.zip),Tout télécharger (.zip),全部下载 (.zip)
+modal.export.zip_hint,Selected columns will be included in the CSV and PowerPoint downloads,Les colonnes sélectionnées seront incluses dans les téléchargements CSV et PowerPoint,所选列将包含在 CSV 和 PowerPoint 下载中
+help.welcome_title,Welcome to {{title}},Bienvenue sur {{title}},欢迎使用 {{title}}
+help.welcome_text,Check out the highlights and learn what<br>you can do with the map.,Découvrez les points forts et apprenez ce que<br>vous pouvez faire avec la carte.,查看亮点，了解您可以<br>用地图做什么。
+help.step1,Select <strong>sub-national level data</strong>. These can be used as filters to identify regions of interest.,Sélectionnez des <strong>données infranationales</strong>. Elles peuvent servir de filtres pour identifier les régions d'intérêt.,选择<strong>地方级数据</strong>。这些数据可用作筛选条件来识别目标区域。
+help.step2,Click on the <strong>Demand</strong> data group.,Cliquez sur le groupe de données <strong>Demande</strong>.,点击<strong>需求</strong>数据组。
+help.step3,Select data on <strong>Demographics</strong> and <strong>Social and Productive Uses</strong>. These will be used to visualize current and/or potential demand for energy.,Sélectionnez des données sur la <strong>démographie</strong> et les <strong>usages sociaux et productifs</strong>. Elles serviront à visualiser la demande énergétique actuelle et/ou potentielle.,选择<strong>人口</strong>以及<strong>社会与生产用途</strong>的数据。这些将用于可视化当前和/或潜在的能源需求。
+help.step4,Select the <strong>Healthcare Facilities</strong> dataset,Sélectionnez le jeu de données <strong>Établissements de santé</strong>,选择<strong>医疗设施</strong>数据集
+help.step5,<strong>Filter areas</strong> that are close to social loads by selecting a short proximity (e.g. set proximity to healthcare facilities at 10km),<strong>Filtrez les zones</strong> proches des charges sociales en sélectionnant une faible proximité (par ex. définir la proximité des établissements de santé à 10 km),通过选择较短的邻近距离来<strong>筛选</strong>靠近社会负荷的区域（例如将医疗设施的邻近距离设为 10 公里）
+help.step6,Click on the <strong>Supply</strong> data group.,Cliquez sur le groupe de données <strong>Offre</strong>.,点击<strong>供应</strong>数据组。
+help.step7,Select data on <strong>Resources</strong> and <strong>Infrastructure</strong> to visualize current and/or potential energy supply.,Sélectionnez des données sur les <strong>ressources</strong> et les <strong>infrastructures</strong> pour visualiser l'offre énergétique actuelle et/ou potentielle.,选择<strong>资源</strong>和<strong>基础设施</strong>数据，以可视化当前和/或潜在的能源供应。
+help.step8,<strong>Visualize Underlying Data</strong> Click on the map to read location specific information of the top most layer.,<strong>Visualisez les données sous-jacentes</strong> Cliquez sur la carte pour lire les informations propres à un lieu de la couche supérieure.,<strong>可视化底层数据</strong> 点击地图以读取最上层图层的特定位置信息。
+help.step9,Analysis indicates low hanging fruits (energy access potential index) areas where demand or supply are likely to be higher (demand and supply index) and areas where finance assistance is needed the most,"L'analyse met en évidence les opportunités faciles (indice de potentiel d'accès à l'énergie), les zones où la demande ou l'offre sont susceptibles d'être plus élevées (indice de demande et d'offre) et les zones où l'aide financière est la plus nécessaire",分析可揭示容易实现的机会（能源获取潜力指数）、需求或供应可能较高的区域（需求与供应指数）以及最需要资金援助的区域
+admin_areas.arrondissements,Arrondissements,Arrondissements,区
+admin_areas.basin,Basin,Bassin,流域
+admin_areas.block,Block,Bloc,区块
+admin_areas.blocks,Blocks,Blocs,区块
+admin_areas.canton,Canton,Canton,县
+admin_areas.cantons,Cantons,Cantons,县
+admin_areas.communes,Communes,Communes,市镇
+admin_areas.council,Council,Conseil,议会
+admin_areas.county,County,Comté,县
+admin_areas.departments,Departments,Départements,省
+admin_areas.district,District,District,区
+admin_areas.districts,Districts,Districts,区
+admin_areas.districts_muderiah,Districts (Muderiah),Districts (muderiah),区（穆迪里耶）
+admin_areas.distrikt,Distrikt,District,区
+admin_areas.distrito,Distrito,District,区
+admin_areas.distrito_municipio,Distrito Municipio,District municipal,市政区
+admin_areas.estado,Estado,État,州
+admin_areas.governorates_muhafazah,Governorates (Muhafazah),Gouvernorats (muhafazah),省（穆哈法扎）
+admin_areas.gram_panchayat,Gram-panchayat,Gram-panchayat,村务委员会
+admin_areas.local_government_area,Local Government Area,Zone de gouvernement local,地方政府区
+admin_areas.municipality,Municipality,Municipalité,市
+admin_areas.municipio,Municipio,Municipalité,市
+admin_areas.outline,Outline,Contour,轮廓
+admin_areas.outlines,Outlines,Contours,轮廓
+admin_areas.parish,Parish,Paroisse,堂区
+admin_areas.prefectures,Prefectures,Préfectures,省
+admin_areas.province,Province,Province,省
+admin_areas.provinces,Provinces,Provinces,省
+admin_areas.provincia,Provincia,Province,省
+admin_areas.region,Region,Région,地区
+admin_areas.regions,Regions,Régions,地区
+admin_areas.ressort,Ressort,Ressort,辖区
+admin_areas.solarclusters,Solarclusters,Clusters solaires,太阳能集群
+admin_areas.state,State,État,州
+admin_areas.subcounty,Subcounty,Sous-comté,次县
+admin_areas.subregion,Subregion,Sous-région,次地区
+admin_areas.territories,Territories,Territoires,属地
+admin_areas.villages,Villages,Villages,村
+admin_areas.ward,Ward,Circonscription,选区
+admin_areas.wards,Wards,Circonscriptions,选区
+admin_areas.windclusters,Windclusters,Clusters éoliens,风电集群
+admin_areas.woreda,Woreda,Woreda,沃雷达
+admin_areas.zone,Zone,Zone,地带
+report.front.title,Energy Access Explorer Report,Rapport Energy Access Explorer,Energy Access Explorer 报告
+report.front.subtitle,"A Data-driven, Integrated and Inclusive Approach to Achieving Universal Access to Energy for Equitable Development","Une approche fondée sur les données, intégrée et inclusive pour parvenir à l'accès universel à l'énergie au service d'un développement équitable",以数据为驱动的综合且包容的方法，实现普遍能源获取以促进公平发展。
+report.front.prepared_by,Prepared by Hordor,Préparé par Hordor,由 Hordor 编制
+report.front.developed_with,The report has been developed using data available on the Energy Access Explorer,Ce rapport a été élaboré à partir des données disponibles sur Energy Access Explorer,本报告基于 Energy Access Explorer 上提供的数据编制
+report.chapter.summary,Report Summary,Résumé du rapport,报告摘要
+report.chapter.analysis,Analysis,Analyse,分析
+report.chapter.top_locations,Top Locations,Principaux emplacements,重点位置
+report.overview.title,Platform Overview,Présentation de la plateforme,平台概览
+report.overview.what_we_do,"Energy Access Explorer is the first, open-source, online and interactive geospatial platform that enables energy planners, clean energy entrepreneurs, donors, and development institutions to identify high-priority areas for energy access interventions. EAE functions also as a dynamic information system, reducing software engineering and data transaction costs for both data providers and users and facilitating data management and governance.","Energy Access Explorer est la première plateforme géospatiale en ligne, interactive et open source qui permet aux planificateurs énergétiques, aux entrepreneurs des énergies propres, aux bailleurs de fonds et aux institutions de développement d'identifier les zones prioritaires pour les interventions en matière d'accès à l'énergie. EAE fonctionne également comme un système d'information dynamique, réduisant les coûts d'ingénierie logicielle et de transaction des données pour les fournisseurs comme pour les utilisateurs, et facilitant la gestion et la gouvernance des données.",Energy Access Explorer 是首个开源、在线且交互式的地理空间平台，使能源规划者、清洁能源企业、捐助方和发展机构能够识别能源获取干预的高优先级区域。EAE 同时也是一个动态信息系统，为数据提供方和使用者降低软件工程与数据交易成本，并促进数据管理与治理。
+report.overview.audiences_title,Who are the primary audiences of Energy Access Explorer?,Quels sont les principaux publics d'Energy Access Explorer ?,Energy Access Explorer 的主要受众是谁？
+report.overview.audience.planning.name,Energy planning agencies,Agences de planification énergétique,能源规划机构
+report.overview.audience.planning.desc,"can use the platform to explore the potential for grid extension, off-grid systems, clean cooking technologies and renewables for energy access in their countries.","peuvent utiliser la plateforme pour explorer le potentiel d'extension du réseau, des systèmes hors réseau, des technologies de cuisson propre et des énergies renouvelables pour l'accès à l'énergie dans leur pays.",可利用该平台探索其国家在电网延伸、离网系统、清洁烹饪技术和可再生能源方面的能源获取潜力。
+report.overview.audience.enterprise.name,Clean energy enterprises,Entreprises d'énergie propre,清洁能源企业
+report.overview.audience.enterprise.desc,"can use the platform to access demographic and socio-economic data, which indicate consumer ability to pay for energy services. This information can help identify gaps in market opportunities.","peuvent utiliser la plateforme pour accéder aux données démographiques et socio-économiques, qui indiquent la capacité des consommateurs à payer les services énergétiques. Ces informations aident à identifier les lacunes du marché.",可利用该平台获取人口与社会经济数据，这些数据反映消费者支付能源服务的能力，有助于识别市场机会中的缺口。
+report.overview.audience.donors.name,Donors and Development Finance Institutions,Bailleurs de fonds et institutions de financement du développement,捐助方与发展金融机构
+report.overview.audience.donors.desc,can use the platform to identify areas where grants and support will have the most impact.,peuvent utiliser la plateforme pour identifier les zones où les subventions et le soutien auront le plus d'impact.,可利用该平台识别赠款与支持能够产生最大影响的区域。
+report.overview.audience.service.name,Service delivery institutions,Institutions de prestation de services,服务提供机构
+report.overview.audience.service.desc,"in the health, education, productive use of energy and agriculture sectors can use the platform to get a better understanding of energy needs associated to development services.","dans les secteurs de la santé, de l'éducation, des usages productifs de l'énergie et de l'agriculture peuvent utiliser la plateforme pour mieux comprendre les besoins énergétiques liés aux services de développement.",在卫生、教育、能源生产性使用和农业等领域，可利用该平台更好地了解与发展服务相关的能源需求。
+report.overview.audience.cooking.name,Clean Cooking Sector,Secteur de la cuisson propre,清洁烹饪领域
+report.overview.audience.cooking.desc,"organizations and agencies can use the platform to identify areas where the uptake of clean cooking technologies should be prioritized based on location specific data on demand, supply, and environment.","les organisations et agences peuvent utiliser la plateforme pour identifier les zones où l'adoption des technologies de cuisson propre doit être prioritaire, sur la base de données locales de demande, d'offre et d'environnement.",相关组织与机构可利用该平台，依据关于需求、供应和环境的本地化数据，识别应优先推广清洁烹饪技术的区域。
+report.how.title,How it Works,Comment ça marche,运作方式
+report.how.methodology,Methodology,Méthodologie,方法论
+report.how.stage.datasets.name,Datasets,Jeux de données,数据集
+report.how.stage.datasets.demand,Demand,Demande,需求
+report.how.stage.datasets.demand.desc,"demographics, social and productive uses","données démographiques, usages sociaux et productifs",人口统计、社会与生产性用途
+report.how.stage.datasets.supply,Supply,Offre,供应
+report.how.stage.datasets.supply.desc,resources and infrastructure,ressources et infrastructures,资源与基础设施
+report.how.stage.interactions.name,User Interactions,Interactions utilisateur,用户交互
+report.how.stage.interactions.desc,"Select and overlay data, apply buffer zones and filters, assign data importance.","Sélectionner et superposer les données, appliquer des zones tampons et des filtres, attribuer une importance aux données.",选择与叠加数据、应用缓冲区与筛选条件、设定数据重要性。
+report.how.stage.analysis.name,Multi-Criteria Analysis,Analyse multicritère,多标准分析
+report.how.stage.analysis.desc,Weighted comparison of demand against supply.,Comparaison pondérée de la demande et de l'offre.,对需求与供应进行加权比较。
+report.how.stage.maps.name,Energy Access Maps,Cartes d'accès à l'énergie,能源获取地图
+report.how.stage.maps.desc,High-priority areas for energy access interventions.,Zones prioritaires pour les interventions d'accès à l'énergie.,能源获取干预的高优先级区域。
+report.datasets.title,Selected {{index}} Datasets,Jeux de données {{index}} sélectionnés,已选 {{index}} 数据集
+report.datasets.col.dataset,Dataset,Jeu de données,数据集
+report.datasets.col.unit,Unit,Unité,单位
+report.datasets.col.range,Range,Plage,范围
+report.datasets.col.selected_range,Selected Range,Plage sélectionnée,已选范围
+report.datasets.col.importance,Importance,Importance,重要性
+report.datasets.proximity,proximity in km,proximité en km,邻近公里数
+report.geography.outputs,Geospatial Analytical Outputs,Résultats analytiques géospatiaux,地理空间分析结果
+report.geography.area_share,Share of area for each Index ({{unit}}),Part de la zone pour chaque indice ({{unit}}),各指数的面积份额 ({{unit}})
+report.geography.pop_share,Share of population for each Index (people),Répartition de la population pour chaque indice (personnes),各指数的人口份额 (人)
+report.geography.total_area,Total: {{total}} {{unit}} — {{high}} {{unit}} in the high bucket,Total : {{total}} {{unit}} — {{high}} {{unit}} dans la tranche élevée,总计 {{total}} {{unit}}，其中 {{high}} {{unit}} 属于高值区间
+report.geography.total_pop,Total: {{total}} people — {{high}} people in the high bucket,Total : {{total}} personnes — {{high}} personnes dans la tranche élevée,总计 {{total}} 人，其中 {{high}} 人属于高值区间
+report.analysis.pop_share,Population Share,Part de la population,人口份额
+report.analysis.area_share,Area Share,Part de la zone,面积份额
+report.data.title,Data,Données,数据
+report.data.title_continued,Data (continued),Données (suite),数据 (续)
+report.how.para1,"Energy Access Explorer synthesizes and analyzes more than 50 geographic data sets (per geography) on both energy supply and demand. It runs multi-criteria analysis that uses location-specific resource availability and infrastructure data to represent energy supply. It also incorporates demographic data and data on social and productive uses to visualize demand for energy services. Together, these supply and demand indicators enable more comprehensive energy planning. Spatial analysis tools, including multi-criteria analysis, overlays, filters and buffer zones, help users identify and prioritize areas where energy access can be expanded.","Energy Access Explorer synthétise et analyse plus de 50 jeux de données géographiques (par géographie) portant à la fois sur l'offre et la demande d'énergie. La plateforme réalise une analyse multicritère qui utilise les données de disponibilité des ressources et d'infrastructures propres à chaque lieu pour représenter l'offre énergétique. Elle intègre également des données démographiques ainsi que des données sur les usages sociaux et productifs afin de visualiser la demande de services énergétiques. Ensemble, ces indicateurs d'offre et de demande permettent une planification énergétique plus complète. Des outils d'analyse spatiale, dont l'analyse multicritère, les superpositions, les filtres et les zones tampons, aident les utilisateurs à identifier et à prioriser les zones où l'accès à l'énergie peut être étendu.",Energy Access Explorer 综合并分析每个地区超过 50 个关于能源供应与需求的地理数据集。平台运行多标准分析，利用特定地点的资源可用性与基础设施数据来表征能源供应。平台还纳入人口统计数据以及社会与生产性用途数据，以可视化能源服务需求。供应与需求指标相结合，使能源规划更为全面。包括多标准分析、图层叠加、筛选和缓冲区在内的空间分析工具，帮助用户识别并优先确定可扩大能源获取的区域。
+report.how.para2,"The tool incorporates remote sensing data as well as data from global, national, sub-national and census databases that are either publicly available or provided by international partners and local stakeholders. It can host data available in various resolutions, scales and formats allowing for better or new datasets to be incorporated once available. The selection of data is based on literature review, a survey WRI conducts on the importance of certain datasets in geospatial energy access planning and user feedback. The list of essential data is reviewed by local stakeholders to ensure the platform is relevant and applicable in the local context.","L'outil intègre des données de télédétection ainsi que des données issues de bases mondiales, nationales, infranationales et de recensement, soit publiques, soit fournies par des partenaires internationaux et des parties prenantes locales. Il peut héberger des données de résolutions, d'échelles et de formats variés, ce qui permet d'intégrer des jeux de données meilleurs ou nouveaux dès qu'ils sont disponibles. La sélection des données repose sur une revue de la littérature, sur une enquête menée par le WRI concernant l'importance de certains jeux de données dans la planification géospatiale de l'accès à l'énergie, et sur les retours des utilisateurs. La liste des données essentielles est examinée par les parties prenantes locales afin de garantir la pertinence et l'applicabilité de la plateforme dans le contexte local.",该工具纳入遥感数据，以及来自全球、国家、次国家级和人口普查数据库的数据，这些数据或为公开可用，或由国际合作伙伴和当地利益相关方提供。它可容纳不同分辨率、尺度和格式的数据，从而在新的或更优的数据集可用时予以纳入。数据的选择基于文献综述、WRI 就某些数据集在地理空间能源获取规划中重要性所开展的调查以及用户反馈。必备数据清单由当地利益相关方审阅，以确保平台在当地环境中具有相关性和适用性。
+report.analysis.long.eai,"The Energy Access Potential Index is the weighted sum of the Demand Index and Supply Index. It indicates areas where the population has an ability to pay for electricity and that are close to social and productive uses of energy, have potential for renewable energy, and have existing or planned infrastructure.","L'indice de potentiel d'accès à l'énergie est la somme pondérée de l'indice de demande et de l'indice d'offre. Il indique les zones où la population a la capacité de payer l'électricité, qui sont proches des usages sociaux et productifs de l'énergie, qui présentent un potentiel d'énergies renouvelables et qui disposent d'infrastructures existantes ou planifiées.",能源获取潜力指数是需求指数与供应指数的加权总和。它标示出人口具备电力支付能力、靠近能源的社会与生产性用途、具备可再生能源潜力，并拥有现有或规划基础设施的区域。
+report.analysis.long.demand,"The Demand Index is the weighted sum of normalized demographic data and social and productive use data. The formula inverts the percentage of people who live below the poverty line to provide the number of people who live above the poverty line, which is used as a proxy for where people have an ability to pay for electricity.","L'indice de demande est la somme pondérée des données démographiques normalisées et des données d'usages sociaux et productifs. La formule inverse le pourcentage de personnes vivant sous le seuil de pauvreté afin d'obtenir le nombre de personnes vivant au-dessus de ce seuil, utilisé comme indicateur indirect de la capacité à payer l'électricité.",需求指数是标准化人口统计数据与社会及生产性用途数据的加权总和。该公式将生活在贫困线以下人口的百分比取反，以得出生活在贫困线以上的人口数，并以此作为人们支付电力能力的代理指标。
+report.analysis.long.supply,"The Supply Index is the weighted sum of normalized renewable energy resources potential and existing infrastructure. Solar and wind potential values are added together, and proximity to potential hydropower and geothermal sites are added to find areas with high renewable potential.","L'indice d'offre est la somme pondérée du potentiel normalisé des ressources en énergies renouvelables et des infrastructures existantes. Les valeurs de potentiel solaire et éolien sont additionnées, et la proximité des sites hydroélectriques et géothermiques potentiels est ajoutée afin d'identifier les zones à fort potentiel renouvelable.",供应指数是标准化可再生能源资源潜力与现有基础设施的加权总和。将太阳能与风能潜力值相加，并加入与潜在水电和地热站点的邻近度，以找出具有高可再生潜力的区域。
+report.analysis.long.ani,The Need for Assistance Index is a weighted sum of certain demand and supply data and is used to indicate areas where financial assistance may be needed more.,L'indice de besoin d'assistance est une somme pondérée de certaines données de demande et d'offre. Il sert à indiquer les zones où une aide financière pourrait être le plus nécessaire.,援助需求指数是某些需求与供应数据的加权总和，用于标示可能更需要财政援助的区域。
+report.analysis.row.pop_demand,Population where demand is medium-high or high,Population là où la demande est moyenne-élevée ou élevée,需求为中高或高的区域人口
+report.analysis.row.health,"Number healthcare facilities, where demand is medium-high or high","Nombre d'établissements de santé, là où la demande est moyenne-élevée ou élevée",需求为中高或高的区域的医疗机构数量
+report.analysis.row.schools,"Number schools, where demand is medium-high or high","Nombre d'écoles, là où la demande est moyenne-élevée ou élevée",需求为中高或高的区域的学校数量
+report.analysis.row.supply_points,"Number of supply points e.g. transformers, power stations","Nombre de points d'approvisionnement, par exemple transformateurs et centrales électriques",供应点数量，例如变压器、发电站
+report.analysis.row.pop_lines,Approximate amount of people living within 1km of an electricity line,Nombre approximatif de personnes vivant à moins d'un kilomètre d'une ligne électrique,居住在输电线路 1 公里范围内的大致人口数
+report.analysis.row.ghi,Average Global Horizontal Irradiation (kWh/m²),Irradiation horizontale globale moyenne (kWh/m²),平均水平面总辐射量 (kWh/m²)
+report.analysis.row.wind,Average Windspeed (m/s),Vitesse moyenne du vent (m/s),平均风速 (m/s)
+report.analysis.row.pop_covered,Approximate amount of people living in the area covered by the analysis,Nombre approximatif de personnes vivant dans la zone couverte par l'analyse,居住在分析覆盖区域内的大致人口数
+report.analysis.row.points_amounts,Amounts on {{x}} in the area covered by the analysis,Quantités de {{x}} dans la zone couverte par l'analyse,分析覆盖区域内的 {{x}} 数量
+report.analysis.points.schools,schools,écoles,学校
+report.analysis.points.health,healthcare facilities,établissements de santé,医疗机构
+report.toplocations.top_area,Top {{area}},Principaux {{area}},主要{{area}}
+report.toplocations.admin_title,{{area}} with highest {{index}} Index,{{area}} avec l'indice {{index}} le plus élevé,{{index}} 指数最高的 {{area}}
+report.toplocations.raster_title,Locations with highest {{index}} Index,Emplacements avec l'indice {{index}} le plus élevé,{{index}} 指数最高的位置
+report.open_data.title,Open Data,Données ouvertes,开放数据
+report.open_data.para1,"World Resources Institute is committed to transparency and open data. Energy Access Explorer is a research initiative led by World Resources Institute. Partners and local stakeholders contribute to the development and update of the platform. To learn more about Energy Access Explorer, inquire regarding data sources, or provide feedback, contact our team at energyaccessexplorer@wri.org.","World Resources Institute s'engage en faveur de la transparence et des données ouvertes. Energy Access Explorer est une initiative de recherche dirigée par World Resources Institute. Les partenaires et les parties prenantes locales contribuent au développement et à la mise à jour de la plateforme. Pour en savoir plus sur Energy Access Explorer, poser des questions sur les sources de données ou faire part de vos commentaires, contactez notre équipe à energyaccessexplorer@wri.org.",世界资源研究所致力于透明度和开放数据。Energy Access Explorer 是由世界资源研究所牵头的一项研究计划。合作伙伴和当地利益相关方为平台的开发和更新做出贡献。如需了解有关 Energy Access Explorer 的更多信息、询问数据来源或提供反馈，请通过 energyaccessexplorer@wri.org 联系我们的团队。
+report.open_data.para2,"All the products, methodologies and datasets that make up Energy Access Explorer are available subject to the Terms of Use. While analyses are compiled with various data sources, the details about the original data sources are available by hovering over the data list on the left of the screen and clicking on the information symbol ""i"" that appears. This information will include links to the original data. See also instructions under Attribution Requirements.","Tous les produits, méthodologies et jeux de données qui composent Energy Access Explorer sont disponibles sous réserve des Conditions d'utilisation. Bien que les analyses soient compilées à partir de diverses sources de données, les détails sur les sources de données d'origine sont disponibles en survolant la liste de données à gauche de l'écran et en cliquant sur le symbole d'information « i » qui apparaît. Ces informations comprennent des liens vers les données d'origine. Voir également les instructions sous Exigences d'attribution.",构成 Energy Access Explorer 的所有产品、方法和数据集均可在遵守使用条款的前提下使用。虽然分析是由各种数据来源汇编而成，但将鼠标悬停在屏幕左侧的数据列表上并点击出现的 “i” 信息符号，即可查看原始数据来源的详细信息。这些信息将包含原始数据的链接。另请参阅“署名要求”下的说明。
+report.attribution,"If you use this platform, partially or entirely, you must follow the attribution requirements.","Si vous utilisez cette plateforme, partiellement ou entièrement, vous devez respecter les exigences d'attribution.",如果您部分或全部使用本平台，则必须遵守署名要求。
+timeline.modal.header,Timeline layer added,Couche temporelle ajoutée,已添加时间轴图层
+timeline.modal.title,You've just added a timeline layer to this analysis,Vous venez d'ajouter une couche temporelle à cette analyse,您刚刚为此分析添加了一个时间轴图层
+timeline.modal.body,"When one or more timeline layers have been added, you can edit the time using the timeline section on the map, as well as view Filtered Areas to find common patterns.","Lorsqu'une ou plusieurs couches temporelles ont été ajoutées, vous pouvez modifier la période à l'aide de la section chronologie sur la carte, ainsi que consulter les zones filtrées pour trouver des tendances communes.",添加一个或多个时间轴图层后，您可以使用地图上的时间轴部分编辑时间，也可以查看筛选区域以发现共同规律。
+timeline.modal.dont_show_again,Don't show this message again.,Ne plus afficher ce message.,不再显示此消息。
+timeline.modal.close,Close message,Fermer le message,关闭消息
+left_panel.cards.card.timeline_inactive,Not affected by timeline,Non affecté par la chronologie,不受时间轴影响
+left_panel.cards.card.timeline_active,"Active, showing year {{year}}","Actif, année {{year}} affichée",活跃中，显示 {{year}} 年数据
+timeline.year_control.title,Select year for timeline data,Sélectionner l'année pour les données temporelles,选择时间轴数据的年份
+timeline.year_control.about,"This card appears when you have timeline layers active, letting you select the year shown for those layers.","Cette carte apparaît lorsque vous avez des couches temporelles actives, vous permettant de choisir l'année affichée pour ces couches.",当您启用时间轴图层时会显示此卡片，可用于选择这些图层所显示的年份。
+left_panel.cards.card.timeline_footer_active,Showing data from {{year}}.,Affiche les données de {{year}}.,显示 {{year}} 年的数据。
+left_panel.cards.card.timeline_footer_inactive,Not affected by timeline.,Non affecté par la chronologie.,不受时间轴影响。
+right_panel.tabs.timeline,Timeline,Chronologie,时间轴
+timeline.blank_state.title,Add a timeline dataset to see trends over time,Ajoutez une couche temporelle pour voir les tendances au fil du temps,添加时间轴数据集以查看随时间变化的趋势
+timeline.blank_state.subtitle,Select a dataset with historical data from the left panel to unlock trend lines and filtered geographies for this area.,Sélectionnez dans le panneau de gauche un jeu de données comportant des données historiques pour activer les lignes de tendance et les zones géographiques filtrées de cette zone.,从左侧面板中选择一个包含历史数据的数据集，即可为该区域启用趋势线和已筛选地理区域功能。
+timeline.filters.enabled_label,Only show areas that meet all data layer criteria,N'afficher que les zones répondant à tous les critères des couches de données,仅显示满足所有数据图层条件的区域
+timeline.filtered_geographies.title,Filtered geographies,Zones géographiques filtrées,已筛选地理区域
+timeline.filtered_geographies.title_with_name,Filtered {{name}},{{name}} filtrés,已筛选{{name}}
+timeline.filtered_geographies.subtitle,Showing areas covered by your active timeline datasets.,Affiche les zones couvertes par vos couches temporelles actives.,显示您活跃时间轴数据集所覆盖的区域。
+timeline.filtered_geographies.no_results,No areas have data in the active timeline datasets.,Aucune zone ne dispose de données dans les couches temporelles actives.,活跃时间轴数据集中没有任何区域含有数据。
+timeline.trend.title,Trend lines,Lignes de tendance,趋势线
+timeline.trend.subtitle,Showing trendlines for timeline data between {{from}} and {{to}}.,Affiche les lignes de tendance pour les données temporelles entre {{from}} et {{to}}.,显示 {{from}} 至 {{to}} 年间时间轴数据的趋势线。
+timeline.trend.subtitle_location,Showing trend for {{location}} between {{from}} and {{to}}.,Affiche la tendance pour {{location}} entre {{from}} et {{to}}.,显示 {{location}} 在 {{from}} 至 {{to}} 年间的趋势。
+timeline.trend.clear_location,Show all,Tout afficher,显示全部
+timeline.trend.about,"Trend lines show how each active timeline dataset's value has changed across the years available for this geography, averaged across the whole selected area.","Les lignes de tendance montrent l'évolution de la valeur de chaque couche temporelle active au fil des années disponibles pour cette zone géographique, moyennée sur l'ensemble de la zone sélectionnée.","趋势线显示每个活跃时间轴数据集在该地理区域可用年份间的变化情况，数值为所选整个区域的平均值。"
+timeline.filtered_geographies.about,"This list shows every area that has data in at least one active timeline dataset, for the year currently selected.","Cette liste montre chaque zone disposant de données dans au moins une couche temporelle active, pour l'année actuellement sélectionnée.",此列表显示在当前所选年份至少有一个活跃时间轴数据集含有数据的每个区域。

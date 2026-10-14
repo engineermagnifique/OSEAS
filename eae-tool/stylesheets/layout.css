@@ -1,0 +1,131 @@
+body {
+  overflow: hidden;
+}
+
+#playground {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  width: 100%;     /* will be changed by JS */
+  height: auto;    /* will be changed by JS */
+
+  padding: 0;
+  font-size: 0.9em;
+}
+
+#left-panel {
+  display: flex;
+  flex-grow: 0;
+  flex-flow: column wrap;
+  margin-top: -1px;
+}
+
+#left-panel[open] {
+  min-width: 40em;
+}
+
+#visual {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-flow: column nowrap;
+  position: relative;
+}
+
+#maparea {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  height: auto;
+  flex-grow: 1;
+  padding: 0;
+  margin: auto;
+}
+
+#right-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 366px;
+  height: calc(100vh - 5em);
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+
+#right-panel-header,
+#right-panel-footer {
+  flex-shrink: 0;
+  background-color: white;
+}
+
+#right-panel-header {
+  padding: 16px 16px 8px 16px;
+  border-bottom: 1px solid #E7E6E6;
+}
+
+#right-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+#right-panel-footer {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  height: 64px;
+  border-top: 1px solid #E7E6E6;
+  z-index: 2;
+}
+
+#right-panel .graphs {
+  padding: 0 0.5em;
+}
+
+
+#cards-list {
+  flex-grow: 1;
+}
+
+[bind=help-message] {
+  display: none;
+}
+
+#mapbox-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+  z-index: 0;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+canvas#output {
+  max-height: 300px;
+  max-width: 100%;
+}
+
+#timeline-graphs {
+  border-top: 1px solid lightgrey;
+}
+
+#timeline-graphs #lines-graph {
+  border-top: 1px solid #ebebeb;
+}

@@ -1,0 +1,1544 @@
+{
+  "summary": {
+    "engine": "rules",
+    "examples": 52,
+    "intent_accuracy": "82.7%",
+    "action_accuracy": "82.7%",
+    "check_accuracy": "78.7%",
+    "invented_ids": 0,
+    "by_language": {
+      "en": "43/47 actions ok",
+      "fr": "0/4 actions ok",
+      "sw": "0/1 actions ok"
+    },
+    "median_seconds": 0.001
+  },
+  "rows": [
+    {
+      "text": "Where should we build solar mini-grids?",
+      "lang": "en",
+      "intent": "minigrid",
+      "predicted": "minigrid",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate ghi",
+          "ok": true
+        },
+        {
+          "name": "activate grid",
+          "ok": true
+        },
+        {
+          "name": "filter grid min",
+          "ok": true
+        },
+        {
+          "name": "index eai",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.004,
+      "engine": "rules",
+      "reply": "Mini-grid screening in Kenya: I turned on Population Count, Nighttime Lights, Global Horizontal Irradiation, Distribution Lines. Areas within 15 km of the grid are filtered out. GHI has high importance and the index is Energy Access Potential. High-priority areas are dense, active settlements far from the grid.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "nighttime-lights",
+            "ghi-ke",
+            "distribution-lines-ke"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "min": 15
+        },
+        {
+          "type": "weight",
+          "id": "ghi-ke",
+          "weight": 4
+        },
+        {
+          "type": "index",
+          "index": "eai"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Set up a mini-grid analysis for me",
+      "lang": "en",
+      "intent": "minigrid",
+      "predicted": "minigrid",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate ghi",
+          "ok": true
+        },
+        {
+          "name": "activate grid",
+          "ok": true
+        },
+        {
+          "name": "filter grid min",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Mini-grid screening in Kenya: I turned on Population Count, Nighttime Lights, Global Horizontal Irradiation, Distribution Lines. Areas within 15 km of the grid are filtered out. GHI has high importance and the index is Energy Access Potential. High-priority areas are dense, active settlements far from the grid.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "nighttime-lights",
+            "ghi-ke",
+            "distribution-lines-ke"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "min": 15
+        },
+        {
+          "type": "weight",
+          "id": "ghi-ke",
+          "weight": 4
+        },
+        {
+          "type": "index",
+          "index": "eai"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Find good sites for minigrids far from the existing grid",
+      "lang": "en",
+      "intent": "minigrid",
+      "predicted": "minigrid",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate grid",
+          "ok": true
+        },
+        {
+          "name": "filter grid min",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Mini-grid screening in Kenya: I turned on Population Count, Nighttime Lights, Global Horizontal Irradiation, Distribution Lines. Areas within 15 km of the grid are filtered out. GHI has high importance and the index is Energy Access Potential. High-priority areas are dense, active settlements far from the grid.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "nighttime-lights",
+            "ghi-ke",
+            "distribution-lines-ke"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "min": 15
+        },
+        {
+          "type": "weight",
+          "id": "ghi-ke",
+          "weight": 4
+        },
+        {
+          "type": "index",
+          "index": "eai"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Which villages are best for an isolated solar microgrid with productive use like health centres?",
+      "lang": "en",
+      "intent": "minigrid",
+      "predicted": "explain_productive",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": false
+        },
+        {
+          "name": "activate ghi",
+          "ok": false
+        },
+        {
+          "name": "activate health",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Social and productive uses are Demand layers: nighttime lights (a proxy for existing electricity use), health facilities, schools, crops and mines. They show where energy services are needed. I opened Add Layers.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "controls"
+        }
+      ]
+    },
+    {
+      "text": "Where does stand-alone PV make sense?",
+      "lang": "en",
+      "intent": "standalone",
+      "predicted": "standalone",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate ghi",
+          "ok": true
+        },
+        {
+          "name": "activate grid",
+          "ok": true
+        },
+        {
+          "name": "filter grid min",
+          "ok": true
+        },
+        {
+          "name": "index ani",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Stand-alone solar PV in Kenya: I turned on Population Count, Global Horizontal Irradiation, Distribution Lines, kept only areas more than 25 km from the grid, and switched to the Assistance Need Index, which highlights high need with low access to infrastructure.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "ghi-ke",
+            "distribution-lines-ke"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "min": 25
+        },
+        {
+          "type": "index",
+          "index": "ani"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Show me areas for solar home systems",
+      "lang": "en",
+      "intent": "standalone",
+      "predicted": "standalone",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate ghi",
+          "ok": true
+        },
+        {
+          "name": "index ani",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Stand-alone solar PV in Kenya: I turned on Population Count, Global Horizontal Irradiation, Distribution Lines, kept only areas more than 25 km from the grid, and switched to the Assistance Need Index, which highlights high need with low access to infrastructure.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "ghi-ke",
+            "distribution-lines-ke"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "min": 25
+        },
+        {
+          "type": "index",
+          "index": "ani"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Which remote off-grid households need solar kits?",
+      "lang": "en",
+      "intent": "standalone",
+      "predicted": "standalone",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate grid",
+          "ok": true
+        },
+        {
+          "name": "filter grid min",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Stand-alone solar PV in Kenya: I turned on Population Count, Global Horizontal Irradiation, Distribution Lines, kept only areas more than 25 km from the grid, and switched to the Assistance Need Index, which highlights high need with low access to infrastructure.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "ghi-ke",
+            "distribution-lines-ke"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "min": 25
+        },
+        {
+          "type": "index",
+          "index": "ani"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Prioritise areas for grid extension",
+      "lang": "en",
+      "intent": "grid",
+      "predicted": "grid",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate grid",
+          "ok": true
+        },
+        {
+          "name": "filter grid max",
+          "ok": true
+        },
+        {
+          "name": "index eai",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Grid extension in Kenya: I turned on Population Count, Nighttime Lights, Distribution Lines, Distribution substations and kept only areas within 5 km of the existing grid. The index is Energy Access Potential.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "nighttime-lights",
+            "distribution-lines-ke",
+            "distribution-substations"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "max": 5
+        },
+        {
+          "type": "index",
+          "index": "eai"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Where can we densify the existing grid?",
+      "lang": "en",
+      "intent": "grid",
+      "predicted": "grid",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate grid",
+          "ok": true
+        },
+        {
+          "name": "filter grid max",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Grid extension in Kenya: I turned on Population Count, Nighttime Lights, Distribution Lines, Distribution substations and kept only areas within 5 km of the existing grid. The index is Energy Access Potential.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density",
+            "nighttime-lights",
+            "distribution-lines-ke",
+            "distribution-substations"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "distribution-lines-ke",
+          "max": 5
+        },
+        {
+          "type": "index",
+          "index": "eai"
+        },
+        {
+          "type": "panel",
+          "panel": "cards"
+        }
+      ]
+    },
+    {
+      "text": "Which communities close to the power lines are not yet connected?",
+      "lang": "en",
+      "intent": "grid",
+      "predicted": "unknown",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": false
+        },
+        {
+          "name": "activate grid",
+          "ok": false
+        },
+        {
+          "name": "filter grid max",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0.002,
+      "engine": "rules",
+      "reply": "I can help with priority maps for grid, mini-grid or stand-alone PV, explain datasets (population, nighttime lights, crops, GHI, grid) and indexes, or export a report. Could you rephrase?",
+      "actions": []
+    },
+    {
+      "text": "How do I create a priority map?",
+      "lang": "en",
+      "intent": "priority_map",
+      "predicted": "priority_map",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "To build a priority map in Kenya: 1) In Add Layers, pick Demand layers (population, nighttime lights, productive uses) and Supply layers (GHI, grid). 2) In Active Layers, set each layer's range and importance. 3) Choose the index (now Energy Access Potential). 4) Open Show Analysis Results. Or tell me the intervention (grid, mini-grid or stand-alone PV) and I'll set it up.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "controls"
+        }
+      ]
+    },
+    {
+      "text": "Explain how the multi-criteria analysis works",
+      "lang": "en",
+      "intent": "priority_map",
+      "predicted": "priority_map",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "To build a priority map in Kenya: 1) In Add Layers, pick Demand layers (population, nighttime lights, productive uses) and Supply layers (GHI, grid). 2) In Active Layers, set each layer's range and importance. 3) Choose the index (now Energy Access Potential). 4) Open Show Analysis Results. Or tell me the intervention (grid, mini-grid or stand-alone PV) and I'll set it up.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "controls"
+        }
+      ]
+    },
+    {
+      "text": "I'm new here, how do I start an analysis?",
+      "lang": "en",
+      "intent": "priority_map",
+      "predicted": "priority_map",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "To build a priority map in Kenya: 1) In Add Layers, pick Demand layers (population, nighttime lights, productive uses) and Supply layers (GHI, grid). 2) In Active Layers, set each layer's range and importance. 3) Choose the index (now Energy Access Potential). 4) Open Show Analysis Results. Or tell me the intervention (grid, mini-grid or stand-alone PV) and I'll set it up.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "controls"
+        }
+      ]
+    },
+    {
+      "text": "Turn on population",
+      "lang": "en",
+      "intent": "layer_control",
+      "predicted": "layer_control",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Turned on Population Count.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Add nighttime lights and health facilities",
+      "lang": "en",
+      "intent": "layer_control",
+      "predicted": "layer_control",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate nightlights",
+          "ok": true
+        },
+        {
+          "name": "activate health",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Turned on Nighttime Lights, Health Facilities.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "nighttime-lights",
+            "health-facilities-ke"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Show the solar irradiation layer",
+      "lang": "en",
+      "intent": "layer_control",
+      "predicted": "layer_control",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate ghi",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Turned on Global Horizontal Irradiation.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "ghi-ke"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Remove the distribution lines",
+      "lang": "en",
+      "intent": "layer_control",
+      "predicted": "layer_control",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "deactivate grid",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Turned off Distribution Lines.",
+      "actions": [
+        {
+          "type": "deactivate",
+          "ids": [
+            "distribution-lines-ke"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Add schools to the map",
+      "lang": "en",
+      "intent": "layer_control",
+      "predicted": "layer_control",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate schools",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Turned on Schools (Primary and Secondary).",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "schools-ken"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Switch to the demand index",
+      "lang": "en",
+      "intent": "switch_index",
+      "predicted": "switch_index",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "index demand",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Switched the prioritization index to Demand Index.",
+      "actions": [
+        {
+          "type": "index",
+          "index": "demand"
+        }
+      ]
+    },
+    {
+      "text": "Use the assistance need index",
+      "lang": "en",
+      "intent": "switch_index",
+      "predicted": "switch_index",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "index ani",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Switched the prioritization index to Assistance Need Index.",
+      "actions": [
+        {
+          "type": "index",
+          "index": "ani"
+        }
+      ]
+    },
+    {
+      "text": "Change the index to supply",
+      "lang": "en",
+      "intent": "switch_index",
+      "predicted": "switch_index",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "index supply",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Switched the prioritization index to Supply Index.",
+      "actions": [
+        {
+          "type": "index",
+          "index": "supply"
+        }
+      ]
+    },
+    {
+      "text": "Show me the results of the analysis",
+      "lang": "en",
+      "intent": "results",
+      "predicted": "results",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "results",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "I opened the analysis results: the right panel lists the high-priority areas and charts for the current layers.",
+      "actions": [
+        {
+          "type": "results"
+        }
+      ]
+    },
+    {
+      "text": "Which are the top high priority areas?",
+      "lang": "en",
+      "intent": "results",
+      "predicted": "results",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "results",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I opened the analysis results: the right panel lists the high-priority areas and charts for the current layers.",
+      "actions": [
+        {
+          "type": "results"
+        }
+      ]
+    },
+    {
+      "text": "How do I make a report?",
+      "lang": "en",
+      "intent": "report",
+      "predicted": "report",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "export",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "I opened the export dialog. You can download a PowerPoint report, the analysis as TIFF, or the priority areas as CSV. Build the analysis first so the report has content.",
+      "actions": [
+        {
+          "type": "export"
+        }
+      ]
+    },
+    {
+      "text": "Export this analysis as PowerPoint",
+      "lang": "en",
+      "intent": "report",
+      "predicted": "report",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "export",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "I opened the export dialog. You can download a PowerPoint report, the analysis as TIFF, or the priority areas as CSV. Build the analysis first so the report has content.",
+      "actions": [
+        {
+          "type": "export"
+        }
+      ]
+    },
+    {
+      "text": "Can I download the priority areas as CSV?",
+      "lang": "en",
+      "intent": "report",
+      "predicted": "report",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "export",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "I opened the export dialog. You can download a PowerPoint report, the analysis as TIFF, or the priority areas as CSV. Build the analysis first so the report has content.",
+      "actions": [
+        {
+          "type": "export"
+        }
+      ]
+    },
+    {
+      "text": "What is the difference between the indexes?",
+      "lang": "en",
+      "intent": "explain_index",
+      "predicted": "explain_index",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "EAE has four indexes. Energy Access Potential combines demand and supply (the recommended default). Demand Index uses demographics and social/productive uses. Supply Index uses resources and infrastructure. Assistance Need Index highlights high need, low economic activity and low access to infrastructure. Current: Energy Access Potential.",
+      "actions": []
+    },
+    {
+      "text": "What does the assistance need index show?",
+      "lang": "en",
+      "intent": "explain_index",
+      "predicted": "explain_index",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "EAE has four indexes. Energy Access Potential combines demand and supply (the recommended default). Demand Index uses demographics and social/productive uses. Supply Index uses resources and infrastructure. Assistance Need Index highlights high need, low economic activity and low access to infrastructure. Current: Energy Access Potential.",
+      "actions": []
+    },
+    {
+      "text": "Why is population important for energy planning?",
+      "lang": "en",
+      "intent": "explain_population",
+      "predicted": "explain_population",
+      "intent_ok": true,
+      "checks": [],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Population is a Demand layer (demographics) showing where people live, the main driver of energy demand. Say \"turn on population\" to add Population Count.",
+      "actions": []
+    },
+    {
+      "text": "What do nighttime lights tell me?",
+      "lang": "en",
+      "intent": "explain_productive",
+      "predicted": "explain_productive",
+      "intent_ok": true,
+      "checks": [],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Social and productive uses are Demand layers: nighttime lights (a proxy for existing electricity use), health facilities, schools, crops and mines. They show where energy services are needed. I opened Add Layers.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "controls"
+        }
+      ]
+    },
+    {
+      "text": "How are crops used as productive use of energy?",
+      "lang": "en",
+      "intent": "explain_productive",
+      "predicted": "explain_productive",
+      "intent_ok": true,
+      "checks": [],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Social and productive uses are Demand layers: nighttime lights (a proxy for existing electricity use), health facilities, schools, crops and mines. They show where energy services are needed. I opened Add Layers.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "controls"
+        }
+      ]
+    },
+    {
+      "text": "What is GHI?",
+      "lang": "en",
+      "intent": "explain_resources",
+      "predicted": "explain_resources",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Resource availability is a Supply layer group. GHI (Global Horizontal Irradiation, kWh/m²) shows solar potential: higher GHI means more output per panel. Say \"turn on GHI\" to add Global Horizontal Irradiation.",
+      "actions": []
+    },
+    {
+      "text": "Is the solar resource good enough here?",
+      "lang": "en",
+      "intent": "explain_resources",
+      "predicted": "explain_resources",
+      "intent_ok": true,
+      "checks": [],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Resource availability is a Supply layer group. GHI (Global Horizontal Irradiation, kWh/m²) shows solar potential: higher GHI means more output per panel. Say \"turn on GHI\" to add Global Horizontal Irradiation.",
+      "actions": []
+    },
+    {
+      "text": "What infrastructure data is available?",
+      "lang": "en",
+      "intent": "explain_infrastructure",
+      "predicted": "explain_infrastructure",
+      "intent_ok": true,
+      "checks": [],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Infrastructure is a Supply layer group: transmission and distribution lines, substations and mini-grids. For these layers the filter is the distance in km to the nearest feature. Say \"turn on the grid\" to add Distribution Lines.",
+      "actions": []
+    },
+    {
+      "text": "How is the distance to the grid calculated?",
+      "lang": "en",
+      "intent": "explain_infrastructure",
+      "predicted": "explain_infrastructure",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Infrastructure is a Supply layer group: transmission and distribution lines, substations and mini-grids. For these layers the filter is the distance in km to the nearest feature. Say \"turn on the grid\" to add Distribution Lines.",
+      "actions": []
+    },
+    {
+      "text": "How do I focus on one county?",
+      "lang": "en",
+      "intent": "geography",
+      "predicted": "geography",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "panel geographies",
+          "ok": true
+        },
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.002,
+      "engine": "rules",
+      "reply": "Use Change Geographies to focus the analysis on a sub-region. I opened it.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "geographies"
+        }
+      ]
+    },
+    {
+      "text": "Change the region",
+      "lang": "en",
+      "intent": "geography",
+      "predicted": "geography",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "panel geographies",
+          "ok": true
+        },
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Use Change Geographies to focus the analysis on a sub-region. I opened it.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "geographies"
+        }
+      ]
+    },
+    {
+      "text": "Which layers are active?",
+      "lang": "en",
+      "intent": "layers_status",
+      "predicted": "layers_status",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "No layers are on yet. I opened Add Layers.",
+      "actions": [
+        {
+          "type": "panel",
+          "panel": "controls"
+        }
+      ]
+    },
+    {
+      "text": "Hello",
+      "lang": "en",
+      "intent": "greeting",
+      "predicted": "greeting",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Hi, I'm GridMind. I can set up priority maps for grid extension, mini-grids or stand-alone solar PV in Kenya, explain the datasets and indexes, and help you export a report. What would you like to do?",
+      "actions": []
+    },
+    {
+      "text": "What can you do?",
+      "lang": "en",
+      "intent": "greeting",
+      "predicted": "greeting",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Hi, I'm GridMind. I can set up priority maps for grid extension, mini-grids or stand-alone solar PV in Kenya, explain the datasets and indexes, and help you export a report. What would you like to do?",
+      "actions": []
+    },
+    {
+      "text": "Où installer des mini-réseaux solaires ?",
+      "lang": "fr",
+      "intent": "minigrid",
+      "predicted": "unknown",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": false
+        },
+        {
+          "name": "activate ghi",
+          "ok": false
+        },
+        {
+          "name": "activate grid",
+          "ok": false
+        },
+        {
+          "name": "filter grid min",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I can help with priority maps for grid, mini-grid or stand-alone PV, explain datasets (population, nighttime lights, crops, GHI, grid) and indexes, or export a report. Could you rephrase?",
+      "actions": []
+    },
+    {
+      "text": "Montre-moi la population",
+      "lang": "fr",
+      "intent": "layer_control",
+      "predicted": "explain_population",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Population is a Demand layer (demographics) showing where people live, the main driver of energy demand. Say \"turn on population\" to add Population Count.",
+      "actions": []
+    },
+    {
+      "text": "Comment créer un rapport ?",
+      "lang": "fr",
+      "intent": "report",
+      "predicted": "unknown",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "export",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I can help with priority maps for grid, mini-grid or stand-alone PV, explain datasets (population, nighttime lights, crops, GHI, grid) and indexes, or export a report. Could you rephrase?",
+      "actions": []
+    },
+    {
+      "text": "Nionyeshe maeneo ya sola ya nyumbani",
+      "lang": "sw",
+      "intent": "standalone",
+      "predicted": "unknown",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": false
+        },
+        {
+          "name": "activate ghi",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I can help with priority maps for grid, mini-grid or stand-alone PV, explain datasets (population, nighttime lights, crops, GHI, grid) and indexes, or export a report. Could you rephrase?",
+      "actions": []
+    },
+    {
+      "text": "Make solar potential twice as important as population",
+      "lang": "en",
+      "intent": "layer_control",
+      "predicted": "explain_population",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "weight ghi",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "Population is a Demand layer (demographics) showing where people live, the main driver of energy demand. Say \"turn on population\" to add Population Count.",
+      "actions": []
+    },
+    {
+      "text": "Only keep areas more than 20 km from distribution lines",
+      "lang": "en",
+      "intent": "layer_control",
+      "predicted": "explain_infrastructure",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "filter grid min",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "Infrastructure is a Supply layer group: transmission and distribution lines, substations and mini-grids. For these layers the filter is the distance in km to the nearest feature. Say \"turn on the grid\" to add Distribution Lines.",
+      "actions": []
+    },
+    {
+      "text": "What's the weather tomorrow?",
+      "lang": "en",
+      "intent": "unknown",
+      "predicted": "unknown",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "no layer changes",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.002,
+      "engine": "rules",
+      "reply": "I can help with priority maps for grid, mini-grid or stand-alone PV, explain datasets (population, nighttime lights, crops, GHI, grid) and indexes, or export a report. Could you rephrase?",
+      "actions": []
+    },
+    {
+      "text": "Show me the most populated parts of Kenya which have low access to energy",
+      "lang": "en",
+      "intent": "find_areas",
+      "predicted": "find_areas",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate access",
+          "ok": true
+        },
+        {
+          "name": "filter access max",
+          "ok": true
+        },
+        {
+          "name": "areas",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I turned on Population Count and County Lighting Electricity (at most 30%) and ranked the counties by Population Count. The top areas are listed below and highlighted on the map.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density"
+          ]
+        },
+        {
+          "type": "activate",
+          "ids": [
+            "county-lighting-electricity"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "county-lighting-electricity",
+          "max": 30
+        },
+        {
+          "type": "areas",
+          "top": 5,
+          "order": "desc",
+          "division": "Counties",
+          "sort_by": "population-density"
+        }
+      ]
+    },
+    {
+      "text": "Which counties have the lowest electricity access?",
+      "lang": "en",
+      "intent": "find_areas",
+      "predicted": "find_areas",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate access",
+          "ok": true
+        },
+        {
+          "name": "areas",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I turned on County Lighting Electricity (at most 30%) and ranked the counties by County Lighting Electricity. The top areas are listed below and highlighted on the map.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "county-lighting-electricity"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "county-lighting-electricity",
+          "max": 30
+        },
+        {
+          "type": "areas",
+          "top": 5,
+          "order": "asc",
+          "division": "Counties",
+          "sort_by": "county-lighting-electricity"
+        }
+      ]
+    },
+    {
+      "text": "Where do many people live without electricity?",
+      "lang": "en",
+      "intent": "find_areas",
+      "predicted": "find_areas",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "activate access",
+          "ok": true
+        },
+        {
+          "name": "areas",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I turned on Population Count and County Lighting Electricity (at most 30%) and ranked the counties by Population Count. The top areas are listed below and highlighted on the map.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density"
+          ]
+        },
+        {
+          "type": "activate",
+          "ids": [
+            "county-lighting-electricity"
+          ]
+        },
+        {
+          "type": "filter",
+          "id": "county-lighting-electricity",
+          "max": 30
+        },
+        {
+          "type": "areas",
+          "top": 5,
+          "order": "desc",
+          "division": "Counties",
+          "sort_by": "population-density"
+        }
+      ]
+    },
+    {
+      "text": "List the top 5 most populated counties",
+      "lang": "en",
+      "intent": "find_areas",
+      "predicted": "find_areas",
+      "intent_ok": true,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": true
+        },
+        {
+          "name": "areas",
+          "ok": true
+        }
+      ],
+      "actions_ok": true,
+      "invented_ids": [],
+      "seconds": 0,
+      "engine": "rules",
+      "reply": "I turned on Population Count and ranked the counties by Population Count. The top areas are listed below and highlighted on the map.",
+      "actions": [
+        {
+          "type": "activate",
+          "ids": [
+            "population-density"
+          ]
+        },
+        {
+          "type": "areas",
+          "top": 5,
+          "order": "desc",
+          "division": "Counties",
+          "sort_by": "population-density"
+        }
+      ]
+    },
+    {
+      "text": "Quels comtés très peuplés ont un faible accès à l'électricité ?",
+      "lang": "fr",
+      "intent": "find_areas",
+      "predicted": "unknown",
+      "intent_ok": false,
+      "checks": [
+        {
+          "name": "activate population",
+          "ok": false
+        },
+        {
+          "name": "activate access",
+          "ok": false
+        },
+        {
+          "name": "areas",
+          "ok": false
+        }
+      ],
+      "actions_ok": false,
+      "invented_ids": [],
+      "seconds": 0.001,
+      "engine": "rules",
+      "reply": "I can help with priority maps for grid, mini-grid or stand-alone PV, explain datasets (population, nighttime lights, crops, GHI, grid) and indexes, or export a report. Could you rephrase?",
+      "actions": []
+    }
+  ]
+}
