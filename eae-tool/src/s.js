@@ -1,0 +1,336 @@
+import Toast from './toast.js';
+
+import {
+	sentry_setup_global_handlers,
+} from './sentry.js';
+
+import {
+	loading,
+	self,
+} from './utils.js';
+
+import modal from '../lib/modal.js';
+
+import bubblemessage from '../lib/bubblemessage.js';
+
+import selectlist from '../lib/selectlist.js';
+
+import {
+	and,
+	ce,
+	maybe,
+	or,
+	qs,
+} from '../lib/helpers.js';
+
+import { t, translateNode, initLocalePicker, resolveLocale } from './translate.js';
+
+// Local partners can link to EAE from their own site (e.g. a gov.in page)
+// expecting visitors to see only their own geography in the menu.
+const PARTNER_GEOGRAPHIES = [
+	{ "referrer": /(^|\.)gov\.in$/i, "geography": "India" },
+];
+
+function partner_geography_match() {
+	if (!document.referrer) return null;
+
+	let hostname;
+	try {
+		hostname = new URL(document.referrer).hostname;
+	} catch {
+		return null;
+	}
+
+	const match = PARTNER_GEOGRAPHIES.find(p => p.referrer.test(hostname));
+	return match ? match.geography : null;
+};
+
+function find_geography_by_name(geographies, name) {
+	const lower = name.toLowerCase();
+	return geographies.find(g => g.name.toLowerCase() === lower)
+		|| geographies.find(g => g.name.toLowerCase().startsWith(lower + ' '));
+};
+
+function preload_boundaries(id) {
+	return API.get('datasets', {
+		"select":        ['processed_files'],
+		"geography_id":  `eq.${id}`,
+		"category_name": "in.(outline,boundaries)",
+	}).then(r => {
+		r.map(d => d['processed_files'].find(f => f['func'] === 'vectors'))
+			.filter(Boolean)
+			.forEach(f => fetch(f['endpoint']).catch(() => {}));
+	});
+};
+
+async function geography(c) {
+	const coll = await API.get("geographies", {
+		"datasets_count": "gt.0",
+		"parent_id":      `eq.${c.id}`,
+		"deployment":     `ov.{${ENV}}`,
+	});
+
+	if (c.datasets_count > 2) coll.unshift(c); // 2 datasets: outline and admin-tiers
+
+	if (!coll.length) {
+		alert(t(window.LOCALE, 'geography_picker.no_geographies'));
+		return;
+	}
+
+	const data = {};
+	for (const x of coll) data[x.name] = x.name;
+
+	const sl = new selectlist(`geographies-select-` + c.id, data, {
+		'change': function(_) {
+			const x = coll.find(x => x.name === this.value);
+
+			if (maybe(x, 'configuration', 'exclude_sector_presets')) {
+				window.location = `${window.BASE}/tool/a?id=${x.id}`;
+				return;
+			}
+
+			if (x) usertype(x.id);
+		},
+	});
+
+	if (coll.length === 1 && c.id === coll[0].id) {
+		usertype(c.id);
+		return;
+	}
+
+	const content = ce('div');
+	content.append(
+		ce('p', t(window.LOCALE, 'geography_picker.multiple', { "name": c.name })),
+		sl.el,
+	);
+
+	new modal({
+		"id":      'geography-modal',
+		"header":  c.name,
+		"content": content,
+		"footer":  null,
+		"destroy": true,
+	}).show();
+
+	sl.input.focus();
+};
+
+const presets = [
+	{
+		"key":         "strategic_planning",
+		"name":        "Strategic and Integrated Energy Planning",
+		"index":       "eai",
+		"view":        "analysis",
+		"description": "Electrification planning agencies are able to link electrification and development outcomes.",
+		"variant":     "raster",
+		"tab":         "controls",
+	},
+	{
+		"key":         "clean_energy_markets",
+		"name":        "The expansion of clean energy markets",
+		"index":       "eai",
+		"view":        "analysis",
+		"description": "Technology suppliers (whether mini grid developers or solar home system providers) can get a better understanding of aspects of affordability and level of service needed.",
+		"variant":     "raster",
+		"tab":         "controls",
+	},
+	{
+		"key":         "impact_investment",
+		"name":        "Impact investment",
+		"index":       "ani",
+		"view":        "analysis",
+		"description": "Donors and development finance institutions can identify areas where grants and support will have the most impact.",
+		"variant":     "raster",
+		"tab":         "controls",
+	},
+	{
+		"key":         "energy_needs",
+		"name":        "Bottom-up assessment of energy needs",
+		"index":       "demand",
+		"view":        "analysis",
+		"description": "Service delivery institutions in the health, education and agriculture sectors are able to estimate energy needs associated to development services.",
+		"variant":     "raster",
+		"tab":         "controls",
+	},
+	{
+		"key":         "custom_analysis",
+		"name":        "Generate custom geospatial analysis based on your own criteria",
+		"description": null,
+		"index":       "eai",
+		"view":        "data",
+		"datasets":    [],
+		"variant":     "raster",
+		"tab":         "controls",
+	},
+];
+
+function usertype(gid) {
+	const content = ce('div', ce('p', t(window.LOCALE, 'geography_picker.interest_prompt')), { "id": "presets" });
+
+	const ul = ce('ul');
+	for (const preset of presets) {
+		const title = t(window.LOCALE, `geography_picker.presets.${preset.key}.title`);
+		const desc = preset.description
+			? t(window.LOCALE, `geography_picker.presets.${preset.key}.description`)
+			: null;
+		const p = ce('p', desc);
+		const li = ce('li', ce('a', [ce('h3', title), p], { "href": `${window.BASE}/tool/a?id=${gid}` }));
+		li.onclick = function() {
+			sessionStorage.setItem('config', JSON.stringify(preset));
+		};
+
+		ul.append(li);
+	}
+
+	// move the "own criteria" entry to the beggining. CAREFUL: The rest of the presets are ordered with presets.tsv below..."
+	if (MOBILE) ul.lastElementChild.remove();
+	else ul.prepend(ul.lastElementChild);
+
+	content.append(ul);
+
+	new modal({
+		content,
+		"id":      'usertype-modal',
+		"header":  t(window.LOCALE, 'geography_picker.choose_area'),
+		"footer":  null,
+		"destroy": true,
+	}).show();
+};
+
+async function presets_init() {
+	function intornot(str) {
+		const i = parseInt(str);
+		if (and((typeof i === 'number'), !isNaN(i)))
+			return parseInt(i);
+	};
+
+	d3.csv(EAE['settings'].storage + "presets.csv")
+		.then(function(rows) {
+			rows.forEach(r => {
+				const preset = presets[+r.preset_index];
+				if (!preset) return;
+				if (!preset.datasets) preset.datasets = [];
+
+				let name = r['ds_name'];
+				const m = name.match(/(.*):(.*)/);
+
+				if (m) name = m[1];
+
+				const ds = {
+					"name":      name,
+					"weight":    intornot(r['weight']),
+					"selection": maybe(m, 2) ? [maybe(m, 2)] : undefined,
+					"domain":    {
+						"min": intornot(r['min']),
+						"max": intornot(r['max']),
+					},
+				};
+
+				preset.datasets.push(ds);
+			});
+		})
+		.catch(err => console.warn("presets_init: failed to load presets.csv", err));
+};
+
+export async function init() {
+	window.LOCALE = resolveLocale();
+
+	translateNode(window.LOCALE, document);
+
+	if (window.innerWidth <= 768) return;
+
+	initLocalePicker(window.LOCALE);
+
+	sentry_setup_global_handlers(ENV[0]);
+	await self();
+
+	const playground = qs('#playground');
+
+	function hextostring(hex) {
+		let s = "";
+
+		//             /--------------- careful there
+		//            /
+		//           V
+		for (let i = 2; i < hex.length; i += 2)
+			s += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+
+		return s;
+	};
+
+	function list(geographies) {
+		for (const co of geographies) {
+			const d = ce('div', ce('h2', co.name, { "class": 'country-name' }), { "class": 'country-item', "ripple": "" });
+			d.onclick = async _ => {
+				preload_boundaries(co.id);
+				setTimeout(_ => geography(co), 350);
+			};
+
+			const intro = maybe(co, 'configuration', 'introduction');
+			if (intro && !MOBILE) {
+				let p;
+
+				d.onmouseenter = _ => {
+					p = new bubblemessage({
+						"message":  ce('pre', intro),
+						"close":    false,
+						"position": "C",
+					}, d);
+				};
+
+				d.onmouseleave = _ => {
+					p.remove();
+				};
+			}
+
+			const _name = co.name.replace(new RegExp("\\ ?\\(?(" + ENV.join('|') + ")\\)?", "i"), '');
+
+			fetch(`${EAE['settings'].world}/countries?select=flag&or=(names->>official.eq."${_name}",name.eq."${_name}")`)
+				.then(r => r.json())
+				.then(r => {
+					const data = r[0];
+
+					if (!data) return;
+
+					d.append(ce('img', null, {
+						"src":   URL.createObjectURL((new Blob([hextostring(data['flag'])], {"type": "image/svg+xml"}))),
+						"class": "flag",
+					}));
+				});
+
+			playground.append(d);
+		}
+
+		loading(false);
+	};
+
+	const params = {
+		"select":     ['*', 'datasets_count'],
+		"adm":        "eq.0",
+		"deployment": `ov.{${ENV}}`,
+	};
+
+	if (SELF && and(or(ENV.includes('protected'),
+	           ENV.includes('training')),
+	        !["director", "root"].includes(SELF.role))) {
+		params['with_access'] = "is.true";
+	}
+
+	API.get("geographies", params)
+		.then(r => {
+			const partnerGeography = partner_geography_match();
+			if (partnerGeography) {
+				const co = find_geography_by_name(r, partnerGeography);
+				if (co) r = [co];
+			}
+
+			list(r);
+		})
+		.catch(error => {
+			new Toast({ "label": t(window.LOCALE, 'toast.fetch_error.label'), "caption": String(error), "variant": 'error' }).show();
+
+			throw error;
+		});
+
+	presets_init();
+};

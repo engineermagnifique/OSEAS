@@ -1,0 +1,16 @@
+{
+  "name": "gridmind-agent",
+  "version": "0.1.0",
+  "description": "GridMind: open-source LLM chat assistant for Energy Access Explorer",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "eval": "node eval.js",
+    "eval:rules": "node eval.js --engine=rules"
+  }
+}

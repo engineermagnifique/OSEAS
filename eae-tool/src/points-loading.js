@@ -1,0 +1,291 @@
+import {
+	coordinates_to_raster_pixel,
+} from './utils.js';
+
+import bubblemessage from '../lib/bubblemessage.js';
+
+import modal from '../lib/modal.js';
+
+import {
+	coords_search_pois as mapbox_coords_search_pois,
+} from './mapbox.js';
+
+import {
+	plot_active as analysis_plot_active,
+	analysis_colorscale,
+	lowmedhigh_scale,
+} from './analysis.js';
+
+import {
+	pointto as search_pointto,
+	zoom,
+} from './search.js';
+
+import {
+	ce,
+	fake_blob_download,
+	maybe,
+	qs,
+	tmpl,
+} from '../lib/helpers.js';
+
+import { t, tbind, translateNode, translateIndexName } from './translate.js';
+
+let ul, resultscontainer, resultsinfo;
+
+function pointto(p, centerPointer = false) {
+	const dict = [[ "v", translateIndexName(window.LOCALE, STATE.index) ]];
+	const props = { "v": lowmedhigh_scale(p.v) };
+
+	search_pointto(p.c, dict, props, centerPointer);
+};
+
+function li(p) {
+	const pi3 = (p.c).map(c => +c.toFixed(3));
+
+	const pn = ce('span');
+
+	const el = ce('li', [
+		ce('code', 	"[" + pi3.join(", ") + "]", { "style": "font-size: 0.9em" } ),
+		pn,
+	]);
+
+	const t = (p.v ? Math.round((p.v).toFixed(2) * 100) : "");
+
+	el.setAttribute('group', t);
+
+	el.onmouseenter = pointto.bind(null, p);
+
+	el.onclick = zoom.bind(null, p, pointto.bind(null, p, true));
+
+	mapbox_coords_search_pois({ "coords": p.c, "limit": 1 })
+		.then(r => pn.append(ce('span', maybe(r, 0, 'name'), { "class": "context" })));
+
+	return el;
+};
+
+function trigger() {
+	ul.replaceChildren();
+
+	const list = COORDINATES
+		.sort((a,b) => a.v > b.v ? -1 : 1)
+		.map(t => li(t));
+
+	const groups = {};
+	list.forEach(i => {
+		const a = i.getAttribute('group');
+		if (!groups[a]) groups[a] = [];
+
+		groups[a].push(i);
+	});
+
+	ul.append(...list);
+
+	tbind(LOCALE, resultsinfo, { "text": ['left_panel.points_loading.selected', { "count": list.length }] });
+
+	for (const g in groups) {
+		const el = ul.querySelector(`[group='${g}']`);
+		const h = ce('h5', g + "%");
+
+		ul.insertBefore(h, el);
+
+		h.style = `
+font-size: 0.9em;
+background-color: rgba(${analysis_colorscale.fn(g/100.0)});
+padding: 0.5em;
+padding-left: 1em;
+margin: 0.5em auto;
+margin-left: 0;
+width: calc(${g}% - 1.5em);
+`;
+	}
+};
+
+async function fileload(data) {
+	const a = await analysis_plot_active(STATE.index);
+
+	COORDINATES = d3.csvParseRows(data, d => {
+		const c = [parseFloat(d[0]), parseFloat(d[1])];
+
+		const p = coordinates_to_raster_pixel(c, {
+			"data":   a.raster,
+			"nodata": -1,
+		});
+
+		return { "v": p.value, "i": p.index, c };
+	});
+
+	trigger();
+};
+
+async function reload() {
+	const a = await analysis_plot_active(STATE.index);
+
+	COORDINATES = COORDINATES.map(c => {
+		const p = coordinates_to_raster_pixel(c.c, {
+			"data":   a.raster,
+			"nodata": -1,
+		});
+
+		return p ? { "v": p.value, "i": p.index, "c": c.c } : undefined;
+	}).filter(p => p);
+
+	trigger();
+};
+
+export function init() {
+	const panel = qs('#points.search-panel');
+
+	const file_input = qs('#points-file-input', panel);
+	const upload = qs('#points-upload', panel);
+	const upmsg = () => `
+<h1>${t(window.LOCALE, 'left_panel.points_loading.upload_message_title')}</h1>
+
+${t(window.LOCALE, 'left_panel.points_loading.upload_message_intro')}
+<ul>
+  <li>${t(window.LOCALE, 'left_panel.points_loading.upload_message_list_item_1')}</li>
+  <li>${t(window.LOCALE, 'left_panel.points_loading.upload_message_list_item_2')}</li>
+  <li>${t(window.LOCALE, 'left_panel.points_loading.upload_message_list_item_3')}</li>
+  <li>${t(window.LOCALE, 'left_panel.points_loading.upload_message_list_item_4')}</li>
+  <li>${t(window.LOCALE, 'left_panel.points_loading.upload_message_list_item_5')}</li>
+</ul>
+
+<p>${t(window.LOCALE, 'left_panel.points_loading.upload_message_example')}</p>
+<pre>
+    -12.09156,9.05680
+    -10.90457,7.93582
+</pre>
+`;
+
+	let upbubble, downbubble, pickbubble, inputbubble;
+
+	upload.onmouseenter = _ => {
+		upbubble = new bubblemessage({
+			"position": "S",
+			"message":  upmsg(),
+			"close":    false,
+		}, qs('i', upload));
+
+		upbubble.style['pointer-events'] = "none";
+	};
+
+	upload.onmouseleave = _ => upbubble.remove();
+
+	const download = qs('#points-download', panel);
+
+	download.onmouseenter = _ => {
+		const downmsg = t(window.LOCALE, 'left_panel.points_loading.download_tooltip');
+		downbubble = new bubblemessage({
+			"position": "S",
+			"message":  downmsg,
+			"close":    false,
+		}, qs('i', download));
+
+		downbubble.style['pointer-events'] = "none";
+	};
+
+	download.onmouseleave = _ => downbubble.remove();
+
+	download.onclick = _ => {
+		if (!COORDINATES.length) return;
+
+		const str = COORDINATES.map(c => [c.c[0], c.c[1], c.v].join(',')).join('\n');
+		const time = (new Date()).getTime();
+
+		fake_blob_download(str, `energyaccessexplorer-points-${time}.csv`);
+	};
+
+	const pointspick = qs('#points-pick', panel);
+
+	pointspick.onmouseenter = _ => {
+		const pickmsg = t(window.LOCALE, 'left_panel.points_loading.pick_tooltip');
+		pickbubble = new bubblemessage({
+			"position": "S",
+			"message":  pickmsg,
+			"close":    false,
+		}, qs('i', pointspick));
+
+		pickbubble.style['pointer-events'] = "none";
+	};
+
+	pointspick.onmouseleave = _ => pickbubble.remove();
+
+	pointspick.onclick = _ => {
+		COORDINATESMODE = true;
+	};
+
+	const pointsinput = qs('#points-input', panel);
+
+	pointsinput.onmouseenter = _ => {
+		const inputmsg = t(window.LOCALE, 'left_panel.points_loading.input_tooltip');
+		inputbubble = new bubblemessage({
+			"position": "S",
+			"message":  inputmsg,
+			"close":    false,
+		}, qs('i', pointsinput));
+
+		inputbubble.style['pointer-events'] = "none";
+	};
+
+	pointsinput.onmouseleave = _ => inputbubble.remove();
+
+	pointsinput.onclick = _ => {
+		const content = tmpl('#points-input-form');
+		translateNode(window.LOCALE, content);
+		const header = t(window.LOCALE, 'left_panel.points_loading.input_modal_header');
+
+		const m = new modal({
+			"id":      'points-input-modal',
+			header,
+			content,
+			"destroy": true,
+		});
+
+		const form = qs('form', m.dialog);
+
+		const c = MAPBOX.getCenter();
+		const e = GEOGRAPHY.envelope;
+
+		const lng = qs('#lng', form);
+		lng.value = c.lng.toFixed(4);
+		lng.min = e[0].toFixed(4);
+		lng.max = e[2].toFixed(4);
+
+		const lat = qs('#lat', form);
+		lat.value = c.lat.toFixed(4);
+		lat.min = e[1].toFixed(4);
+		lat.max = e[3].toFixed(4);
+
+		form.onsubmit = function(e) {
+			e.preventDefault();
+
+			COORDINATES.unshift({ "c": [+qs('#lng', form).value, +qs('#lat', form).value] });
+			qs('#points.search-panel').dispatchEvent(new Event('activate'));
+		};
+
+		m.show();
+	};
+
+	file_input.onchange = function() {
+		if (!this.files.length) return;
+
+		const reader = new FileReader();
+
+		reader.onload = function() {
+			fileload(reader.result);
+		};
+
+		reader.readAsText(this.files[0]);
+
+		file_input.value = null;
+	};
+
+	panel.addEventListener('activate', reload);
+
+	resultscontainer = qs('#points .search-results');
+	resultsinfo = qs('#points .search-results-info');
+	ul = ce('ul');
+	resultscontainer.append(ul);
+
+	tbind(LOCALE, resultsinfo, { "text": 'left_panel.points_loading.header' });
+};

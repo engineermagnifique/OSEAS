@@ -1,0 +1,14 @@
+/lib
+/dist
+/*.diff
+*.orig
+*.rej
+/settings.tmp.json
+/settings.tmp.json.*
+/locales/translations.js.tmp
+/.env
+/.LASTDEPLOY
+node_modules
+bin/templates
+bin/locales
+/tsbuild

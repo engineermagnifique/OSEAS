@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="640">
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <link rel="icon" href="{{template "base" .}}/images/EAE Logo_Emblem.svg">
+
+    <link rel="stylesheet" href="../lib/bootstrap-icons.css">
+
+    <script type="module" src="./browser.js"></script>
+
+    <script src="./libs.js?v=--TIMESTAMP--"></script>
+    <script src="./main.js?v=--TIMESTAMP--"></script>
+
+    <link href="{{template "base" .}}/stylesheets/style.css" rel="stylesheet" />
+    <link href="{{template "base" .}}/stylesheets/nav.css" rel="stylesheet" />
+
+    <link href="{{template "base" .}}/tool/lib/mapbox-gl.css" rel="stylesheet" />
+    <link href="./main.css" rel="stylesheet" />
+
+    {{template "head" .}}
+  </head>
+
+  <body>
+    {{template "nav" .}}
+
+    <div id="mobile-switcher"></div>
+
+    <div id="playground">
+      <div id="drawer">
+        <a for="cards" description="Active Layers" data-t-description="left_panel.drawer.active_layers"><i class="bi bi-list-task"></i></a>
+        <a for="controls" description="Add Layers" data-t-description="left_panel.drawer.add_layers"><i class="bi bi-plus-lg"></i></a>
+        <a for="geographies" description="Change Geographies" data-t-description="left_panel.drawer.geographies"><i class="bi bi-globe"></i></a>
+        <a for="vectors" description="Search Features" data-t-description="left_panel.drawer.search_features"><i class="bi bi-search"></i></a>
+        <a for="locations" description="Search POI's" data-t-description="left_panel.drawer.search_pois"><i class="bi bi-geo"></i></a>
+        {{if ne .env "production"}}<a for="points" description="Points Loading" data-t-description="left_panel.drawer.points_loading"><i class="bi bi-crosshair"></i></a>{{end}}
+        <a id="drawer-info" description="Disclaimer" data-t-description="left_panel.drawer.disclaimer" bind-listen="click" bind-func="show_info"><i class="bi bi-info-circle"></i></a>
+      </div>
+
+      <div id="left-panel" style="display: none;">
+        <div id="cards" class="search-panel">
+          <div id="output-widget">
+            <h4>
+              <span data-t="left_panel.output.generate_analysis">Generate Analysis</span>
+              <button id="eae-info-button">
+                <i class="bi-info-circle"></i>
+                <span data-t="left_panel.cards.card.about_button">About</span>
+              </button>
+            </h4>
+
+            <div id="selects">
+              <div>
+                <span data-t="left_panel.output.analysis_area_label">Analysis Area</span>
+                <select id="output-variant-select"></select>
+              </div>
+
+              <div>
+                <span data-t="left_panel.output.prioritization_index_label">Prioritization Index</span>
+                <select id="index-select"></select>
+              </div>
+            </div>
+
+            <div id="output-ramp">
+              <strong data-t="left_panel.output.priority_legend">Priority Legend</strong>
+            </div>
+
+            <div class="visibility-group">
+              <div id="output-visibility">
+                <label>
+                  <input id="output-on-map"
+                         type="checkbox" checked>
+                  &nbsp;
+                  <span data-t="left_panel.output.show_on_map">Show analysis on map</span>
+                </label>
+              </div>
+
+              <div id="output-opacity"
+                   class="opacity-group">
+                <span data-t="left_panel.output.opacity_label">Opacity</span>
+              </div>
+            </div>
+
+            <div id="timeline-filters-toggle-container">
+              <label>
+                <input id="timeline-filters-toggle" type="checkbox">
+                &nbsp;
+                <span data-t="timeline.filters.enabled_label">Only show areas that meet all data layer criteria</span>
+              </label>
+            </div>
+          </div>
+
+          <h4 data-t="left_panel.cards.title">Active Data Layers</h4>
+
+          <div id="cards-buttons">
+            <button bind-listen="click"
+                    bind-func="visible_all">
+              <i class="bi-eye-slash-fill"></i>
+              <span data-t="left_panel.cards.hide_all">Hide all layers</span>
+            </button>
+
+            <button bind-listen="click"
+                    bind-func="reset_all">
+              <i class="bi bi-arrow-repeat"></i>
+              <span data-t="left_panel.cards.reset_all">Reset all settings</span>
+            </button>
+
+            <button bind-listen="click"
+                    bind-func="expand_all">
+              <i class="bi bi-arrows-angle-expand"></i>
+              <span data-t="left_panel.cards.expand_all">Expand all settings</span>
+            </button>
+
+            <button bind-listen="click"
+                    bind-func="remove_all">
+              <span style="color: #c30000;">
+                <i class="bi-x-lg"></i>
+                <span data-t="left_panel.cards.remove_all">Remove all layers</span>
+              </span>
+            </button>
+          </div>
+
+          <panel-section id="timeline-year-control-section" class="timeline-year-control" style="display: none;">
+            <h2 slot="title" data-t="timeline.year_control.title">Select year for timeline data</h2>
+            <div slot="actions">
+              <button type="button" class="button-icon button-info button-about">
+                <span data-t="left_panel.cards.card.about_button">About</span>
+                <i class="bi bi-info-circle"></i>
+              </button>
+            </div>
+            <div class="timeline-year-control-body">
+              <select id="timeline-year-select"></select>
+              <div id="timeline-year-slider"></div>
+            </div>
+          </panel-section>
+
+          <div id="cards-list" class="search-results"></div>
+        </div>
+
+        <div id="controls" class="search-panel">
+          <div class="search-results">
+            <div id="controls-tabs"></div>
+            <div id="controls-contents"></div>
+          </div>
+        </div>
+
+        <div id="geographies" class="search-panel">
+          <div class="search-results"></div>
+
+          <div id="timeline-graphs">
+            <div class="header up-title"
+                 style="margin: auto;
+                        width: 100%;
+                        text-align: center;
+                        padding: 10px;">
+              <strong id="lines-header"></strong>
+            </div>
+
+            <div id="lines-graph" class="graphs"></div>
+          </div>
+        </div>
+
+        <div id="vectors" class="search-panel">
+          <div class="search-results">
+            <div class="search-results-info"><span bind="text"></span></div>
+          </div>
+        </div>
+
+        <div id="locations" class="search-panel">
+          <div class="search-results">
+            <div class="search-results-info"><span bind="text"></span></div>
+          </div>
+        </div>
+
+        <div id="points" class="search-panel">
+          <div id="ponits-buttons" class="panel-buttons">
+            <a id="points-download"
+               data-t-title="left_panel.points_loading.download_button">
+              <i class="bi-box-arrow-in-down"></i>
+            </a>
+
+            <a id="points-upload">
+              <label for="points-file-input"
+                     data-t-title="left_panel.points_loading.upload_button">
+                <i class="bi-box-arrow-in-up"></i>
+              </label>
+              <input type="file" id="points-file-input" accept="text/csv" hidden>
+            </a>
+
+            <a id="points-pick"
+               data-t-title="left_panel.points_loading.pick_button">
+              <i class="bi-geo-alt"></i>
+            </a>
+
+            <a id="points-input"
+               data-t-title="left_panel.points_loading.input_button">
+              <i class="bi-cursor-text"></i>
+            </a>
+          </div>
+
+          <div class="search-results">
+            <div class="search-results-info"><span bind="text"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="visual">
+        <div id="maparea">
+          <div id="mapbox-container"></div>
+          <!-- timeline will go here -->
+        </div>
+      </div>
+
+      <button id="right-panel-show" class="button-icon button-icon-mid">
+        <span data-t="right_panel.header.show">Show Analysis Results</span>
+        <i class="bi bi-eye-fill"></i>
+      </button>
+
+      <div id="right-panel" closed>
+        <header id="right-panel-header" style="display: none;">
+          <div class="header-top">
+            <h2 class="header-title" data-t="right_panel.header.title">Analysis Results</h2>
+            <button id="right-panel-hide" class="button-icon button-icon-sm">
+              <i class="bi bi-eye-slash"></i>
+              <span data-t="right_panel.header.hide">Hide</span>
+            </button>
+          </div>
+        </header>
+
+        <div id="location-summary" style="display: none;">
+          <div class="location-summary-top">
+            <span class="location-coordinates"></span>
+            <span class="location-priority-badge"></span>
+          </div>
+          <div class="location-area-type">
+            <i class="bi bi-record-circle"></i>
+            <span></span>
+          </div>
+          <div class="location-name">
+            <i class="bi bi-geo-alt-fill"></i>
+            <span></span>
+          </div>
+        </div>
+
+        <div id="right-panel-tabs" role="tablist">
+          <button class="right-panel-tab active" role="tab" data-tab="prioritization" aria-selected="true">
+            <i class="bi bi-lightning-fill"></i>
+            <span data-t="right_panel.tabs.prioritization">Prioritization</span>
+          </button>
+          <button class="right-panel-tab" role="tab" data-tab="data" aria-selected="false">
+            <i class="bi bi-bar-chart-line-fill"></i>
+            <span data-t="right_panel.tabs.data">Data</span>
+          </button>
+
+          <button class="right-panel-tab" role="tab" data-tab="timeline" aria-selected="false">
+            <i class="bi bi-clock-history"></i>
+            <span data-t="right_panel.tabs.timeline">Timeline</span>
+          </button>
+        </div>
+
+        <svg style="display: none" xmlns="http://www.w3.org/2000/svg">
+          <symbol id="blank-state-icon" viewBox="0 0 64 64" fill="none">
+            <path d="M64 60.25H60.25V22.5H48.875V60.25H45.125V37.5H33.875V60.25H30.125V30H18.875V60.25H15.125V41.25H3.75V60.25H0V64H64V60.25Z" fill="#A0D4C1"/>
+            <path d="M63.999 15V0H48.874V3.75H57.598L39.499 21.7236L24.499 6.72361L0.549023 30.5494L3.20002 33.2006L24.499 12.0264L39.499 27.0264L60.249 6.40137V15H63.999Z" fill="#A0D4C1"/>
+          </symbol>
+        </svg>
+
+        <div id="right-panel-content">
+          <div id="analysis-loading-state">
+            <div class="blank-state-content">
+              <div class="spinner"></div>
+              <p class="blank-state-title" data-t="right_panel.prioritization.loading.title">Loading data layers</p>
+              <p class="blank-state-subtitle" data-t="right_panel.prioritization.loading.subtitle">Please wait while datasets are being processed.</p>
+            </div>
+          </div>
+
+          <div id="right-panel-tab-prioritization" class="right-panel-tab-panel" role="tabpanel">
+            <div id="tab-title"></div>
+            <div id="index-priority-container"></div>
+            <div id="poi-card-container"></div>
+            <div id="analysis-blank-state">
+              {{template "blank-state" .}}
+            </div>
+            <div id="analysis-sections-wrapper">
+              <div id="analysis-locations"></div>
+            </div>
+          </div>
+
+          <div id="right-panel-tab-data" class="right-panel-tab-panel" role="tabpanel" hidden>
+            <div id="data-blank-state" style="display: flex">
+              {{template "blank-state" .}}
+            </div>
+            <div id="data-cards-container"></div>
+          </div>
+
+          <div id="right-panel-tab-timeline" class="right-panel-tab-panel" role="tabpanel" hidden>
+            <div id="timeline-blank-state">
+              <div class="blank-state-content">
+                <svg class="blank-state-icon" width="64" height="64"><use href="#blank-state-icon"/></svg>
+                <p class="blank-state-title" data-t="timeline.blank_state.title">Add a timeline dataset to see trends over time</p>
+                <p class="blank-state-subtitle" data-t="timeline.blank_state.subtitle">Select a dataset with historical data from the left panel to unlock trend lines and filtered geographies for this area.</p>
+              </div>
+            </div>
+            <div id="timeline-tab-container">
+              <panel-section class="timeline-trend-lines" collapsible>
+                <h2 slot="title" data-t="timeline.trend.title">Trend lines</h2>
+                <div slot="actions">
+                  <button type="button" class="button-icon button-info button-about">
+                    <span data-t="left_panel.cards.card.about_button">About</span>
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+                </div>
+                <div class="timeline-trend-body">
+                  <p id="timeline-trend-subtitle" class="data-card-description"></p>
+                  <div id="timeline-trend-chart"></div>
+                  <div id="timeline-trend-legend"></div>
+                </div>
+              </panel-section>
+
+              <panel-section class="timeline-filtered-geographies" collapsible>
+                <h2 slot="title" id="timeline-filtered-title" data-t="timeline.filtered_geographies.title">Filtered geographies</h2>
+                <p slot="description" data-t="timeline.filtered_geographies.subtitle"></p>
+                <div slot="actions">
+                  <button type="button" class="button-icon button-info button-about">
+                    <span data-t="left_panel.cards.card.about_button">About</span>
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+                </div>
+                <p id="filtered-no-results" class="data-card-description" data-t="timeline.filtered_geographies.no_results" style="display: none;"></p>
+                <div id="filtered-results">
+                  <div id="filtered-list" class="locations-paginated-list"></div>
+                  <footer class="locations-footer">
+                    <button type="button" id="filtered-view-all" class="button-icon button-icon-mid">
+                      <i class="bi bi-table"></i>
+                      <span data-t="right_panel.prioritization.high_priority.view_download">View or Download data</span>
+                    </button>
+                  </footer>
+                </div>
+              </panel-section>
+            </div>
+          </div>
+        </div>
+
+        <footer id="right-panel-footer">
+          <button id="save-snapshot-button" class="button-icon button-icon-mid footer-action-button">
+            <i class="bi bi-bookmark"></i>
+            <span data-t="right_panel.footer.save">Save</span>
+          </button>
+
+          <button id="share-snapshot-button" class="button-icon button-icon-mid footer-action-button">
+            <i class="bi bi-share"></i>
+            <span data-t="right_panel.footer.share">Share</span>
+          </button>
+
+          <button id="export-button" class="button-icon button-icon-mid footer-action-button" title="Export analysis (PowerPoint, TIFF, CSV)" data-t-title="right_panel.footer.export_title">
+            <i class="bi bi-download"></i>
+            <span data-t="right_panel.footer.export">Export</span>
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    {{template "loading" .}}
+  </body>
+
+  <template id="controls-template">
+    <main>
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+
+      <header ripple>
+        <span bind="checkbox"></span>
+        <span bind="name"></span>
+
+        <buttons>
+          <button bind-listen="click"
+                  bind-func="card">
+            <i class="bi-list-task"></i>
+          </button>
+
+          <button bind-listen="click"
+                  bind-func="info">
+            <i class="bi-info-circle"></i>
+          </button>
+        </buttons>
+      </header>
+
+      <content>
+        <span bind="description"></span>
+      </content>
+    </main>
+  </template>
+
+  <template id="card-template">
+    <main>
+      <handle>
+        <i class="bi bi-grip-vertical"></i>
+      </handle>
+
+      <content>
+        <header>
+          <span bind-if="symbol"
+                bind="symbol" bind-replace></span>
+
+          <div class="names">
+            <div bind="name"></div>
+
+            <div class="index"
+                 bind="index"></div>
+
+            <span bind="timeline-badge"></span>
+          </div>
+
+          <div bind-tmpl="#card-header-buttons"></div>
+        </header>
+
+        <span bind-if="hosts"
+              bind="mutant-options"
+              class="mutant-options"></span>
+
+        <div bind-if="colorscale">
+          <div bind="colorscale"></div>
+          <span bind="ramp"></span>
+        </div>
+
+        <span bind-if="pvna">
+          <div style="display: inline-block;
+                      width: 64px;
+                      height: 5px;
+                      background-color: rgba(155,155,155,1);
+                      margin: 15px 15px 0 0;">
+          </div>
+
+          <div style="display: inline-block;
+                      font-size: x-small;"
+               data-t="left_panel.cards.card.not_available">
+            Not Available
+          </div>
+        </span>
+      </content>
+    </main>
+
+    <footer bind="timeline-footer"></footer>
+
+    <aside style="display: none;">
+      <div class="group"
+           bind-if="value-checkboxes.length"
+           bind-tmpl="#value-checkboxes-template">
+      </div>
+
+      <div class="group"
+           bind-if="specs.length"
+           bind-tmpl="#specs-list-template">
+      </div>
+
+      <div class="group"
+           bind-if="manual-inputs">
+        <strong bind="unit-label">Range</strong>
+
+        <p class="explain"
+           data-t="left_panel.cards.card.range_hint">
+          Analysis will restrict the dataset to the selected range.
+        </p>
+
+        <div style="display: flex;
+                    justify-content: space-between;">
+          <div bind-if="manual-min">
+            <span bind="manual-min"></span>
+          </div>
+
+          <span bind="range" class="range"></span>
+
+          <div>
+            <span bind="manual-max"></span>
+          </div>
+        </div>
+      </div>
+
+      <div bind-if="weight-group"
+           class="group">
+        <strong data-t="left_panel.cards.card.importance_label">Importance</strong>
+
+        <p class="explain" data-t="left_panel.cards.card.importance_hint">
+          Change importance to provide different weightings for data in the
+          analysis calculation.
+        </p>
+
+        <span bind="weight-group"></span>
+      </div>
+
+      <div class="group">
+        <div class="visibility-group">
+          <div>
+            <label>
+              <input type="checkbox"
+                     bind-listen="change"
+                     bind-func="visibility"
+                     checked />
+              &nbsp;
+              <span data-t="left_panel.cards.card.show_layer">Show layer</span>
+            </label>
+          </div>
+
+          <div class="opacity-group">
+            <span data-t="left_panel.cards.card.opacity_label">Opacity</span>
+            <span bind="opacity" bind-replace></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="group" bind-if="show-info-buttons">
+        <buttons>
+          <button bind-listen="click"
+                  bind-func="info">
+            <i class="bi-info-circle"></i> <span data-t="left_panel.cards.card.about_button">About</span>
+          </button>
+
+          <button bind-if="vectors.data"
+                  bind-listen="click"
+                  bind-func="table">
+            <i class="bi-table"></i> <span data-t="left_panel.cards.card.table_button">Table</span>
+          </button>
+        </buttons>
+      </div>
+    </aside>
+  </template>
+
+  <template id="ramp">
+    <div class="ramp">
+      <div bind="left"></div>
+      <div bind="middle" class="unit-ramp"></div>
+      <div bind="right"></div>
+    </div>
+  </template>
+
+  <template id="eae-info-modal-template">
+    <h3 data-t="modal.eae_info.title">About Energy Access Explorer prioritizaton</h3>
+    <p data-t="modal.eae_info.body">
+      Energy Access Explorer enables you to identify high-priority areas for
+      energy access interventions. EAE uses multi-criteria analysis that uses
+      location-specific resource availability and infrastructure data to
+      represent energy supply, and incorporates demographic data and data on
+      social and productive uses to visualize demand for energy services.
+    </p>
+
+    <br><div style="border-bottom: 1px solid lightgray;"></div><br><br>
+
+    <h3 data-t="modal.eae_info.analysis_areas.title">Analysis areas</h3>
+    <p data-t="modal.eae_info.analysis_areas.body">
+      Energy Access Explorer offers the option to generate an analysis across
+      various different administrative priorities.
+    </p>
+
+    <br>
+    <h4 data-t="modal.eae_info.priority_1km.title">Priority areas (1km²)</h4>
+    <p data-t="modal.eae_info.priority_1km.body">
+      Selecting this analysis area provides a raster analysis in 1km2 tiles
+      across the entirity of the selected geography.
+    </p>
+
+    <br>
+    <h4 data-t="modal.eae_info.other_areas.title">Other analysis areas</h4>
+    <p data-t="modal.eae_info.other_areas.body">
+      Depending on the currently selected geography, it is possible to change
+      the priotitization output to wider geographical areas such as districts,
+      regions or zones for more high level analysis.
+    </p>
+
+    <br><div style="border-bottom: 1px solid lightgray;"></div><br><br>
+
+    <h3 id="prioritization-indexes" data-t="modal.eae_info.indexes.title">Prioritization indexes</h3>
+    <p data-t="modal.eae_info.indexes.body">
+      There are 4 different methods to generate a prioritization, depending on
+      the aim of your analysis; these are known as the different
+      "indexes". Energy Access Potential is the standard recommended index as it
+      is an aggregation across demand and supply categories.
+    </p>
+
+    <br>
+    <h4 bind="eai.name"></h4>
+    <p bind="eai.explain"></p>
+
+    <br>
+    <h4 bind="demand.name"></h4>
+    <p bind="demand.explain"></p>
+
+    <br>
+    <h4 bind="supply.name"></h4>
+    <p bind="supply.explain"></p>
+
+    <br>
+    <h4 bind="ani.name"></h4>
+    <p bind="ani.explain"></p>
+
+    <br><div style="border-bottom: 1px solid lightgray;"></div><br><br>
+
+    {{template "disclaimer" .}}
+
+    <br><div style="border-bottom: 1px solid lightgray;"></div><br><br>
+
+    <p>
+      <a href="https://www.wri.org/publication/energy-access-explorer-data-and-methods">
+        <i class="bi-box-arrow-up-right"></i>
+        <span data-t="modal.eae_info.view_technical_note">View technical note</span>
+      </a>
+    </p>
+
+    <br>
+  </template>
+
+  <template id="disclaimer-template">
+    {{template "disclaimer" .}}
+  </template>
+
+  <template id="ds-info-modal">
+    <div style="display:flex; flex-flow: row nowrap;">
+      <div class="left" style="flex: 1;">
+        <section bind-cond="description">
+          <h3 data-t="dataset_info.description">Description</h3><pre class="description-text" bind="description"></pre>
+        </section>
+
+        <section bind-cond="category-description">
+          <h3 data-t="dataset_info.why_used">Why is this dataset used?</h3><pre class="description-text" bind="category-description"></pre>
+        </section>
+
+        <section bind-cond="suggested_citation">
+          <h3 data-t="dataset_info.suggested_citation">Suggested Citation</h3><pre class="description-text" bind="suggested_citation"></pre>
+        </section>
+
+        <section bind-cond="cautions">
+          <h3 data-t="dataset_info.cautions">Cautions</h3><pre class="description-text" bind="cautions"></pre>
+        </section>
+      </div>
+
+      <div class="right" style="flex: 0 300px; padding-left: 3em;">
+        <section>
+          <a class="download-link"
+             bind-cond="download_original_url"
+             bind-attr="href"
+             bind-arg="download_original_url"
+             target="_blank" data-t="dataset_info.download_from_source">Download from Source</a>
+        </section>
+
+        <section>
+          <a class="download-link"
+             bind-cond="learn_more_url"
+             bind-attr="href"
+             bind-arg="learn_more_url"
+             target="_blank" data-t="dataset_info.learn_more">Learn More</a>
+        </section>
+
+        <section bind-cond="sources">
+          <h3 data-t="dataset_info.sources">Sources</h3>
+          <pre class="description-text" bind="sources"></pre>
+        </section>
+
+        <section bind-cond="spatial_resolution">
+          <h3 data-t="dataset_info.spatial_resolution">Spatial Resolution</h3>
+          <span bind="spatial_resolution"></span>
+        </section>
+
+        <section bind-cond="license">
+          <h3 data-t="dataset_info.license">License</h3>
+          <span bind="license"></span>
+        </section>
+
+        <section bind-cond="content_date">
+          <h3 data-t="dataset_info.content_date">Date of Content</h3>
+          <span bind="content_date"></span>
+        </section>
+
+        <section bind-cond="publication_date">
+          <h3 data-t="dataset_info.publication_date">Date of Publication</h3>
+          <span bind="publication_date"></span>
+        </section>
+      </div>
+    </div>
+  </template>
+
+  <template id="share-link-modal-content">
+    <p data-t="my_eae.modal.share.instructions">
+      Sharing the following link will load the Energy Access Explorer platform in
+      the current state: layers and analysis.
+
+      Users might need the necessary permissions to view this snapshot fully.
+    </p>
+
+    <div id="share-link-input-wrapper">
+      <input id="share-link-input"
+             class="text-input"
+             type="text"
+             bind-value="url"
+             disabled />
+
+      <button type="button"
+              id="share-link-copy-button"
+              class="primary-button"
+              bind-listen="click"
+              bind-func="copy">
+        <i class="bi bi-copy"></i>
+        <span data-t="my_eae.modal.share.copy_link">Copy link</span>
+      </button>
+    </div>
+  </template>
+
+  <template id="export-options-modal-content">
+    <div class="export-options-grid">
+      <div class="card-section export-option-card">
+        <div class="export-option-icon">
+          <i class="bi bi-easel"></i>
+        </div>
+        <h3 class="card-title" data-t="modal.export.summary_presentation.title">Summary presentation</h3>
+        <p class="card-description" data-t="modal.export.summary_presentation.desc">A summary presentation explaining the outputs of your current analysis view.</p>
+        <button type="button" class="button-small" bind-listen="click" bind-func="export_ppt">
+          <i class="bi bi-download"></i>
+          <span data-t="modal.export.summary_presentation.button">Download .ppt</span>
+        </button>
+      </div>
+
+      <div class="card-section export-option-card">
+        <div class="export-option-icon">
+          <i class="bi bi-image"></i>
+        </div>
+        <h3 class="card-title" data-t="modal.export.map_tiff.title">Map TIFF</h3>
+        <p class="card-description" data-t="modal.export.map_tiff.desc">A TIFF file of the prioritization raster image generated from your analysis.</p>
+        <button type="button" class="button-small" bind-listen="click" bind-func="export_tiff">
+          <i class="bi bi-download"></i>
+          <span data-t="modal.export.map_tiff.button">Download .TIFF</span>
+        </button>
+      </div>
+
+      <div class="card-section export-option-card">
+        <div class="export-option-icon">
+          <i class="bi bi-table"></i>
+        </div>
+        <h3 class="card-title" data-t="modal.export.high_priority.title">Priority areas</h3>
+        <p class="card-description" data-t-html="modal.export.high_priority.desc">A table of the highest priority <span bind="area_type"></span> areas from your analysis.</p>
+        <button type="button" class="button-small" bind-listen="click" bind-func="export_csv">
+          <i class="bi bi-download"></i>
+          <span data-t="modal.export.high_priority.button">Download .csv</span>
+        </button>
+      </div>
+
+      <div class="card-section export-option-card">
+        <div class="export-option-icon">
+          <i class="bi bi-pie-chart"></i>
+        </div>
+        <h3 class="card-title" data-t="modal.export.pop_area_share.title">Population and area share</h3>
+        <p class="card-description" data-t="modal.export.pop_area_share.desc">CSV data for the population and area share.</p>
+        <button type="button" class="button-small" bind-listen="click" bind-func="export_share_csv">
+          <i class="bi bi-download"></i>
+          <span data-t="modal.export.pop_area_share.button">Download .csv</span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <template id="export-options-modal-header">
+    <span class="modal-title" data-t="modal.export.header">Export options</span>
+  </template>
+
+  <template id="export-options-modal-footer">
+    <div class="modal-footer-bar">
+      <button type="button" class="button-icon button-icon-mid" bind-listen="click" bind-func="export_all">
+        <i class="bi bi-file-earmark-zip"></i>
+        <span data-t="modal.export.download_all">Download all</span>
+      </button>
+    </div>
+  </template>
+
+  <template id="index-graph-section-template">
+    <panel-section class="index-graphs-section">
+      <span slot="title"></span>
+      <div slot="actions">
+        <button class="button-icon button-info button-about">
+          <span data-t="left_panel.cards.card.about_button">About</span>
+          <i class="bi bi-info-circle"></i>
+        </button>
+      </div>
+      <div class="share-graph">
+        <div class="section-description"></div>
+        <div class="graph-and-scale">
+          <div class="index-graphs-scale-container"></div>
+          <div class="index-graphs-group"></div>
+        </div>
+      </div>
+    </panel-section>
+  </template>
+
+  <template id="poi-card-template">
+    <panel-section class="poi-section" collapsible collapsed>
+      <h2 slot="title" data-t="right_panel.prioritization.poi.title">Intersecting points of interest</h2>
+      <div slot="actions">
+        <button class="button-icon button-info button-about">
+          <span data-t="left_panel.cards.card.about_button">About</span>
+          <i class="bi bi-info-circle"></i>
+        </button>
+      </div>
+      <div class="poi-body">
+        <p class="poi-description" bind="description"></p>
+        <div bind-each="points" class="poi-row">
+          <span class="poi-name" bind="name"></span>
+          <span class="poi-kind" bind="kind"></span>
+        </div>
+      </div>
+    </panel-section>
+  </template>
+
+  <template id="index-priority-card-template">
+    <panel-section class="index-priority-section">
+      <h2 slot="title" data-t="right_panel.prioritization.index_priority.title">Index Priority</h2>
+      <div slot="actions">
+        <button class="button-icon button-info button-about">
+          <span data-t="left_panel.cards.card.about_button">About</span>
+          <i class="bi bi-info-circle"></i>
+        </button>
+      </div>
+      <div class="index-priority-values"></div>
+    </panel-section>
+  </template>
+
+  <template id="timeline-first-add-modal">
+    <h4 data-t="timeline.modal.title">You've just added a timeline layer to this analysis</h4>
+    <p data-t="timeline.modal.body">When one or more timeline layers have been added, you can edit the time using the timeline section on the map, as well as view Filtered Areas to find common patterns.</p>
+    <label for="timeline-modal-dont-show" class="timeline-modal-checkbox-label">
+      <input type="checkbox" id="timeline-modal-dont-show">
+      <span data-t="timeline.modal.dont_show_again">Don't show this message again.</span>
+    </label>
+    <button type="button" class="primary-button" id="timeline-modal-close" data-t="timeline.modal.close">Close message</button>
+  </template>
+
+  <template id="analysis-locations-template">
+    <panel-section id="analysis-locations-section" collapsible collapsed>
+      <h2 slot="title" data-t="right_panel.prioritization.high_priority.section_title">Priority areas</h2>
+      <div slot="actions">
+        <button class="button-icon button-info button-about">
+          <span data-t="left_panel.cards.card.about_button">About</span>
+          <i class="bi bi-info-circle"></i>
+        </button>
+      </div>
+      <div class="locations-paginated-list"></div>
+      <footer class="locations-footer">
+        <button id="view-all-locations" class="button-icon button-icon-mid" bind-listen="click" bind-func="view_all_locations">
+          <i class="bi bi-table"></i>
+          <span data-t="right_panel.prioritization.high_priority.view_download">View or Download data</span>
+        </button>
+      </footer>
+    </panel-section>
+  </template>
+
+  <template id="geographies-search-item">
+    <div bind="name"></div>
+
+    <buttons>
+      <span class="bi-zoom-in"
+            zoom="true"></span>
+
+      <span class="bi-box-arrow-in-down"
+            bind-cond="url"
+            bind-attr="href"
+            bind-arg="url"></span>
+    </buttons>
+  </template>
+
+  <template id="points-input-form">
+    <form>
+      <input id="lng"
+             type="number"
+             step="any"
+             placeholder="Longitude"
+             data-t-placeholder="modal.points_input.longitude_placeholder"
+             style="padding: 5px 7px;">
+
+      <input id="lat"
+             type="number"
+             step="any"
+             placeholder="Latitude"
+             data-t-placeholder="modal.points_input.latitude_placeholder"
+             style="padding: 5px 7px;">
+
+      <br><br>
+
+      <button type="submit"
+              class="big-green-button"
+              style="font-size: 0.8em; margin: auto;" data-t="modal.points_input.add_button">Add point</button>
+    </form>
+  </template>
+
+  <template id="value-checkboxes-template">
+    <label bind-each="value-checkboxes"
+           class="checkbox-row">
+      <span bind-init="color"
+            style="display:block;
+                   height: 20px;
+                   width: 20px;"></span>
+
+      <span bind="name"></span>
+
+      <input type="checkbox"
+             bind-attr-checked="checked"
+             bind-value="value"
+             bind-listen="change"
+             bind-func="change">
+    </label>
+  </template>
+
+  <template id="specs-list-template">
+    <label bind-each="specs"
+           class="checkbox-row">
+      <span bind="csymbol"></span>
+
+      <span bind="cname"></span>
+
+      <input type="checkbox"
+             bind-value="cname"
+             bind-attr-checked="checked"
+             bind-listen="change"
+             bind-func="change">
+    </label>
+  </template>
+
+  <template id="card-header-buttons">
+    <buttons>
+      <button bind-listen="click"
+              bind-func="settings"
+              title="Hide/Show settings"
+              data-t-title="left_panel.cards.card.settings_toggle_title">
+        <i class="bi-chevron-down"></i>
+      </button>
+
+      <button bind-listen="click"
+              bind-func="close"
+              title="Remove dataset"
+              data-t-title="left_panel.cards.card.remove_dataset_title">
+        <i class="bi-x-lg"></i>
+      </button>
+    </buttons>
+  </template>
+
+  <template id="map-info-template">
+    <span class="dot"></span>
+    <span class="arrow"></span>
+    <main>
+      <header>
+        <div class="header-content">
+          <div class="title" bind-cond="feature">
+            <i class="bi-geo" bind-cond="feature_type"></i>
+            <i class="bi-crosshair" bind-unless="feature_type"></i>
+            <span bind="feature"></span>
+          </div>
+          <div class="title coordinate-title" bind-cond="coordinate-title">
+            <i class="bi-crosshair"></i>
+            <span bind="coordinates"></span>
+          </div>
+          <div class="caption" bind-cond="feature_type" bind="feature_type"></div>
+        </div>
+        <div class="close-button-container">
+          <div class="close-button"></div>
+        </div>
+      </header>
+      <content bind-cond="has-basic">
+        <table>
+          <tr bind-each="basicData">
+            <td>
+              <span bind="label"></span>
+              <button class="map-info-info-button" bind-cond="has_info_button"><i class="bi-info-circle"></i></button>
+            </td>
+            <td bind="value"></td>
+          </tr>
+        </table>
+      </content>
+      <div class="analyse-button-container" bind-cond="inside-boundary">
+        <button class="analyse-button"><span data-t="map_popup.analyse_button">Analyse selected area</span></button>
+      </div>
+      <content class="detailed-data hidden" bind-cond="has-detailed">
+        <table>
+          <tr bind-each="detailedData">
+            <td>
+              <i class="bi-chevron-right subordinate-toggle" bind-cond="has_subordinates"></i>
+              <span bind="label"></span>
+            </td>
+            <td bind="value"></td>
+          </tr>
+        </table>
+      </content>
+    </main>
+  </template>
+
+  {{template "toast" .}}
+
+  <template id="toast-notification-template">
+    <div class="toast-icon">
+      <i class="bi bi-check-circle-fill"></i>
+    </div>
+    <div class="toast-content">
+      <header class="toast-header">
+        <h1 class="toast-label" bind="label"></h1>
+        <p class="toast-caption" bind="caption"></p>
+      </header>
+      <footer class="toast-footer">
+        <div>
+          <slot name="action"></slot>
+        </div>
+      </footer>
+    </div>
+  </template>
+
+  <template id="toast-save-action-template">
+    <a href="/tool/m/" target="_blank" class="button-small" slot="action" data-t="modals.save_analysis.view_in_my_eae">View in My EAE</a>
+  </template>
+
+  <template id="request-authentication-modal-template">
+    <p data-t-html="modals.save_analysis.auth_message">
+      Create a My EAE account, or sign in to your existing account in order to save your current analysis view and receive important updates about the Energy Access Explorer platform.
+    </p>
+    <a href="/subscribe/?select=account" target="_blank" class="primary-button" data-t="modals.save_analysis.auth_create">Create account</a>
+    <a href="/login" class="secondary-button" data-t="modals.save_analysis.auth_signin">Sign in</a>
+  </template>
+
+  <template id="saved-analysis-modal-template">
+    <p data-t-html="modals.save_analysis.saved_message">
+      You are currently viewing an analysis already saved to your My EAE account. You can either update your existing saved analysis, or save your changes as a new analysis.
+    </p>
+    <div class="saved-analysis-info">
+      <div class="saved-analysis-name">
+        <i class="bi bi-bookmark-fill"></i>
+        <span bind="title"></span>
+      </div>
+      <div class="saved-analysis-last-viewed" bind="last-viewed"></div>
+    </div>
+    <button class="button primary-button" bind-listen="click" bind-func="update" data-t="modal.save_analysis.update_button">Update saved analysis</button>
+    <button class="button secondary-button" bind-listen="click" bind-func="saveAsNew" data-t="modal.save_analysis.save_as_new_button">Save as new analysis</button>
+  </template>
+
+  <template id="edit-title-form-template">
+    <form id="save-analysis" class="save-analysis-form">
+      <div class="text-input-wrapper">
+        <label class="text-input-label required" data-t="modal.save_analysis.title_label">Analysis title</label>
+        <div class="text-input-hint" data-t="modal.save_analysis.title_hint">Enter a memorable name for the current configuration.</div>
+      </div>
+      <div class="field-wrapper">
+        <input class="text-input" name="title" required />
+      </div>
+    </form>
+    <button type="submit" form="save-analysis" class="primary-button" data-t="modal.save_analysis.save_button">Save analysis</button>
+  </template>
+
+  <template id="discrete-scale-item-template">
+    <div class="scale-item">
+      <dt class="scale-item-label">
+        <div class="scale-item-spacer">
+          <span class="scale-circle" bind-init="color"></span>
+        </div>
+        <span bind="label"></span>
+      </dt>
+      <dd class="scale-item-value" bind="value"></dd>
+    </div>
+  </template>
+
+  <template id="panel-section-template">
+    <div class="card-section" data-collapsed="false">
+      <div class="card-header">
+        <div class="card-title-group"></div>
+        <div class="card-actions"></div>
+      </div>
+      <div class="card-body"></div>
+    </div>
+  </template>
+
+  <template id="panel-section-collapsible-template">
+    <div class="card-section" data-collapsed="false">
+      <div class="card-header">
+        <div class="card-title-group"></div>
+        <div class="card-actions">
+          <i class="bi bi-chevron-down visibility-toggle-switch"></i>
+        </div>
+      </div>
+      <div class="card-body"></div>
+    </div>
+  </template>
+
+  <template id="location-item-template">
+    <li class="location-item">
+      <div class="location-item-content">
+        <i class="bi bi-crosshair location-target-icon"></i>
+        <div class="location-info">
+          <div class="location-name" bind="location-name"></div>
+          <div class="location-coordinates" bind="coordinates"></div>
+        </div>
+        <i class="bi bi-chevron-right location-chevron"></i>
+      </div>
+    </li>
+  </template>
+
+  <template id="admin-area-item-template">
+    <li class="location-item admin-area-item">
+      <div class="location-item-content">
+        <span class="admin-area-rank" bind="rank"></span>
+        <div class="location-info">
+          <div class="location-name" bind="location-name"></div>
+        </div>
+        <i class="bi bi-chevron-right location-chevron"></i>
+      </div>
+    </li>
+  </template>
+
+  <template id="location-group-template">
+    <li class="location-group">
+      <div class="location-group-header">
+        <span bind="score-text"></span>
+        <span class="location-area-badge" bind="area-count"></span>
+      </div>
+      <ul class="location-group-list"></ul>
+    </li>
+  </template>
+
+  <template id="pagination-template">
+    <div class="pagination-container">
+      <div class="pagination-info" bind="info-text"></div>
+      <div class="pagination"></div>
+    </div>
+  </template>
+
+  <template id="high-priority-areas-list-all-template">
+    <div class="high-priority-areas-list-all-content">
+      <div class="high-priority-areas-list-all-toolbar">
+        <p class="high-priority-areas-list-all-subtitle" bind="analysis-name"></p>
+        <button class="button-icon button-icon-sm column-selector-toggle"
+                bind-listen="click" bind-func="toggle_column_selector">
+          <i class="bi bi-gear"></i> <span data-t="modal.high_priority_table.toggle_columns">Toggle columns</span>
+        </button>
+      </div>
+      <div class="column-selector-panel hidden">
+        <div class="column-limit-notice hidden" bind="column-limit-notice"></div>
+      </div>
+      <div class="high-priority-areas-list-all-table-container">
+        <table class="high-priority-areas-list-all-table">
+          <thead>
+            <tr>
+              <th class="checkbox-column">
+                <input type="checkbox" class="select-all-checkbox hidden" bind-listen="change" bind-func="on_uncheck_all">
+              </th>
+              <th bind-each="headers" bind-listen="click" bind-func="on_sort">
+                <div class="th-content">
+                  <span bind="name"></span>
+                  <span class="sort-icon"><i class="bi bi-chevron-expand"></i></span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="selection-overlay hidden">
+          <span class="selection-count"></span>
+          <button class="button-icon button-icon-mid" bind-listen="click" bind-func="download_selected">
+            <span data-t="modal.high_priority_table.download_selected">Download selected rows</span>
+          </button>
+        </div>
+      </div>
+      <div class="pagination-container">
+        <div class="per-page-control">
+          <select class="per-page-select" bind-listen="change" bind-func="on_per_page_change">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <span class="per-page-label" data-t="modal.high_priority_table.per_page">Per page</span>
+        </div>
+        <div class="pagination">
+          <button class="pagination-btn chevron" bind-listen="click" bind-func="on_prev">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <div class="page-numbers"></div>
+          <button class="pagination-btn chevron" bind-listen="click" bind-func="on_next">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="high-priority-areas-list-all-footer-template">
+    <div class="modal-footer-bar">
+      <button class="button-icon button-icon-mid" bind-listen="click" bind-func="download">
+        <i class="bi bi-download"></i>
+        <span bind="label"></span>
+      </button>
+      <div class="info">
+        <i class="bi bi-info-circle"></i>
+        <span data-t="modal.high_priority_table.data_download_summary">Data download will include a summary of your analysis.</span>
+      </div>
+    </div>
+  </template>
+
+  <template id="high-priority-areas-row-template">
+    <tr>
+      <td class="checkbox-column">
+        <input type="checkbox" bind-listen="change" bind-func="on_select">
+      </td>
+      <td bind-each="cells" bind="value"></td>
+    </tr>
+  </template>
+
+  <template id="column-header-template">
+    <th bind-listen="click" bind-func="on_sort">
+      <div class="th-content">
+        <span bind="name"></span>
+        <span class="sort-icon"><i bind-attr-class="icon_class"></i></span>
+      </div>
+    </th>
+  </template>
+
+  <template id="column-selector-item-template">
+    <label bind-attr-class="css_class">
+      <input type="checkbox"
+             bind-attr-checked="checked"
+             bind-listen="change"
+             bind-func="on_toggle">
+      <span bind="label"></span>
+    </label>
+  </template>
+
+  <template id="page-number-template">
+    <button class="pagination-btn page-number" bind-listen="click" bind-func="on_click" bind="value"></button>
+  </template>
+
+  <template id="page-ellipsis-template">
+    <span class="page-ellipsis">...</span>
+  </template>
+
+  <template id="modal-header-template">
+    <div>
+      <div class="modal-title" bind="title"></div>
+      <div class="modal-subtitle" bind="subtitle"></div>
+    </div>
+  </template>
+
+  <template id="branch-tab-template">
+    <div class="controls-branch-tab up-title" bind-listen="click" bind-func="select">
+      <span bind="label"></span>
+    </div>
+  </template>
+
+  <template id="branch-container-template">
+    <div class="controls-branch"></div>
+  </template>
+
+  <template id="subbranch-template">
+    <div class="controls-subbranch">
+      <div class="controls-subbranch-title up-title" bind-listen="mouseup" bind-func="toggle">
+        <span class="collapse triangle">
+          <svg width="12" height="12" viewBox="0 0 12 12" style="transform: rotate(-45deg)translate(0,0);">
+            <polyline points="12,0 12,12 0,12 "></polyline>
+          </svg>
+        </span>
+        <span class="text" bind="label"></span>
+        <span class="count" style="visibility: hidden;">0</span>
+      </div>
+      <div class="controls-container"></div>
+    </div>
+  </template>
+
+  {{template "env" .}}
+
+  <script type="module">
+    import pgrest from '../lib/pgrest.js';
+    import { show_error } from './toast.js';
+
+    window.API = new pgrest(EAE['settings'].database, {
+      push(e) { show_error(e.title, e.message); return this; },
+      clear() { return this; },
+    });
+
+    window.GEOGRAPHY = null;
+    window.SNAPSHOT = null;
+    window.OUTLINE = null;
+    window.MAPBOX = null;
+    window.COORDINATESMODE = false;
+    window.COORDINATES = [];
+    window.MOBILE = false;
+    window.DST = new Map();
+    window.SELF = null;
+    window.STATE = null;
+    window.DEBUG = true;
+    window.COMMIT = null;
+    window.SUMMARY = null;
+  </script>
+
+  <script type="module">
+    import './panel-section.js';
+    import {init} from './a.js';
+    import {init as chat_init} from './chat.js';
+    init();
+    chat_init();
+  </script>
+</html>
